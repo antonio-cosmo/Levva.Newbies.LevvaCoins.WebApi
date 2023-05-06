@@ -7,7 +7,7 @@ using LevvaCoins.Domain.Entities;
 
 namespace LevvaCoins.Domain.Interfaces.Repositories
 {
-    internal interface ICategoryRepository : IRepositoryBase<Category, Guid>
+    public interface ICategoryRepository : IRepositoryBase<Category, Guid>
     {
     }
 }

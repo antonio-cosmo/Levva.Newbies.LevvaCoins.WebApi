@@ -7,7 +7,7 @@ using LevvaCoins.Domain.Entities;
 
 namespace LevvaCoins.Domain.Interfaces.Repositories
 {
-    internal interface ITransactionRepository : IRepositoryBase<Transaction, Guid>
+    public interface ITransactionRepository : IRepositoryBase<Transaction, Guid>
     {
     }
 }
