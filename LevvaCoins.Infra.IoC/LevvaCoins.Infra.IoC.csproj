@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LevvaCoins.Application\LevvaCoins.Application.csproj" />
+    <ProjectReference Include="..\LevvaCoins.Domain\LevvaCoins.Domain.csproj" />
+    <ProjectReference Include="..\LevvaCoins.Infra.Data\LevvaCoins.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>
