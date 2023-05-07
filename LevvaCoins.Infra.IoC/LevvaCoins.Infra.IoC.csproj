@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LevvaCoins.Application\LevvaCoins.Application.csproj" />
     <ProjectReference Include="..\LevvaCoins.Domain\LevvaCoins.Domain.csproj" />
     <ProjectReference Include="..\LevvaCoins.Infra.Data\LevvaCoins.Infra.Data.csproj" />

@@ -9,5 +9,6 @@ namespace LevvaCoins.Domain.Interfaces.Repositories
 {
     public interface ITransactionRepository : IRepositoryBase<Transaction, Guid>
     {
+        Task<IEnumerable<Transaction>> GetTransactionByUser(Guid userId);
     }
 }

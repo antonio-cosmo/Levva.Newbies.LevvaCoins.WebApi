@@ -1,10 +1,11 @@
 ﻿using LevvaCoins.Domain.Entities;
+using LevvaCoins.Domain.Interfaces.Repositories;
 using LevvaCoins.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace LevvaCoins.Infra.Data.Repositories
 {
-    public class CategoryRepository
+    public class CategoryRepository: ICategoryRepository
     {
         readonly MysqlDbContext _context;
         public CategoryRepository(MysqlDbContext context)
