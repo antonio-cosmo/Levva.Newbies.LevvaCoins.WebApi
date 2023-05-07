@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LevvaCoins.Application\LevvaCoins.Application.csproj" />
-    <ProjectReference Include="..\LevvaCoins.Domain\LevvaCoins.Domain.csproj" />
     <ProjectReference Include="..\LevvaCoins.Infra.Data\LevvaCoins.Infra.Data.csproj" />
   </ItemGroup>
 

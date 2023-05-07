@@ -6,9 +6,12 @@ using LevvaCoins.Application.Categories.Interfaces;
 using LevvaCoins.Application.Categories.MapperProfiles;
 using LevvaCoins.Application.Categories.Services;
 using LevvaCoins.Application.Middlewares;
+using LevvaCoins.Application.Transactions.Interfaces;
+using LevvaCoins.Application.Transactions.Mapper;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using LevvaCoins.Infra.Data.Context;
 using LevvaCoins.Infra.Data.Repositories;
+using LevvaCoinsApi.Application.Transactions.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +41,9 @@ namespace LevvaCoins.Infra.IoC
 
             services.AddScoped<IAccountServices, AccountServices>();
             services.AddScoped<ICategoryServices, CategoryServices>();
-            services.AddAutoMapper(typeof(AccountProfile), typeof(CategoryProfile));
+            services.AddScoped<ITransactionServices, TransactionServices>();
+
+            services.AddAutoMapper(typeof(AccountProfile), typeof(CategoryProfile), typeof(TransactionProfile));
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

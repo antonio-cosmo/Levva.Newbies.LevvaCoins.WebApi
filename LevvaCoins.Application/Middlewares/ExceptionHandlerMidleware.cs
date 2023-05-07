@@ -34,7 +34,7 @@ namespace LevvaCoins.Application.Middlewares
                 context.Response.StatusCode = 400;
                 context.Response.ContentType = "application/json";
 
-                await context.Response.WriteAsync(JsonSerializer.Serialize(body, this._jsonSerializerOptions));
+                await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@ namespace LevvaCoins.Application.Middlewares
                 context.Response.StatusCode = 500;
                 context.Response.ContentType = "application/json";
 
-                await context.Response.WriteAsync(JsonSerializer.Serialize(body, this._jsonSerializerOptions));
+                await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
             }
         }
     }
