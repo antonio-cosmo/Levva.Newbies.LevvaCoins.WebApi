@@ -22,5 +22,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseApi();
 
 app.Run();

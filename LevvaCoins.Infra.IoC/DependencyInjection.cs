@@ -5,10 +5,12 @@ using LevvaCoins.Application.Accounts.Services;
 using LevvaCoins.Application.Categories.Interfaces;
 using LevvaCoins.Application.Categories.MapperProfiles;
 using LevvaCoins.Application.Categories.Services;
+using LevvaCoins.Application.Middlewares;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using LevvaCoins.Infra.Data.Context;
 using LevvaCoins.Infra.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -82,6 +84,11 @@ namespace LevvaCoins.Infra.IoC
                     }
                 });
             });
+        }
+
+        public static void UseApi(this WebApplication app)
+        {
+            app.UseMiddleware<ExceptionHandlerMidleware>();
         }
     }
 }
