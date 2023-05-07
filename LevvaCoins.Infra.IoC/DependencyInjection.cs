@@ -2,6 +2,9 @@
 using LevvaCoins.Application.Accounts.Interfaces;
 using LevvaCoins.Application.Accounts.MapperProfiles;
 using LevvaCoins.Application.Accounts.Services;
+using LevvaCoins.Application.Categories.Interfaces;
+using LevvaCoins.Application.Categories.MapperProfiles;
+using LevvaCoins.Application.Categories.Services;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using LevvaCoins.Infra.Data.Context;
 using LevvaCoins.Infra.Data.Repositories;
@@ -32,7 +35,8 @@ namespace LevvaCoins.Infra.IoC
             var tokenKey = Encoding.ASCII.GetBytes(configuration.GetValue<string>("Token:Key")!);
 
             services.AddScoped<IAccountServices, AccountServices>();
-            services.AddAutoMapper(typeof(AccountProfile));
+            services.AddScoped<ICategoryServices, CategoryServices>();
+            services.AddAutoMapper(typeof(AccountProfile), typeof(CategoryProfile));
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
