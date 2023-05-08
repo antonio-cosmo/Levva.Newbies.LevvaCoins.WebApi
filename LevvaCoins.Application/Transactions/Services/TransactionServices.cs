@@ -56,5 +56,18 @@ namespace LevvaCoinsApi.Application.Transactions.Services
 
             return _mapper.Map<IEnumerable<TransactionDto>>(transactionList);
         }
+
+        public async Task UpdateTransaction(Guid id, UpdateTransactionDto transactionDto)
+        {
+            var transactioAreadyExists = await _transactionRepository.GetByIdAsync(id);
+            if (transactioAreadyExists == null) throw new ModelNotFoundException("Essa transação não existe");
+
+            transactioAreadyExists.Description = transactionDto.Description;
+            transactioAreadyExists.Amount = transactionDto.Amount;
+            transactioAreadyExists.Type = transactionDto.Type;
+            transactioAreadyExists.CategoryId = transactionDto.CategoryId;
+
+            await _transactionRepository.UpdateAsync(transactioAreadyExists);
+        }
     }
 }

@@ -28,7 +28,10 @@ namespace LevvaCoins.Infra.IoC
         {
             services.AddDbContext<MysqlDbContext>(opt =>
             {
-                opt.UseMySQL(configuration.GetConnectionString("DefaultConection")!);
+                opt.UseSqlite(
+                    configuration.GetConnectionString("DefaultConectionSqlite")!,
+                    x => x.MigrationsAssembly("LevvaCoins.Infra.Data")
+                );
             });
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();

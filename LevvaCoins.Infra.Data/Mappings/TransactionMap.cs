@@ -30,8 +30,7 @@ namespace LevvaCoins.Infra.Data.Mappings
 
             builder.Property(x => x.Type)
                 .HasColumnName("type")
-                .HasColumnType("VARCHAR")
-                .HasMaxLength(80)
+                .HasColumnType("int")
                 .IsRequired();
 
             builder.Property(x => x.CreatedAt)

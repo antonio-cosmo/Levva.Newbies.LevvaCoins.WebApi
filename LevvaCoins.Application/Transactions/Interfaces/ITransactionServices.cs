@@ -8,6 +8,7 @@ namespace LevvaCoins.Application.Transactions.Interfaces
         Task CreateTransactionAsync(CreateTransactionDto transaction, string userId);
         Task<IEnumerable<TransactionDto>> GetAllTransactionsAsync();
         Task<TransactionDto> GetByIdTransaction(Guid transactionId);
+        Task UpdateTransaction(Guid id, UpdateTransactionDto transaction);
         Task DeleteByIdTransaction(Guid transactionId);
         Task<IEnumerable<TransactionDto>> SearchTransactionByuser(Guid userId);
     }

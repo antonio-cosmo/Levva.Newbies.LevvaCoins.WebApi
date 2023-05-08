@@ -50,6 +50,15 @@ namespace LevvaCoins.Api.Controllers
             return Ok(category);
         }
 
+        [HttpPut("{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        public async Task<ActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateTransactionDto updateTransactionDto )
+        {
+            await _transactionServices.UpdateTransaction(id, updateTransactionDto);
+            return NoContent();
+        }
+
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]

@@ -50,7 +50,7 @@ namespace LevvaCoins.Infra.Data.Migrations
                     id = table.Column<Guid>(type: "char(36)", nullable: false),
                     description = table.Column<string>(type: "VARCHAR(255)", maxLength: 255, nullable: false),
                     amount = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
-                    type = table.Column<string>(type: "VARCHAR(80)", maxLength: 80, nullable: false),
+                    type = table.Column<int>(type: "int", nullable: false),
                     categoryId = table.Column<Guid>(type: "char(36)", nullable: false),
                     userId = table.Column<Guid>(type: "char(36)", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")

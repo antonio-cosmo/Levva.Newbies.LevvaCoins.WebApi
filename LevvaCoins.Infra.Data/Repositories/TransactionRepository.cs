@@ -42,9 +42,11 @@ namespace LevvaCoins.Infra.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<bool> UpdateAsync(Transaction obj)
+        public async Task<bool> UpdateAsync(Transaction obj)
         {
-            throw new NotImplementedException();
+            _context.Update(obj);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

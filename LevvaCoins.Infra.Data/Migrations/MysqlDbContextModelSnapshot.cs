@@ -68,10 +68,8 @@ namespace LevvaCoins.Infra.Data.Migrations
                         .HasColumnType("VARCHAR")
                         .HasColumnName("description");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("VARCHAR")
+                    b.Property<int>("Type")
+                        .HasColumnType("int")
                         .HasColumnName("type");
 
                     b.Property<Guid>("UserId")

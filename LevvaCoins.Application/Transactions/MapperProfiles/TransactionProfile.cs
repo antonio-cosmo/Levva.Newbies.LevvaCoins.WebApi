@@ -9,6 +9,7 @@ namespace LevvaCoins.Application.Transactions.Mapper
         public TransactionProfile()
         {
             CreateMap<CreateTransactionDto, Transaction>();
+            CreateMap<UpdateTransactionDto, Transaction>();
             CreateMap<Transaction, TransactionDto>();
         }
     }
