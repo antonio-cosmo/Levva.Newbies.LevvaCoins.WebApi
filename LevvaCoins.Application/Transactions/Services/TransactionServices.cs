@@ -2,6 +2,8 @@
 using LevvaCoins.Application.Transactions.Dtos;
 using LevvaCoins.Application.Transactions.Interfaces;
 using LevvaCoins.Domain.AppExceptions;
+using LevvaCoins.Domain.Common;
+using LevvaCoins.Domain.Common.Dtos;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Interfaces.Repositories;
 
@@ -40,6 +42,15 @@ namespace LevvaCoinsApi.Application.Transactions.Services
             var transactionList = await _transactionRepository.GetAllAsync();
 
             return _mapper.Map<IEnumerable<TransactionDto>>(transactionList);
+        }
+
+        public async Task<PagedResultDto<TransactionDto>> GetAllTransactionsAsync(PaginationOptions paginationOptions)
+        {
+            var result = await _transactionRepository.GetAllTransactions(paginationOptions);
+            //var transactions = _mapper.Map<IEnumerable<TransactionDto>>(result.Items);
+
+            return _mapper.Map<PagedResultDto<TransactionDto>>(result);
+
         }
 
         public async Task<TransactionDto> GetByIdTransaction(Guid transactionId)

@@ -3,12 +3,13 @@ using LevvaCoins.Application.Accounts.Extensions;
 using LevvaCoins.Application.Common.Dtos;
 using LevvaCoins.Application.Transactions.Dtos;
 using LevvaCoins.Application.Transactions.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using LevvaCoins.Domain.Common;
+using LevvaCoins.Domain.Common.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("transaction")]
     public class TransactionController : ControllerBase
@@ -33,11 +34,11 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<TransactionDto>>> Get()
+        public async Task<ActionResult<PagedResultDto<TransactionDto>>> GetPaged([FromQuery] int page = 1, [FromQuery] int size = 10)
         {
-            var list = await _transactionServices.GetAllTransactionsAsync();
+            var paginationOptions = new PaginationOptions(page, size);
 
-            return Ok(list);
+            return Ok(await _transactionServices.GetAllTransactionsAsync(paginationOptions));
         }
 
         [HttpGet("{id:Guid}")]

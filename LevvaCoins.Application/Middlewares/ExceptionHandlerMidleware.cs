@@ -1,5 +1,6 @@
 ﻿using LevvaCoins.Application.Common.Dtos;
 using LevvaCoins.Domain.AppExceptions;
+using LevvaCoins.Domain.Common;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 
@@ -24,6 +25,19 @@ namespace LevvaCoins.Application.Middlewares
                 await _next(context);
             }
             catch (ModelNotFoundException ex)
+            {
+                var body = new ErrorResponse
+                {
+                    HasError = true,
+                    Message = ex.Message
+                };
+
+                context.Response.StatusCode = 400;
+                context.Response.ContentType = "application/json";
+
+                await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+            }
+            catch (DomainExceptionValidation ex)
             {
                 var body = new ErrorResponse
                 {
