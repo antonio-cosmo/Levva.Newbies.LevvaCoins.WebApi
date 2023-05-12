@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -60,6 +61,13 @@ namespace LevvaCoins.Infra.IoC
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+            });
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("_myAllowSpecificOrigins", policy =>
+                {
+                    policy.AllowAnyOrigin();
+                });
             });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(opt =>

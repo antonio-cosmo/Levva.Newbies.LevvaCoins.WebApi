@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
+    //[Authorize]
     [Route("user")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -24,16 +25,6 @@ namespace LevvaCoins.Api.Controllers
             return Ok(await _accountServices.GetAllAccountAsync());
         }
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> PostAsync([FromBody] CreateAccountDto body)
-        {
-            await _accountServices.CreateAccountAsync(body);
-            return Created("", null);
-        }
-
-        [Authorize]
         [HttpGet("{userId:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
@@ -43,7 +34,15 @@ namespace LevvaCoins.Api.Controllers
             return Ok(account);
         }
 
-        [Authorize]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> PostAsync([FromBody] CreateAccountDto body)
+        {
+            await _accountServices.CreateAccountAsync(body);
+            return Created("", null);
+        }
+
         [HttpPut("{userId:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
@@ -54,7 +53,6 @@ namespace LevvaCoins.Api.Controllers
         }
 
 
-        [Authorize]
         [HttpDelete("{userId:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]

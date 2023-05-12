@@ -19,7 +19,8 @@ namespace LevvaCoins.Application.Categories.Services
 
         public async Task CreateCategoryAsync(CreateCategoryDto categoryDto)
         {
-            var categoryAlreadyExists = await _categoryRepository.GetByDescriptionAsync(categoryDto.Description);
+
+            var categoryAlreadyExists = await _categoryRepository.GetByDescriptionAsync(categoryDto.Description!);
             if (categoryAlreadyExists != null) throw new ModelNotFoundException("Uma categoria com esse nome já existe.");
 
             var category = _mapper.Map<Category>(categoryDto);
@@ -51,7 +52,9 @@ namespace LevvaCoins.Application.Categories.Services
             var categoryAlreadyExists = await _categoryRepository.GetByIdAsync(id);
             if (categoryAlreadyExists == null) throw new ModelNotFoundException("Essa categoria não existe");
 
-            categoryAlreadyExists.Description = categoryDto.Description;
+            var categoryDescription = categoryDto.Description ?? throw new ArgumentNullException(nameof(categoryDto));
+
+            categoryAlreadyExists.UpdateEntity(categoryDescription);
             await _categoryRepository.UpdateAsync(categoryAlreadyExists);
         }
     }

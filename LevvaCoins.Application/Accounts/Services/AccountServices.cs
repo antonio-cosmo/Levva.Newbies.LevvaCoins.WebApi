@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using LevvaCoins.Application.Accounts.Dtos;
 using LevvaCoins.Application.Accounts.Interfaces;
-using LevvaCoins.Application.Utility;
+using LevvaCoins.Application.Utils;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Interfaces.Repositories;
@@ -23,8 +23,8 @@ namespace LevvaCoins.Application.Accounts.Services
         {
             var accountAlreadyExists = await _userRepository.GetByEmailAsync(accountDto.Email);
             if (accountAlreadyExists != null) throw new ModelAlreadyExistsException("Esse e-mail já existe");
+            accountDto.Password = HashFunction.Generate(accountDto.Password!);
             var account = _mapper.Map<User>(accountDto);
-            account.Password = HashFunction.Generate(account.Password!);
             await _userRepository.SaveAsync(account);
         }
 
@@ -59,9 +59,8 @@ namespace LevvaCoins.Application.Accounts.Services
         {
             var accountAlreadyExists = await _userRepository.GetByIdAsync(id);
             if (accountAlreadyExists == null) throw new ModelNotFoundException("Esse usuário não existe.");
-
-            accountAlreadyExists.Name = accountDto.Name;
-            accountAlreadyExists.Avatar = accountDto.Avatar;
+    
+            accountAlreadyExists.UpdateEntity(name: accountDto.Name, avatar: accountDto.Avatar);
 
             await _userRepository.UpdateAsync(accountAlreadyExists);
         }

@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace LevvaCoins.Application.Utility
+namespace LevvaCoins.Application.Utils
 {
     public static class HashFunction
     {

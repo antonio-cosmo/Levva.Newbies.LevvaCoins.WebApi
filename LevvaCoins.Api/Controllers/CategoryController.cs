@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("category")]
     [ApiController]
     public class CategoryController : ControllerBase
@@ -25,15 +25,6 @@ namespace LevvaCoins.Api.Controllers
             return Ok(await _services.GetAllCategoryAsync());
         }
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
-        public async Task<ActionResult> PostAsync([FromBody] CreateCategoryDto body)
-        {
-            await _services.CreateCategoryAsync(body);
-            return Created("", null);
-        }
-
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
@@ -41,6 +32,15 @@ namespace LevvaCoins.Api.Controllers
         {
             var category = await _services.GetCategoryByIdAsync(id);
             return Ok(category);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        public async Task<ActionResult> PostAsync([FromBody] CreateCategoryDto body)
+        {
+            await _services.CreateCategoryAsync(body);
+            return Created("", null);
         }
 
         [HttpPut("{id:Guid}")]

@@ -61,6 +61,15 @@ namespace LevvaCoins.Infra.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Transaction>> SearchTransactionByDescription(string search)
+        {
+            var result = await _context.Transactions
+                                    .AsNoTracking()
+                                    .Where(t => EF.Functions.Like(t.Description, $"%{search}%"))
+                                    .ToListAsync();
+            return result;
+        }
+
         public async Task<bool> UpdateAsync(Transaction obj)
         {
             _context.Update(obj);

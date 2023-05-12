@@ -47,7 +47,6 @@ namespace LevvaCoinsApi.Application.Transactions.Services
         public async Task<PagedResultDto<TransactionDto>> GetAllTransactionsAsync(PaginationOptions paginationOptions)
         {
             var result = await _transactionRepository.GetAllTransactions(paginationOptions);
-            //var transactions = _mapper.Map<IEnumerable<TransactionDto>>(result.Items);
 
             return _mapper.Map<PagedResultDto<TransactionDto>>(result);
 
@@ -59,6 +58,12 @@ namespace LevvaCoinsApi.Application.Transactions.Services
             if (transaction == null) throw new ModelNotFoundException("Essa transação não existe.");
 
             return _mapper.Map<TransactionDto>(transaction);
+        }
+
+        public async Task<IEnumerable<TransactionDto>> SearchTransactionByDescription(string search)
+        {
+            var result = await _transactionRepository.SearchTransactionByDescription(search);
+            return _mapper.Map<List<TransactionDto>>(result);
         }
 
         public async Task<IEnumerable<TransactionDto>> SearchTransactionByuser(Guid userId)
@@ -73,10 +78,12 @@ namespace LevvaCoinsApi.Application.Transactions.Services
             var transactioAreadyExists = await _transactionRepository.GetByIdAsync(id);
             if (transactioAreadyExists == null) throw new ModelNotFoundException("Essa transação não existe");
 
-            transactioAreadyExists.Description = transactionDto.Description;
-            transactioAreadyExists.Amount = transactionDto.Amount;
-            transactioAreadyExists.Type = transactionDto.Type;
-            transactioAreadyExists.CategoryId = transactionDto.CategoryId;
+            transactioAreadyExists.UpdateEntity(
+                    transactionDto.Description,
+                    transactionDto.Amount,
+                    transactionDto.Type,
+                    transactionDto.CategoryId               
+                );
 
             await _transactionRepository.UpdateAsync(transactioAreadyExists);
         }
