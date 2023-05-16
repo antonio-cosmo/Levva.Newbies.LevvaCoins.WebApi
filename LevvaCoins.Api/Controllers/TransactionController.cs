@@ -1,10 +1,13 @@
 ﻿
 using LevvaCoins.Application.Accounts.Extensions;
 using LevvaCoins.Application.Common.Dtos;
+using LevvaCoins.Application.Transactions.Commands;
 using LevvaCoins.Application.Transactions.Dtos;
 using LevvaCoins.Application.Transactions.Interfaces;
+using LevvaCoins.Application.Transactions.Queries;
 using LevvaCoins.Domain.Common;
 using LevvaCoins.Domain.Common.Dtos;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,29 +26,24 @@ namespace LevvaCoins.Api.Controllers
             _transactionServices = transactionServices;
         }
 
+
+       
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PagedResultDto<TransactionDto>>> GetAllPagedAsync([FromQuery] int page = 1, [FromQuery] int size = 10)
+        public async Task<ActionResult<PagedResultDto<TransactionDto>>> GetTransactionsByUser([FromQuery] int page = 1, [FromQuery] int size = 10)
         {
-            var paginationOptions = new PaginationOptions(page, size);
+            var userId = new Guid(User.GetUserId());
+            var paginationOpt = new PaginationOptions(page, size);
 
-            return Ok(await _transactionServices.GetAllTransactionsAsync(paginationOptions));
+            return Ok(await _transactionServices.SearchTransactionByUser(userId, paginationOpt));
         }
-
-        [HttpGet("all")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<TransactionDto>>> GetAllAsync()
-        {
-            var list = await _transactionServices.GetAllTransactionsAsync();
-
-            return Ok(list);
-        } 
 
         [HttpGet("description")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<TransactionDto>>> GetByDescriptionAsync([FromQuery] string search)
         {
-
+            
             return Ok(await _transactionServices.SearchTransactionByDescription(search));
         }
 
@@ -54,29 +52,20 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         public async Task<ActionResult<TransactionDto>> GetByIdAsync([FromRoute] Guid id)
         {
-            var category = await _transactionServices.GetByIdTransaction(id);
-
-            return Ok(category);
+            return Ok(await _transactionServices.GetByIdTransaction(id));
         }
-
-        [HttpGet("user")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactionsByUser()
-        {
-            var userId = User.GetUserId();
-            var transactionsList = await _transactionServices.SearchTransactionByuser(new Guid(userId));
-            return Ok(transactionsList);
-        }
-
+        
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         public async Task<ActionResult> PostAsync([FromBody] CreateTransactionDto body)
         {
-            var userId = User.GetUserId();
+            var userId = new Guid(User.GetUserId());
             await _transactionServices.CreateTransactionAsync(body, userId);
+
             return Created("", null);
         }
+
 
 
         [HttpPut("{id:Guid}")]

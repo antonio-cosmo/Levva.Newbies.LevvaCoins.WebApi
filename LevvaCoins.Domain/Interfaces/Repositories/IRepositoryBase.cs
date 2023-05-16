@@ -13,6 +13,6 @@ namespace LevvaCoins.Domain.Interfaces.Repositories
         Task<TEntity?> GetByIdAsync(TId id);
         Task<ICollection<TEntity>> GetAllAsync();
         Task<bool> UpdateAsync(TEntity obj);
-        Task<bool> DeleteByIdAsync(TId id);
+        Task<bool> RemoveAsync(TEntity obj);
     }
 }

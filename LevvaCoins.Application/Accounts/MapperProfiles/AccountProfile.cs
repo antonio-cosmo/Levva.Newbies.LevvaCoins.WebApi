@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using LevvaCoins.Application.Accounts.Commands;
 using LevvaCoins.Application.Accounts.Dtos;
 using LevvaCoins.Domain.Entities;
 
@@ -13,7 +9,8 @@ namespace LevvaCoins.Application.Accounts.MapperProfiles
     {
         public AccountProfile()
         {
-            CreateMap<CreateAccountDto, User>();
+            CreateMap<CreateAccountDto, CreateAccountCommand>();
+            CreateMap<CreateAccountCommand, User>();
             CreateMap<UpdateAccountDto, User>();
             CreateMap<User, AccountWithTokenDto>();
             CreateMap<User, AccountDto>();

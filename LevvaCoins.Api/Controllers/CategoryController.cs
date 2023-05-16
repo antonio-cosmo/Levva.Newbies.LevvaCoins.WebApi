@@ -1,7 +1,9 @@
-﻿using AutoMapper;
+﻿using LevvaCoins.Application.Categories.Commands;
 using LevvaCoins.Application.Categories.Dtos;
 using LevvaCoins.Application.Categories.Interfaces;
+using LevvaCoins.Application.Categories.Queries;
 using LevvaCoins.Application.Common.Dtos;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,17 +14,18 @@ namespace LevvaCoins.Api.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        readonly ICategoryServices _services;
-        public CategoryController(ICategoryServices services, IMapper mapper)
+        readonly ICategoryServices _categoryServices;
+        public CategoryController(ICategoryServices services)
         {
-            _services = services;
+            _categoryServices = services;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllAsync()
         {
-            return Ok(await _services.GetAllCategoryAsync());
+
+            return Ok(await _categoryServices.GetAllCategoryAsync());
         }
 
         [HttpGet("{id:Guid}")]
@@ -30,7 +33,9 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         public async Task<ActionResult<CategoryDto>> GetByIdAsync([FromRoute] Guid id)
         {
-            var category = await _services.GetCategoryByIdAsync(id);
+
+            var category = await _categoryServices.GetCategoryByIdAsync(id);
+
             return Ok(category);
         }
 
@@ -39,16 +44,16 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         public async Task<ActionResult> PostAsync([FromBody] CreateCategoryDto body)
         {
-            await _services.CreateCategoryAsync(body);
+            await _categoryServices.CreateCategoryAsync(body);
             return Created("", null);
         }
 
         [HttpPut("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
-        public async Task<IActionResult> PutAsync([FromRoute] Guid id, UpdateCategoryDto categoryDto)
+        public async Task<IActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateCategoryDto categoryDto)
         {
-            await _services.UpdateCategoryAsync(id, categoryDto);
+            await _categoryServices.UpdateCategoryAsync(id, categoryDto);
             return NoContent();
         }
 
@@ -57,7 +62,8 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         public async Task<ActionResult> DeleteAsync([FromRoute] Guid id)
         {
-            await _services.DeleteCategoryAsync(id);
+            
+            await _categoryServices.DeleteCategoryAsync(id);
             return NoContent();
         }
     }

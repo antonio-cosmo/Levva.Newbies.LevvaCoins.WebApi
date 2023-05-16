@@ -1,4 +1,9 @@
-﻿using LevvaCoins.Application.Accounts.Dtos;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using LevvaCoins.Application.Accounts.Dtos;
 using LevvaCoins.Domain.Entities;
 
 namespace LevvaCoins.Application.Accounts.Interfaces
@@ -10,6 +15,8 @@ namespace LevvaCoins.Application.Accounts.Interfaces
         Task UpdateAccountAsync(Guid id, UpdateAccountDto accountDto);
         Task DeleteAccountAsync(Guid id);
         Task<AccountDto> GetAccountByIdAsync(Guid id);
-        Task<User> GetAccountByEmailAsync(string email);
+        Task<User?> GetAccountByEmailAsync(string email);
+
+
     }
 }

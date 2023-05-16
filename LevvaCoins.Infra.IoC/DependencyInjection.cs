@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 using LevvaCoins.Application.Accounts.Interfaces;
 using LevvaCoins.Application.Accounts.MapperProfiles;
 using LevvaCoins.Application.Accounts.Services;
@@ -8,16 +9,15 @@ using LevvaCoins.Application.Categories.Services;
 using LevvaCoins.Application.Middlewares;
 using LevvaCoins.Application.Transactions.Interfaces;
 using LevvaCoins.Application.Transactions.Mapper;
+using LevvaCoins.Application.Transactions.Services;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using LevvaCoins.Infra.Data.Context;
 using LevvaCoins.Infra.Data.Repositories;
-using LevvaCoinsApi.Application.Transactions.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -31,7 +31,7 @@ namespace LevvaCoins.Infra.IoC
             {
                 opt.UseSqlite(
                     configuration.GetConnectionString("DefaultConectionSqlite")!,
-                    x => x.MigrationsAssembly("LevvaCoins.Infra.Data")
+                    x => x.MigrationsAssembly(typeof(MysqlDbContext).Assembly.FullName)
                 );
             });
             services.AddScoped<IUserRepository, UserRepository>();
@@ -43,10 +43,10 @@ namespace LevvaCoins.Infra.IoC
         {
             var tokenKey = Encoding.ASCII.GetBytes(configuration.GetValue<string>("Token:Key")!);
 
-            services.AddScoped<IAccountServices, AccountServices>();
             services.AddScoped<ICategoryServices, CategoryServices>();
+            services.AddScoped<IAccountServices, AccountServices>();
             services.AddScoped<ITransactionServices, TransactionServices>();
-
+            services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.Load("LevvaCoins.Application")));
             services.AddAutoMapper(typeof(AccountProfile), typeof(CategoryProfile), typeof(TransactionProfile));
             services.AddAuthentication(opt =>
             {

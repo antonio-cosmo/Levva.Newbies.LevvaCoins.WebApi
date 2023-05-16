@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using LevvaCoins.Application.Accounts.Dtos;
 using LevvaCoins.Application.Accounts.Interfaces;
+using LevvaCoins.Application.Accounts.Queries;
 using LevvaCoins.Application.Accounts.Services;
 using LevvaCoins.Application.Common.Dtos;
-using LevvaCoins.Application.Utility;
+using LevvaCoins.Application.Utils;
 using LevvaCoins.Domain.AppExceptions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
@@ -27,21 +29,16 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<AccountWithTokenDto>> PostAuthAsync([FromBody] LoginDto loginDto)
         {
-            try
-            {
-                var account = await _accountServices.GetAccountByEmailAsync(loginDto.Email);
 
-                if (!HashFunction.Verify(loginDto.Password, account.Password!)) throw new Exception();
+            var accountAlreadExists = await _accountServices.GetAccountByEmailAsync(loginDto.Email);
+            if (accountAlreadExists is null) throw new ModelNotFoundException("Usuário ou senha inválidos.");
 
-                var accounWithToken = _mapper.Map<AccountWithTokenDto>(account);
-                accounWithToken.Token = TokenService.GenereteToken(account, _config);
+            if (!HashFunction.Verify(loginDto.Password, accountAlreadExists.Password!)) throw new ModelNotFoundException("Usuário ou senha inválidos.");
 
-                return Ok(accounWithToken);
-            }
-            catch
-            {
-                throw new ModelNotFoundException("Usuário ou senha inválidos.");
-            }
+            var accounWithToken = _mapper.Map<AccountWithTokenDto>(accountAlreadExists);
+            accounWithToken.Token = TokenService.GenereteToken(accountAlreadExists, _config);
+
+            return Ok(accounWithToken);
         }
     }
 }

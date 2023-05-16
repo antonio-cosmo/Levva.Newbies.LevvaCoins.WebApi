@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LevvaCoins.Domain.Common
+namespace LevvaCoins.Domain.Validation
 {
     public class DomainExceptionValidation : Exception
     {
-        public DomainExceptionValidation(string message): base(message) { }
+        public DomainExceptionValidation(string message) : base(message) { }
 
         public static void When(bool hasError, string errorMessage)
         {

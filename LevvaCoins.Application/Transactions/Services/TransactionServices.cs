@@ -1,91 +1,76 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
 using LevvaCoins.Application.Transactions.Dtos;
 using LevvaCoins.Application.Transactions.Interfaces;
 using LevvaCoins.Domain.AppExceptions;
-using LevvaCoins.Domain.Common;
 using LevvaCoins.Domain.Common.Dtos;
-using LevvaCoins.Domain.Entities;
+using LevvaCoins.Domain.Common;
 using LevvaCoins.Domain.Interfaces.Repositories;
+using MediatR;
+using LevvaCoins.Application.Transactions.Commands;
+using LevvaCoins.Application.Transactions.Queries;
+using LevvaCoins.Domain.Entities;
 
-namespace LevvaCoinsApi.Application.Transactions.Services
+namespace LevvaCoins.Application.Transactions.Services
 {
     public class TransactionServices : ITransactionServices
     {
-        readonly ITransactionRepository _transactionRepository;
+        readonly IMediator _mediator;
         readonly IMapper _mapper;
         public TransactionServices(
-            ITransactionRepository transactionRepository, 
+            IMediator mediator,
             IMapper mapper
         )
         {
-            _transactionRepository = transactionRepository;
+            _mediator = mediator;
             _mapper = mapper;
         }
 
-        public async Task CreateTransactionAsync(CreateTransactionDto transactionDto, string userId)
+        public async Task CreateTransactionAsync(CreateTransactionDto transaction, Guid userId)
         {
-
-            var transaction = _mapper.Map<Transaction>( transactionDto );
-            transaction.UserId = new Guid(userId);
-
-            await _transactionRepository.SaveAsync(transaction);
+            var command = new CreateTransactionCommand(transaction.Description, transaction.Amount, transaction.Type, transaction.CategoryId, userId);
+            await _mediator.Send(command);
         }
 
         public async Task DeleteByIdTransaction(Guid transactionId)
         {
-            var success = await _transactionRepository.DeleteByIdAsync(transactionId);
-            if (!success) throw new ModelNotFoundException("Essa transação não existe.");
-        }
-
-        public async Task<IEnumerable<TransactionDto>> GetAllTransactionsAsync()
-        {
-            var transactionList = await _transactionRepository.GetAllAsync();
-
-            return _mapper.Map<IEnumerable<TransactionDto>>(transactionList);
-        }
-
-        public async Task<PagedResultDto<TransactionDto>> GetAllTransactionsAsync(PaginationOptions paginationOptions)
-        {
-            var result = await _transactionRepository.GetAllTransactions(paginationOptions);
-
-            return _mapper.Map<PagedResultDto<TransactionDto>>(result);
-
+            var command = new DeleteTransactionCommand(transactionId);
+            await _mediator.Send(command);
         }
 
         public async Task<TransactionDto> GetByIdTransaction(Guid transactionId)
         {
-            var transaction = await _transactionRepository.GetByIdAsync(transactionId);
-            if (transaction == null) throw new ModelNotFoundException("Essa transação não existe.");
+            var query = new GetTransactionByIdQuery(transactionId);
+            var result = await _mediator.Send(query); 
 
-            return _mapper.Map<TransactionDto>(transaction);
+            if (result is null) throw new ModelNotFoundException("Essa transação não existe.");
+
+            return _mapper.Map<TransactionDto>(result);
         }
 
         public async Task<IEnumerable<TransactionDto>> SearchTransactionByDescription(string search)
         {
-            var result = await _transactionRepository.SearchTransactionByDescription(search);
-            return _mapper.Map<List<TransactionDto>>(result);
+            var query = new GetTransactionByDescriptionQuery(search);
+            var result = await _mediator.Send(query);
+            return _mapper.Map<IEnumerable<TransactionDto>>(result);
         }
 
-        public async Task<IEnumerable<TransactionDto>> SearchTransactionByuser(Guid userId)
+        public async Task<PagedResultDto<TransactionDto>> SearchTransactionByUser(Guid userId, PaginationOptions paginationOptions)
         {
-            var transactionList = await _transactionRepository.GetTransactionByUser(userId);
+            var query = new GetTransactionByUserIdQuery(userId, paginationOptions);
+            var result = await _mediator.Send(query);
 
-            return _mapper.Map<IEnumerable<TransactionDto>>(transactionList);
+            return _mapper.Map<PagedResultDto<TransactionDto>>(result);
         }
 
-        public async Task UpdateTransaction(Guid id, UpdateTransactionDto transactionDto)
+        public async Task UpdateTransaction(Guid id, UpdateTransactionDto transaction)
         {
-            var transactioAreadyExists = await _transactionRepository.GetByIdAsync(id);
-            if (transactioAreadyExists == null) throw new ModelNotFoundException("Essa transação não existe");
-
-            transactioAreadyExists.UpdateEntity(
-                    transactionDto.Description,
-                    transactionDto.Amount,
-                    transactionDto.Type,
-                    transactionDto.CategoryId               
-                );
-
-            await _transactionRepository.UpdateAsync(transactioAreadyExists);
+            var command = new UpdateTransactionCommand(id, transaction.Description, transaction.Amount, transaction.Type, transaction.CategoryId);
+            await _mediator.Send(command);
         }
     }
 }

@@ -12,41 +12,33 @@ namespace LevvaCoins.Infra.Data.Repositories
         {
             _context = context;
         }
-        public async Task<bool> DeleteByIdAsync(Guid id)
+        public async Task<bool> RemoveAsync(Category obj)
         {
-            var category = await GetByIdAsync(id);
-            if (category == null) return false;
-
-            _context.Categories.Remove(category);
+            _context.Categories.Remove(obj);
             await _context.SaveChangesAsync();
 
             return true;
         }
-
         public async Task<ICollection<Category>> GetAllAsync()
         {
             return await _context.Categories.AsNoTracking().ToListAsync();
         }
-
         public async Task<Category?> GetByIdAsync(Guid id)
         {
             var category = await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
             return category;
         }
-
         public async Task<Category?> GetByDescriptionAsync(string description)
         {
             return await _context.Categories.FirstOrDefaultAsync(x => x.Description == description);
         }
-
         public async Task SaveAsync(Category obj)
         {
             _context.Categories.Add(obj);
             await _context.SaveChangesAsync();
 
         }
-
         public async Task<bool> UpdateAsync(Category obj)
         {
             _context.Categories.Update(obj);

@@ -14,11 +14,9 @@ namespace LevvaCoins.Infra.Data.Repositories
         {
             _context = context;
         }
-        public async Task<bool> DeleteByIdAsync(Guid id)
+        public async Task<bool> RemoveAsync(Transaction obj)
         {
-            var transaction = await GetByIdAsync(id);
-            if (transaction == null) return false;
-            _context.Transactions.Remove(transaction);
+            _context.Transactions.Remove(obj);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -50,9 +48,22 @@ namespace LevvaCoins.Infra.Data.Repositories
             return await _context.Transactions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Transaction>> GetTransactionByUser(Guid userId)
+        public async Task<PagedResultDto<Transaction>> GetTransactionByUser(Guid userId, PaginationOptions options)
         {
-            return await _context.Transactions.AsNoTracking().Where(x => x.UserId == userId).ToListAsync();
+
+            var items = await _context.Transactions.AsNoTracking()
+                                              .Where(x => x.UserId == userId)
+                                              .OrderBy(x => x.CreatedAt)
+                                              .Skip((options.PageNumber - 1) * options.PageSize)
+                                              .Take(options.PageSize)
+                                              .ToListAsync();
+
+            return new PagedResultDto<Transaction>(
+                   items: items,
+                   pageNumber: options.PageNumber,
+                   pageSize: options.PageSize,
+                   totalElements: items.Count()
+               );
         }
 
         public async Task SaveAsync(Transaction obj)

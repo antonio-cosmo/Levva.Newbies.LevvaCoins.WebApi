@@ -1,6 +1,6 @@
 ﻿using LevvaCoins.Application.Common.Dtos;
 using LevvaCoins.Domain.AppExceptions;
-using LevvaCoins.Domain.Common;
+using LevvaCoins.Domain.Validation;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 

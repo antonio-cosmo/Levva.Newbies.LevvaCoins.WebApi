@@ -14,8 +14,8 @@ namespace LevvaCoins.Application.Accounts.Extensions
         {
 
             var claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, user.Name! ),
-                new Claim("id", user.Id.ToString())
+                new Claim(ClaimTypes.Name, user.Email ),
+                new Claim("id", user.Id.ToString()!)
             };
 
             return claims;

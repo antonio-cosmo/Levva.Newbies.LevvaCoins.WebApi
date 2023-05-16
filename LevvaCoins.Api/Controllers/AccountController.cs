@@ -1,6 +1,9 @@
-﻿using LevvaCoins.Application.Accounts.Dtos;
+﻿using LevvaCoins.Application.Accounts.Commands;
+using LevvaCoins.Application.Accounts.Dtos;
 using LevvaCoins.Application.Accounts.Interfaces;
+using LevvaCoins.Application.Accounts.Queries;
 using LevvaCoins.Application.Common.Dtos;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,10 +33,10 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AccountDto>> GetByIdAsync([FromRoute] Guid userId)
         {
-            var account = await _accountServices.GetAccountByIdAsync(userId);
-            return Ok(account);
+            return Ok(await _accountServices.GetAccountByIdAsync(userId));
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
