@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LevvaCoins.Application.Transactions.Dtos;
-using LevvaCoins.Domain.Common.Dtos;
+﻿using LevvaCoins.Application.Transactions.Dtos;
 using LevvaCoins.Domain.Common;
-using LevvaCoins.Domain.Entities;
+using LevvaCoins.Domain.Common.Dtos;
 
 namespace LevvaCoins.Application.Transactions.Interfaces
 {

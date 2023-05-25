@@ -18,11 +18,13 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
+app.UseWebApi();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
+
 app.MapControllers();
 app.UseCors();
-app.UseApi();
 
 app.Run();

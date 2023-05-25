@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LevvaCoins.Domain.Common;
+﻿using LevvaCoins.Domain.Common;
 using LevvaCoins.Domain.Common.Dtos;
 using LevvaCoins.Domain.Entities;
 

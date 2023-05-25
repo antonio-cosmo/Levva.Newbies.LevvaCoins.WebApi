@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using LevvaCoins.Application.Transactions.Dtos;
+﻿using AutoMapper;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Enums;
 using LevvaCoins.Domain.Interfaces.Repositories;

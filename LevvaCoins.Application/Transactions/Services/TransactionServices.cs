@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using LevvaCoins.Application.Transactions.Commands;
 using LevvaCoins.Application.Transactions.Dtos;
 using LevvaCoins.Application.Transactions.Interfaces;
-using LevvaCoins.Domain.AppExceptions;
-using LevvaCoins.Domain.Common.Dtos;
-using LevvaCoins.Domain.Common;
-using LevvaCoins.Domain.Interfaces.Repositories;
-using MediatR;
-using LevvaCoins.Application.Transactions.Commands;
 using LevvaCoins.Application.Transactions.Queries;
-using LevvaCoins.Domain.Entities;
+using LevvaCoins.Domain.AppExceptions;
+using LevvaCoins.Domain.Common;
+using LevvaCoins.Domain.Common.Dtos;
+using MediatR;
 
 namespace LevvaCoins.Application.Transactions.Services
 {

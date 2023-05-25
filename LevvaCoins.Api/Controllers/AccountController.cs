@@ -1,15 +1,12 @@
-﻿using LevvaCoins.Application.Accounts.Commands;
-using LevvaCoins.Application.Accounts.Dtos;
+﻿using LevvaCoins.Application.Accounts.Dtos;
 using LevvaCoins.Application.Accounts.Interfaces;
-using LevvaCoins.Application.Accounts.Queries;
 using LevvaCoins.Application.Common.Dtos;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("user")]
     [ApiController]
     public class AccountController : ControllerBase

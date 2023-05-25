@@ -1,19 +1,20 @@
-﻿using LevvaCoins.Domain.Entities;
+﻿using LevvaCoins.Infra.Data.Interface;
 using LevvaCoins.Infra.Data.Mappings;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace LevvaCoins.Infra.Data.Context
 {
-    public class MysqlDbContext: DbContext
+    public class MysqlDbContext: DbContext, IContext
     {
         public MysqlDbContext(DbContextOptions<MysqlDbContext> options):base(options)
         {
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
+        public Task<int> SaveChangesAsync() => base.SaveChangesAsync();
+
+        //public DbSet<User> Users { get; set; }
+        //public DbSet<Category> Categories { get; set; }
+        //public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

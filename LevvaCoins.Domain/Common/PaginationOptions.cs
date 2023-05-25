@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LevvaCoins.Domain.Common
+﻿namespace LevvaCoins.Domain.Common
 {
     public sealed class PaginationOptions
     {

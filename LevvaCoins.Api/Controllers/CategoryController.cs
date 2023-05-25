@@ -1,15 +1,12 @@
-﻿using LevvaCoins.Application.Categories.Commands;
-using LevvaCoins.Application.Categories.Dtos;
+﻿using LevvaCoins.Application.Categories.Dtos;
 using LevvaCoins.Application.Categories.Interfaces;
-using LevvaCoins.Application.Categories.Queries;
 using LevvaCoins.Application.Common.Dtos;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("category")]
     [ApiController]
     public class CategoryController : ControllerBase

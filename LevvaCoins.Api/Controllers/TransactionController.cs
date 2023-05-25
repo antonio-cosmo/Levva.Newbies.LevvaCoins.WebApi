@@ -1,19 +1,16 @@
 ﻿
 using LevvaCoins.Application.Accounts.Extensions;
 using LevvaCoins.Application.Common.Dtos;
-using LevvaCoins.Application.Transactions.Commands;
 using LevvaCoins.Application.Transactions.Dtos;
 using LevvaCoins.Application.Transactions.Interfaces;
-using LevvaCoins.Application.Transactions.Queries;
 using LevvaCoins.Domain.Common;
 using LevvaCoins.Domain.Common.Dtos;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("transaction")]
     public class TransactionController : ControllerBase

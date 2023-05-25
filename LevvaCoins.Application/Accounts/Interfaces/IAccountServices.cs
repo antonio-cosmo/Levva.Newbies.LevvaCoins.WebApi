@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LevvaCoins.Application.Accounts.Dtos;
+﻿using LevvaCoins.Application.Accounts.Dtos;
 using LevvaCoins.Domain.Entities;
 
 namespace LevvaCoins.Application.Accounts.Interfaces

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LevvaCoins.Domain.Enums;
+﻿using LevvaCoins.Domain.Enums;
 using LevvaCoins.Domain.Validation;
 
 namespace LevvaCoins.Domain.Entities

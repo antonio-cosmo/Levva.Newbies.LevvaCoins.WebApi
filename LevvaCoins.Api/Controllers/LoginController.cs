@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using LevvaCoins.Application.Accounts.Dtos;
 using LevvaCoins.Application.Accounts.Interfaces;
-using LevvaCoins.Application.Accounts.Queries;
 using LevvaCoins.Application.Accounts.Services;
 using LevvaCoins.Application.Common.Dtos;
 using LevvaCoins.Application.Utils;
 using LevvaCoins.Domain.AppExceptions;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers

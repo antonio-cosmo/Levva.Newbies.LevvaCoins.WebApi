@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using LevvaCoins.Domain.AppExceptions;
-using LevvaCoins.Domain.Entities;
+﻿using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using MediatR;
 
