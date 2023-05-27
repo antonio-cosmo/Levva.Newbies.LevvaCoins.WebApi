@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using LevvaCoins.Domain.Entities;
+﻿using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using MediatR;
 
@@ -18,12 +17,10 @@ namespace LevvaCoins.Application.Accounts.Queries
     public class GetAccountByIdQueryHandler : IRequestHandler<GetAccountByIdQuery, User?>
     {
         readonly IUserRepository _userRepository;
-        readonly IMapper _mapper;
 
-        public GetAccountByIdQueryHandler(IUserRepository userRepository, IMapper mapper)
+        public GetAccountByIdQueryHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
         }
 
         public async Task<User?> Handle(GetAccountByIdQuery request, CancellationToken cancellationToken)

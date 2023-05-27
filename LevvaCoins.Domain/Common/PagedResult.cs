@@ -1,6 +1,6 @@
-﻿namespace LevvaCoins.Domain.Common.Dtos
+﻿namespace LevvaCoins.Domain.Common
 {
-    public class PagedResultDto<TEntity>
+    public class PagedResult<TEntity>
     {
         public IEnumerable<TEntity> Items { get; set; }
         public int PageNumber { get; set; }
@@ -11,8 +11,8 @@
         public int TotalElements { get; set; }
         public bool HasPreviousPage { get; set; }
         public bool HasNextPage { get; set; }
-        public PagedResultDto(
-          ICollection<TEntity> items,
+        public PagedResult(
+          IEnumerable<TEntity> items,
           int pageNumber,
           int pageSize,
           int totalElements

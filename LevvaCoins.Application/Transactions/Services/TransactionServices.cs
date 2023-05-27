@@ -5,7 +5,6 @@ using LevvaCoins.Application.Transactions.Interfaces;
 using LevvaCoins.Application.Transactions.Queries;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Common;
-using LevvaCoins.Domain.Common.Dtos;
 using MediatR;
 
 namespace LevvaCoins.Application.Transactions.Services
@@ -24,7 +23,8 @@ namespace LevvaCoins.Application.Transactions.Services
         }
 
         public async Task CreateTransactionAsync(CreateTransactionDto transaction, Guid userId)
-        {
+        {   
+            
             var command = new CreateTransactionCommand(transaction.Description, transaction.Amount, transaction.Type, transaction.CategoryId, userId);
             await _mediator.Send(command);
         }
@@ -35,29 +35,32 @@ namespace LevvaCoins.Application.Transactions.Services
             await _mediator.Send(command);
         }
 
-        public async Task<TransactionDto> GetByIdTransaction(Guid transactionId)
+        public async Task<TransactionViewDto> GetByIdTransaction(Guid transactionId)
         {
             var query = new GetTransactionByIdQuery(transactionId);
             var result = await _mediator.Send(query); 
 
             if (result is null) throw new ModelNotFoundException("Essa transação não existe.");
 
-            return _mapper.Map<TransactionDto>(result);
+            return _mapper.Map<TransactionViewDto>(result);
+
         }
 
-        public async Task<IEnumerable<TransactionDto>> SearchTransactionByDescription(string search)
+        public async Task<IEnumerable<TransactionViewDto>> SearchTransactionByDescription(string search)
         {
             var query = new GetTransactionByDescriptionQuery(search);
             var result = await _mediator.Send(query);
-            return _mapper.Map<IEnumerable<TransactionDto>>(result);
+
+            return _mapper.Map<IEnumerable<TransactionViewDto>>(result);
+
         }
 
-        public async Task<PagedResultDto<TransactionDto>> SearchTransactionByUser(Guid userId, PaginationOptions paginationOptions)
+        public async Task<PagedResult<TransactionViewDto>> SearchTransactionByUser(Guid userId, PaginationOptions paginationOptions)
         {
             var query = new GetTransactionByUserIdQuery(userId, paginationOptions);
             var result = await _mediator.Send(query);
 
-            return _mapper.Map<PagedResultDto<TransactionDto>>(result);
+            return _mapper.Map<PagedResult<TransactionViewDto>>(result!);
         }
 
         public async Task UpdateTransaction(Guid id, UpdateTransactionDto transaction)

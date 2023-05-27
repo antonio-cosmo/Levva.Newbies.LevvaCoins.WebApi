@@ -31,7 +31,7 @@ namespace LevvaCoins.Application.Middlewares
                 var errorResponse = new ErrorResponse
                 {
                     HasError = true,
-                    Message = "Falha na autenticação"
+                    Message = "Usuario não autenticado"
                 };
 
 

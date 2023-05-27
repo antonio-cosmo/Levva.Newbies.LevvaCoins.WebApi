@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using LevvaCoins.Domain.AppExceptions;
+﻿using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using MediatR;
 
@@ -22,12 +21,10 @@ namespace LevvaCoins.Application.Accounts.Commands
     public class UpdateAccoutCommandHandler : IRequestHandler<UpdateAccoutCommand>
     {
         readonly IUserRepository _userRepository;
-        readonly IMapper _mapper;
 
-        public UpdateAccoutCommandHandler(IUserRepository userRepository, IMapper mapper)
+        public UpdateAccoutCommandHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
         }
 
         public async Task Handle(UpdateAccoutCommand request, CancellationToken cancellationToken)

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using LevvaCoins.Application.Transactions.Commands;
 using LevvaCoins.Application.Transactions.Dtos;
-using LevvaCoins.Domain.Common.Dtos;
+using LevvaCoins.Domain.Common;
 using LevvaCoins.Domain.Entities;
 
 namespace LevvaCoins.Application.Transactions.Mapper
@@ -10,12 +10,12 @@ namespace LevvaCoins.Application.Transactions.Mapper
     {
         public TransactionProfile()
         {
-            CreateMap<CreateTransactionDto, Transaction>();
-            CreateMap<CreateTransactionDto, CreateTransactionCommand>();
-            CreateMap<CreateTransactionCommand, Transaction>();
-            CreateMap<UpdateTransactionDto, Transaction>();
-            CreateMap<PagedResultDto<Transaction>, PagedResultDto<TransactionDto>>();
-            CreateMap<Transaction, TransactionDto>();
+            CreateMap<CreateTransactionDto, CreateTransactionCommand>().ReverseMap();
+            CreateMap<UpdateTransactionDto, UpdateTransactionCommand>().ReverseMap();
+            CreateMap<CreateTransactionCommand, Transaction>().ReverseMap();
+            CreateMap<UpdateTransactionCommand, Transaction>().ReverseMap();
+            CreateMap<PagedResult<Transaction>, PagedResult<TransactionViewDto>>().ReverseMap();
+            CreateMap<Transaction, TransactionViewDto>().ReverseMap();
         }
     }
 }

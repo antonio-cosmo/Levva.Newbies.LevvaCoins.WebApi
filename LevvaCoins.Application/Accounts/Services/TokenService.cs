@@ -28,7 +28,7 @@ namespace LevvaCoins.Application.Accounts.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
+            return $"Bearer {tokenHandler.WriteToken(token)}";
         }
     }
 }

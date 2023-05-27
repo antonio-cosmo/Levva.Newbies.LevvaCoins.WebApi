@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using LevvaCoins.Application.Accounts.Interfaces;
 using LevvaCoins.Application.Accounts.MapperProfiles;
 using LevvaCoins.Application.Accounts.Services;
@@ -44,6 +45,10 @@ namespace LevvaCoins.Infra.IoC
         {
             var tokenKey = Encoding.ASCII.GetBytes(configuration.GetValue<string>("Token:Key")!);
 
+            services.AddControllers().AddJsonOptions(opt => {
+                opt.JsonSerializerOptions.WriteIndented = true;
+                opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
             services.AddScoped<ICategoryServices, CategoryServices>();
             services.AddScoped<IAccountServices, AccountServices>();
             services.AddScoped<ITransactionServices, TransactionServices>();

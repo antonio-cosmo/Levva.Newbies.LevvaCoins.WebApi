@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LevvaCoins.Api.Controllers
 {
     [Authorize]
-    [Route("user")]
+    [Route("api/user")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -20,6 +20,7 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<IEnumerable<AccountDto>>> GetAllAsync()
         {
             return Ok(await _accountServices.GetAllAccountAsync());
@@ -28,6 +29,7 @@ namespace LevvaCoins.Api.Controllers
         [HttpGet("{userId:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<AccountDto>> GetByIdAsync([FromRoute] Guid userId)
         {
             return Ok(await _accountServices.GetAccountByIdAsync(userId));
@@ -46,6 +48,7 @@ namespace LevvaCoins.Api.Controllers
         [HttpPut("{userId:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PutAsync([FromRoute] Guid userId, [FromBody] UpdateAccountDto body)
         {
             await _accountServices.UpdateAccountAsync(userId, body);
@@ -56,6 +59,7 @@ namespace LevvaCoins.Api.Controllers
         [HttpDelete("{userId:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid userId)
         {
             await _accountServices.DeleteAccountAsync(userId);

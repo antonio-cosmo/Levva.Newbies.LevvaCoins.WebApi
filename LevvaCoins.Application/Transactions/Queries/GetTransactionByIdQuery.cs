@@ -25,7 +25,8 @@ namespace LevvaCoins.Application.Transactions.Queries
 
         public async Task<Transaction?> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _transactionRepository.GetByIdAsync(request.Id);
+            //return await _transactionRepository.GetByIdAsync(request.Id);
+            return await _transactionRepository.GetTransactionByIdWithCategoryDescription(request.Id);
           
         }
     }

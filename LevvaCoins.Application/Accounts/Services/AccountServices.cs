@@ -58,7 +58,6 @@ namespace LevvaCoins.Application.Accounts.Services
         public async Task UpdateAccountAsync(Guid id, UpdateAccountDto accountDto)
         {
             var command = new UpdateAccoutCommand(id, accountDto.Name, accountDto.Avatar);
-
             await _mediator.Send(command);
         }
     }

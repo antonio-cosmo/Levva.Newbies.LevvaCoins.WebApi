@@ -4,7 +4,6 @@ using LevvaCoins.Application.Common.Dtos;
 using LevvaCoins.Application.Transactions.Dtos;
 using LevvaCoins.Application.Transactions.Interfaces;
 using LevvaCoins.Domain.Common;
-using LevvaCoins.Domain.Common.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +11,7 @@ namespace LevvaCoins.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("transaction")]
+    [Route("api/transaction")]
     public class TransactionController : ControllerBase
     {
         readonly ITransactionServices _transactionServices;
@@ -28,7 +27,8 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PagedResultDto<TransactionDto>>> GetTransactionsByUser([FromQuery] int page = 1, [FromQuery] int size = 10)
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<PagedResult<TransactionViewDto>>> GetTransactionsByUser([FromQuery] int page = 1, [FromQuery] int size = 10)
         {
             var userId = new Guid(User.GetUserId());
             var paginationOpt = new PaginationOptions(page, size);
@@ -38,7 +38,8 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpGet("description")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<TransactionDto>>> GetByDescriptionAsync([FromQuery] string search)
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<IEnumerable<TransactionViewDto>>> GetByDescriptionAsync([FromQuery] string search)
         {
             
             return Ok(await _transactionServices.SearchTransactionByDescription(search));
@@ -47,7 +48,8 @@ namespace LevvaCoins.Api.Controllers
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
-        public async Task<ActionResult<TransactionDto>> GetByIdAsync([FromRoute] Guid id)
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<TransactionViewDto>> GetByIdAsync([FromRoute] Guid id)
         {
             return Ok(await _transactionServices.GetByIdTransaction(id));
         }
@@ -55,19 +57,22 @@ namespace LevvaCoins.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PostAsync([FromBody] CreateTransactionDto body)
         {
             var userId = new Guid(User.GetUserId());
+           
+
             await _transactionServices.CreateTransactionAsync(body, userId);
 
             return Created("", null);
         }
 
 
-
         [HttpPut("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateTransactionDto updateTransactionDto )
         {
             await _transactionServices.UpdateTransaction(id, updateTransactionDto);
@@ -77,6 +82,7 @@ namespace LevvaCoins.Api.Controllers
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             await _transactionServices.DeleteByIdTransaction(id);

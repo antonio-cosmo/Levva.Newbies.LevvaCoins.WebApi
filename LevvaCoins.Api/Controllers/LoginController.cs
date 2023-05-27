@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
-    [Route("auth")]
+    [Route("api/auth")]
     [ApiController]
     public class LoginController : ControllerBase
     {

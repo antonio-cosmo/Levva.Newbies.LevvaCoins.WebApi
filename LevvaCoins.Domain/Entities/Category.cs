@@ -12,7 +12,7 @@ namespace LevvaCoins.Domain.Entities
             Validate(description);
 
             Id = id ?? Guid.NewGuid();
-            Description = description;
+            Description = description.ToLower();
         }
 
         public void Update(string description)

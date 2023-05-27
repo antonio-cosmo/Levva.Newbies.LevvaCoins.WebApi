@@ -2,7 +2,14 @@
 {
     public class CreateCategoryDto
     {
-        public string Description { get; set; } = string.Empty;
+        private string _description = string.Empty;
+        public string Description {
+            get => _description;
+            set
+            {
+                _description = value.ToLower();
+            }
+        }
 
     }
 }

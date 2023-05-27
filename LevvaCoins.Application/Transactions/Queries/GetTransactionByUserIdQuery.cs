@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using LevvaCoins.Domain.Common;
-using LevvaCoins.Domain.Common.Dtos;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace LevvaCoins.Application.Transactions.Queries
 {
-    public class GetTransactionByUserIdQuery : IRequest<PagedResultDto<Transaction>>
+    public class GetTransactionByUserIdQuery : IRequest<PagedResult<Transaction>>
     {
         public Guid UserId { get; set; }
         public PaginationOptions PaginationOpt { get; set; }
@@ -19,7 +18,7 @@ namespace LevvaCoins.Application.Transactions.Queries
         }
     }
 
-    public class GetTransactionByUserIdQueryHandler : IRequestHandler<GetTransactionByUserIdQuery, PagedResultDto<Transaction>>
+    public class GetTransactionByUserIdQueryHandler : IRequestHandler<GetTransactionByUserIdQuery, PagedResult<Transaction>>
     {
         readonly ITransactionRepository _transactionRepository;
         readonly IMapper _mapper;
@@ -30,7 +29,7 @@ namespace LevvaCoins.Application.Transactions.Queries
             _mapper = mapper;
         }
 
-        public async Task<PagedResultDto<Transaction>> Handle(GetTransactionByUserIdQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<Transaction>> Handle(GetTransactionByUserIdQuery request, CancellationToken cancellationToken)
         {
             return await _transactionRepository.GetTransactionByUser(request.UserId, request.PaginationOpt!);
         }

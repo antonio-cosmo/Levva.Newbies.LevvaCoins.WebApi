@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LevvaCoins.Api.Controllers
 {
     [Authorize]
-    [Route("category")]
+    [Route("api/category")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
@@ -19,6 +19,7 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllAsync()
         {
 
@@ -28,6 +29,7 @@ namespace LevvaCoins.Api.Controllers
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CategoryDto>> GetByIdAsync([FromRoute] Guid id)
         {
 
@@ -39,6 +41,7 @@ namespace LevvaCoins.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PostAsync([FromBody] CreateCategoryDto body)
         {
             await _categoryServices.CreateCategoryAsync(body);
@@ -48,6 +51,7 @@ namespace LevvaCoins.Api.Controllers
         [HttpPut("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateCategoryDto categoryDto)
         {
             await _categoryServices.UpdateCategoryAsync(id, categoryDto);
@@ -57,6 +61,7 @@ namespace LevvaCoins.Api.Controllers
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> DeleteAsync([FromRoute] Guid id)
         {
             
