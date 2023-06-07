@@ -10,12 +10,20 @@ namespace LevvaCoins.Infra.Data.Repositories
     {
         public TransactionRepository(IContext context): base(context) { }
 
-        public async Task<Transaction?> GetTransactionByIdWithCategoryDescription(Guid transactionId)
+        public async Task<IEnumerable<Transaction>> GetAllTransactionIncludingCategory(Guid userId)
+        {
+            return await Entity.Include(x => x.Category)
+                                .Where(x => x.UserId == userId)
+                                .AsNoTracking()
+                                .ToListAsync();
+        }
+
+        public async Task<Transaction?> GetTransactionByIdIncludingCategory(Guid transactionId)
         {
             return await _entity.Include(x => x.Category).AsNoTracking().FirstOrDefaultAsync(x => x.Id == transactionId);
         }
 
-        public async Task<PagedResult<Transaction>> GetTransactionByUser(Guid userId, PaginationOptions paginationOptions)
+        public async Task<PagedResult<Transaction>> GetTransactionByUserIdIncludingCategory(Guid userId, PaginationOptions paginationOptions)
         {
             var items = await _entity.Include(x => x.Category).AsNoTracking()
                                               .Where(x => x.UserId == userId)

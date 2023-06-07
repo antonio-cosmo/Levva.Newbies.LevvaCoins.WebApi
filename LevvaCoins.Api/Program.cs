@@ -23,8 +23,6 @@ app.UseWebApi();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.MapControllers();
-app.UseCors();
 
 app.Run();

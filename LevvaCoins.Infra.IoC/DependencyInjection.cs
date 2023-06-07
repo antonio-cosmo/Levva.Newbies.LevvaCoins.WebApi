@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 using LevvaCoins.Application.Accounts.Interfaces;
 using LevvaCoins.Application.Accounts.MapperProfiles;
@@ -48,6 +49,7 @@ namespace LevvaCoins.Infra.IoC
             services.AddControllers().AddJsonOptions(opt => {
                 opt.JsonSerializerOptions.WriteIndented = true;
                 opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                opt.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
             });
             services.AddScoped<ICategoryServices, CategoryServices>();
             services.AddScoped<IAccountServices, AccountServices>();
@@ -67,13 +69,6 @@ namespace LevvaCoins.Infra.IoC
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
-            });
-            services.AddCors(opt =>
-            {
-                opt.AddPolicy("_myAllowSpecificOrigins", policy =>
-                {
-                    policy.AllowAnyOrigin();
-                });
             });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(opt =>
@@ -106,10 +101,18 @@ namespace LevvaCoins.Infra.IoC
                     }
                 });
             });
+            services.AddCors(opt =>
+            {
+                opt.AddDefaultPolicy(opt =>
+                {
+                    opt.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
         }
 
         public static void UseWebApi(this WebApplication app)
         {
+            app.UseCors();
             app.UseMiddleware<ExceptionHandlerMidleware>();
             app.UseMiddleware<AuthorizationExceptionHandlerMidleware>();
         }

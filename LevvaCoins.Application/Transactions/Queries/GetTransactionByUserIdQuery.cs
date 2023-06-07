@@ -31,7 +31,7 @@ namespace LevvaCoins.Application.Transactions.Queries
 
         public async Task<PagedResult<Transaction>> Handle(GetTransactionByUserIdQuery request, CancellationToken cancellationToken)
         {
-            return await _transactionRepository.GetTransactionByUser(request.UserId, request.PaginationOpt!);
+            return await _transactionRepository.GetTransactionByUserIdIncludingCategory(request.UserId, request.PaginationOpt!);
         }
     }
 }

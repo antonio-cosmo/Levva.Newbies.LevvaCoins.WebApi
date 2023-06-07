@@ -15,7 +15,7 @@ namespace LevvaCoins.Domain.Entities
         public User? User { get; set; }
         public Category? Category { get; set; }
 
-        public Transaction(string description, double amount, TransactionTypeEnum type, Guid categoryId, Guid userId, Guid? id = null)
+        public Transaction(string description, double amount, TransactionTypeEnum type, Guid categoryId, Guid userId , Guid? id = null)
         {
             Validate(description, amount, type, categoryId, userId);
             Id = id ?? Guid.NewGuid();

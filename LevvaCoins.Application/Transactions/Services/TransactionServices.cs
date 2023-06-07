@@ -35,6 +35,13 @@ namespace LevvaCoins.Application.Transactions.Services
             await _mediator.Send(command);
         }
 
+        public async Task<IEnumerable<TransactionViewDto>> GetAllTransactions(Guid userId)
+        {
+            var transactions =  await _mediator.Send(new GetAllTransactionsQuery(userId));
+
+            return _mapper.Map<IEnumerable<TransactionViewDto>>(transactions);
+        }
+
         public async Task<TransactionViewDto> GetByIdTransaction(Guid transactionId)
         {
             var query = new GetTransactionByIdQuery(transactionId);

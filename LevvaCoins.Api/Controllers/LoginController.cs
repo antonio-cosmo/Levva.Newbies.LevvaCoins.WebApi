@@ -29,9 +29,9 @@ namespace LevvaCoins.Api.Controllers
         {
 
             var accountAlreadExists = await _accountServices.GetAccountByEmailAsync(loginDto.Email);
-            if (accountAlreadExists is null) throw new ModelNotFoundException("Usuário ou senha inválidos.");
+            if (accountAlreadExists is null) throw new NotAuthorizedException("Usuário ou senha inválidos.");
 
-            if (!HashFunction.Verify(loginDto.Password, accountAlreadExists.Password!)) throw new ModelNotFoundException("Usuário ou senha inválidos.");
+            if (!HashFunction.Verify(loginDto.Password, accountAlreadExists.Password!)) throw new NotAuthorizedException("Usuário ou senha inválidos.");
 
             var accounWithToken = _mapper.Map<AccountWithTokenDto>(accountAlreadExists);
             accounWithToken.Token = TokenService.GenereteToken(accountAlreadExists, _config);

@@ -1,7 +1,7 @@
 ﻿namespace LevvaCoins.Domain.AppExceptions
 {
-    public class ModelNotFoundException: Exception
+    public class NotAuthorizedException : Exception
     {
-        public ModelNotFoundException(string message = "Model not found") : base(message) { }
+        public NotAuthorizedException(string message = "Not authorized") : base(message) { }
     }
 }

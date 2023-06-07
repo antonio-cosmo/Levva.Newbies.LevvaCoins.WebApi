@@ -50,6 +50,19 @@ namespace LevvaCoins.Application.Middlewares
 
                 await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
             }
+            catch(NotAuthorizedException ex)
+            {
+                var body = new ErrorResponse
+                {
+                    HasError = true,
+                    Message = ex.Message
+                };
+
+                context.Response.StatusCode = 401;
+                context.Response.ContentType = "application/json";
+
+                await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+            }
             catch (Exception ex)
             {
                 var body = new ErrorResponse

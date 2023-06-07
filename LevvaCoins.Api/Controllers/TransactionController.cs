@@ -36,6 +36,15 @@ namespace LevvaCoins.Api.Controllers
             return Ok(await _transactionServices.SearchTransactionByUser(userId, paginationOpt));
         }
 
+        [HttpGet("all")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<IEnumerable<TransactionViewDto>>> GetAllTransactions()
+        {
+            var userId = new Guid(User.GetUserId());
+            return Ok(await _transactionServices.GetAllTransactions(userId));
+        }
+
         [HttpGet("description")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
