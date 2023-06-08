@@ -66,7 +66,7 @@ namespace LevvaCoins.Api.Controllers
         public async Task<ActionResult> PostAsync([FromBody] CreateTransactionDto body)
         {
             var userId = new Guid(User.GetUserId());
-            var category = _categoryServices.GetCategoryByIdAsync(body.CategoryId);
+            var category = _categoryServices.GetByIdAsync(body.CategoryId);
             var transaction = await _transactionServices.CreateTransactionAsync(body, userId);
 
             transaction.Category = await category;

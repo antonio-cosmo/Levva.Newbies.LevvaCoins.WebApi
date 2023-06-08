@@ -18,43 +18,44 @@ namespace LevvaCoins.Application.Categories.Services
             _mapper = mapper;
         }
 
-        public async Task<CategoryDto> CreateCategoryAsync(CreateCategoryDto categoryDto)
+        public async Task<CategoryDto> SaveAsync(SaveCategoryDto categoryDto)
         {
 
-            var command = _mapper.Map<CreateCategoryCommand>(categoryDto);
-            var category = await _mediator.Send(command);
+            var saveCommand = _mapper.Map<SaveCategoryCommand>(categoryDto);
+            var category = await _mediator.Send(saveCommand);
 
             return _mapper.Map<CategoryDto>(category);
         }
 
-        public async Task DeleteCategoryAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
-            var command = new DeleteCategoryCommand(id);
-            await _mediator.Send(command);
+            var removeCommand = new RemoveCategoryCommand(id);
+            await _mediator.Send(removeCommand);
         }
 
-        public async Task<IEnumerable<CategoryDto>> GetAllCategoryAsync()
+        public async Task<IEnumerable<CategoryDto>> GetAllAsync()
         {
-            var query = new GetAllCategoryQuery();
-            var categoryList = await _mediator.Send(query);
+            var queryAll = new GetAllCategoryQuery();
+            var category = await _mediator.Send(queryAll);
 
-            return _mapper.Map<IEnumerable<CategoryDto>>(categoryList);
+            return _mapper.Map<IEnumerable<CategoryDto>>(category);
         }
 
-        public async Task<CategoryDto> GetCategoryByIdAsync(Guid id)
+        public async Task<CategoryDto> GetByIdAsync(Guid id)
         {
-            var query = new GetCategoryByIdQuery(id);
-            var category = await _mediator.Send(query);
+            var queryById = new GetCategoryByIdQuery(id);
+            var category = await _mediator.Send(queryById);
+            
             if(category is null) throw new ModelNotFoundException("Essa categoria não existe.");
 
             return _mapper.Map<CategoryDto>(category);
         }
 
-        public async Task UpdateCategoryAsync(Guid id, UpdateCategoryDto categoryDto)
+        public async Task UpdateAsync(Guid id, UpdateCategoryDto categoryDto)
         {
-            var command = new UpdateCategoryCommand(categoryDto.Description, id);
+            var updateCommand = new UpdateCategoryCommand(categoryDto.Description, id);
             
-            await _mediator.Send(command);
+            await _mediator.Send(updateCommand);
         }
     }
 }

@@ -27,11 +27,11 @@ namespace LevvaCoins.Application.Categories.Commands
 
         public async Task Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var categoryAlreadExist = await _categoryRepository.GetByIdAsync(request.Id);
-            if(categoryAlreadExist is null) throw new ModelNotFoundException("Essa categoria não existe.");
+            var category = await _categoryRepository.GetByIdAsync(request.Id);
+            if(category is null) throw new ModelNotFoundException("Essa categoria não existe.");
 
-            categoryAlreadExist.Update(request.Description);
-            await _categoryRepository.UpdateAsync(categoryAlreadExist);
+            category.Update(request.Description);
+            await _categoryRepository.UpdateAsync(category);
         }
     }
 }

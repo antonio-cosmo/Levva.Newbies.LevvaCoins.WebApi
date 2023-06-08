@@ -1,6 +1,6 @@
 ﻿namespace LevvaCoins.Application.Categories.Dtos
 {
-    public class CreateCategoryDto
+    public class SaveCategoryDto
     {
         private string _description = string.Empty;
         public string Description {

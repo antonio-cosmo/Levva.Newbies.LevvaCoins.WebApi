@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LevvaCoins.Application.Categories.Dtos;
+﻿using LevvaCoins.Application.Categories.Dtos;
 
 namespace LevvaCoins.Application.Categories.Interfaces
 {
     public interface ICategoryServices
     {
-        Task<IEnumerable<CategoryDto>> GetAllCategoryAsync();
-        Task<CategoryDto> CreateCategoryAsync(CreateCategoryDto categoryDto);
-        Task UpdateCategoryAsync(Guid id, UpdateCategoryDto categoryDto);
-        Task DeleteCategoryAsync(Guid id);
-        Task<CategoryDto> GetCategoryByIdAsync(Guid id);
+        Task<IEnumerable<CategoryDto>> GetAllAsync();
+        Task<CategoryDto> SaveAsync(SaveCategoryDto categoryDto);
+        Task UpdateAsync(Guid id, UpdateCategoryDto categoryDto);
+        Task RemoveAsync(Guid id);
+        Task<CategoryDto> GetByIdAsync(Guid id);
     }
 }

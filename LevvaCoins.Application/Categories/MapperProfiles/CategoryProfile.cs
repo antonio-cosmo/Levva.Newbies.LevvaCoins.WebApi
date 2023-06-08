@@ -14,9 +14,9 @@ namespace LevvaCoins.Application.Categories.MapperProfiles
     {
         public CategoryProfile()
         {
-            CreateMap<CreateCategoryDto, CreateCategoryCommand>().ReverseMap();
+            CreateMap<SaveCategoryDto, SaveCategoryCommand>().ReverseMap();
             CreateMap<UpdateCategoryDto, UpdateCategoryCommand>().ReverseMap();
-            CreateMap<CreateCategoryCommand, Category>().ReverseMap();
+            CreateMap<SaveCategoryCommand, Category>().ReverseMap();
             CreateMap<UpdateCategoryCommand, Category>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
         }

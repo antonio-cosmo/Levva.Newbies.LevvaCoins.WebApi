@@ -23,7 +23,7 @@ namespace LevvaCoins.Api.Controllers
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllAsync()
         {
 
-            return Ok(await _categoryServices.GetAllCategoryAsync());
+            return Ok(await _categoryServices.GetAllAsync());
         }
 
         [HttpGet("{id:Guid}")]
@@ -33,7 +33,7 @@ namespace LevvaCoins.Api.Controllers
         public async Task<ActionResult<CategoryDto>> GetByIdAsync([FromRoute] Guid id)
         {
 
-            var category = await _categoryServices.GetCategoryByIdAsync(id);
+            var category = await _categoryServices.GetByIdAsync(id);
 
             return Ok(category);
         }
@@ -42,9 +42,9 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(CategoryDto) ,StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> PostAsync([FromBody] CreateCategoryDto body)
+        public async Task<ActionResult> PostAsync([FromBody] SaveCategoryDto body)
         {   
-            return Created("", await _categoryServices.CreateCategoryAsync(body));
+            return Created("", await _categoryServices.SaveAsync(body));
         }
 
         [HttpPut("{id:Guid}")]
@@ -53,7 +53,7 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateCategoryDto categoryDto)
         {
-            await _categoryServices.UpdateCategoryAsync(id, categoryDto);
+            await _categoryServices.UpdateAsync(id, categoryDto);
             return NoContent();
         }
 
@@ -64,7 +64,7 @@ namespace LevvaCoins.Api.Controllers
         public async Task<ActionResult> DeleteAsync([FromRoute] Guid id)
         {
             
-            await _categoryServices.DeleteCategoryAsync(id);
+            await _categoryServices.RemoveAsync(id);
             return NoContent();
         }
     }
