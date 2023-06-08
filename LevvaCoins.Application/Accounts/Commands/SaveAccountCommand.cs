@@ -18,7 +18,7 @@ namespace LevvaCoins.Application.Accounts.Commands
         {
             Name = name;
             Email = email;
-            Password = HashFunction.Generate(password); ;
+            Password = PasswordHash.Generate(password); ;
             Avatar = avatar;
         }
     }

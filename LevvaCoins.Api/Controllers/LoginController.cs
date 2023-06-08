@@ -28,13 +28,14 @@ namespace LevvaCoins.Api.Controllers
         public async Task<ActionResult<AccountWithTokenDto>> PostAuthAsync([FromBody] LoginDto loginDto)
         {
 
-            var accountAlreadExists = await _accountServices.GetByEmailAsync(loginDto.Email);
-            if (accountAlreadExists is null) throw new NotAuthorizedException("Usuário ou senha inválidos.");
+            var account = await _accountServices.GetByEmailAsync(loginDto.Email);
+            if (account is null) throw new NotAuthorizedException("Usuário ou senha inválidos.");
 
-            if (!HashFunction.Verify(loginDto.Password, accountAlreadExists.Password!)) throw new NotAuthorizedException("Usuário ou senha inválidos.");
+            if (!PasswordHash.Verify(loginDto.Password, account.Password)) 
+                throw new NotAuthorizedException("Usuário ou senha inválidos.");
 
-            var accounWithToken = _mapper.Map<AccountWithTokenDto>(accountAlreadExists);
-            accounWithToken.Token = TokenService.GenereteToken(accountAlreadExists, _config);
+            var accounWithToken = _mapper.Map<AccountWithTokenDto>(account);
+            accounWithToken.Token = TokenService.GenereteToken(account, _config);
 
             return Ok(accounWithToken);
         }

@@ -32,15 +32,12 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CategoryDto>> GetByIdAsync([FromRoute] Guid id)
         {
-
-            var category = await _categoryServices.GetByIdAsync(id);
-
-            return Ok(category);
+            return Ok(await _categoryServices.GetByIdAsync(id));
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(CategoryDto) ,StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PostAsync([FromBody] SaveCategoryDto body)
         {   
@@ -49,7 +46,7 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpPut("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateCategoryDto categoryDto)
         {
@@ -59,7 +56,7 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> DeleteAsync([FromRoute] Guid id)
         {

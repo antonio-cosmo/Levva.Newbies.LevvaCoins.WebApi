@@ -24,9 +24,6 @@ namespace LevvaCoins.Api.Controllers
             _categoryServices = categoryServices;
         }
 
-
-       
-
         //[HttpGet]
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
@@ -41,9 +38,10 @@ namespace LevvaCoins.Api.Controllers
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<TransactionViewDto>>> GetAllTransactions([FromQuery] string? search)
+        public async Task<ActionResult<IEnumerable<TransactionViewDto>>> GetAllTransactionsAsync([FromQuery] string? search)
         {
             var userId = new Guid(User.GetUserId());
+
             if(search.IsNullOrEmpty()) return Ok(await _transactionServices.GetAllAsync(userId));
 
             return Ok(await _transactionServices.SearchByDescriptionAsync(userId,search!));
@@ -52,7 +50,7 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<TransactionViewDto>> GetByIdAsync([FromRoute] Guid id)
         {
@@ -61,7 +59,7 @@ namespace LevvaCoins.Api.Controllers
         
         [HttpPost]
         [ProducesResponseType(typeof(TransactionViewDto),StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PostAsync([FromBody] SaveTransactionDto body)
         {
@@ -77,7 +75,7 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpPut("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateTransactionDto updateTransactionDto )
         {
@@ -87,7 +85,7 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
