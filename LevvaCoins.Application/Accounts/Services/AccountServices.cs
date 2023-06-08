@@ -20,45 +20,47 @@ namespace LevvaCoins.Application.Accounts.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAccountAsync(CreateAccountDto accountDto)
+        public async Task SaveAsync(SaveAccountDto accountDto)
         {
-            var command = _mapper.Map<CreateAccountCommand>(accountDto);
-
-            await _mediator.Send(command);
+            var saveCommand = _mapper.Map<SaveAccountCommand>(accountDto);
+            await _mediator.Send(saveCommand);
         }
 
-        public async Task DeleteAccountAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
-            var command = new DeleteAccountCommand(id);
-            await _mediator.Send(command);
+            var removeCommand = new RemoveAccountCommand(id);
+            await _mediator.Send(removeCommand);
         }
 
-        public async Task<User?> GetAccountByEmailAsync(string email)
+        public async Task<User?> GetByEmailAsync(string email)
         {
-            var query = new GetAccountByEmailQuery(email);
-            return await _mediator.Send(query);
+            var queryByEmail = new GetAccountByEmailQuery(email);
+            return await _mediator.Send(queryByEmail);
         }
 
-        public async Task<AccountDto> GetAccountByIdAsync(Guid id)
+        public async Task<AccountDto> GetByIdAsync(Guid id)
         {
-            var query = new GetAccountByIdQuery(id);
-            var result = await _mediator.Send(query);
-            if(result is null) throw new ModelNotFoundException("Esse usuário não existe.");
-            return _mapper.Map<AccountDto>(result);
+            var queryById = new GetAccountByIdQuery(id);
+            var account = await _mediator.Send(queryById);
+            
+            if(account is null) throw new ModelNotFoundException("Esse usuário não existe.");
+
+            return _mapper.Map<AccountDto>(account);
         }
 
-        public async Task<IEnumerable<AccountDto>> GetAllAccountAsync()
+        public async Task<IEnumerable<AccountDto>> GetAllAsync()
         {
-            var query = new GetAllAccountQuery();
-            var accountList = await _mediator.Send(query);
+            var queryAll = new GetAllAccountQuery();
+            
+            var accounts = await _mediator.Send(queryAll);
 
-            return _mapper.Map<IEnumerable<AccountDto>>(accountList);
+            return _mapper.Map<IEnumerable<AccountDto>>(accounts);
         }
 
-        public async Task UpdateAccountAsync(Guid id, UpdateAccountDto accountDto)
+        public async Task UpdateAsync(Guid id, UpdateAccountDto accountDto)
         {
-            var command = new UpdateAccoutCommand(id, accountDto.Name, accountDto.Avatar);
-            await _mediator.Send(command);
+            var updateCommand = new UpdateAccoutCommand(id, accountDto.Name, accountDto.Avatar);
+            await _mediator.Send(updateCommand);
         }
     }
 }

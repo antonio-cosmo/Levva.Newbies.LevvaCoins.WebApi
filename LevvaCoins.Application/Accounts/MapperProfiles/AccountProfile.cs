@@ -9,9 +9,9 @@ namespace LevvaCoins.Application.Accounts.MapperProfiles
     {
         public AccountProfile()
         {
-            CreateMap<CreateAccountDto, CreateAccountCommand>().ReverseMap();
+            CreateMap<SaveAccountDto, SaveAccountCommand>().ReverseMap();
             CreateMap<UpdateAccountDto, UpdateAccoutCommand>().ReverseMap();
-            CreateMap<CreateAccountCommand, User>().ReverseMap();
+            CreateMap<SaveAccountCommand, User>().ReverseMap();
             CreateMap<UpdateAccoutCommand, User>().ReverseMap();
             CreateMap<AccountWithTokenDto, User>().ReverseMap();
             CreateMap<AccountDto, User>().ReverseMap();

@@ -7,14 +7,14 @@ using MediatR;
 
 namespace LevvaCoins.Application.Accounts.Commands
 {
-    public class CreateAccountCommand : IRequest
+    public class SaveAccountCommand : IRequest
     {
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string Avatar { get; set; }
 
-        public CreateAccountCommand(string name, string email, string password, string avatar)
+        public SaveAccountCommand(string name, string email, string password, string avatar)
         {
             Name = name;
             Email = email;
@@ -23,7 +23,7 @@ namespace LevvaCoins.Application.Accounts.Commands
         }
     }
 
-    public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand>
+    public class CreateAccountCommandHandler : IRequestHandler<SaveAccountCommand>
     {
         readonly IUserRepository _userRepository;
         readonly IMapper _mapper;
@@ -34,13 +34,13 @@ namespace LevvaCoins.Application.Accounts.Commands
             _mapper = mapper;
         }
 
-        public async Task Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public async Task Handle(SaveAccountCommand request, CancellationToken cancellationToken)
         {
-            var accountAlreadyExists = await _userRepository.GetByEmailAsync(request.Email);
-            if (accountAlreadyExists is not null) throw new ModelAlreadyExistsException("Esse e-mail já existe");
+            var account = await _userRepository.GetByEmailAsync(request.Email);
+            
+            if (account is not null) throw new ModelAlreadyExistsException("Esse e-mail já existe");
 
-            var account = _mapper.Map<User>(request);
-            await _userRepository.SaveAsync(account);
+            await _userRepository.SaveAsync(_mapper.Map<User>(request));
         }
     }
 }

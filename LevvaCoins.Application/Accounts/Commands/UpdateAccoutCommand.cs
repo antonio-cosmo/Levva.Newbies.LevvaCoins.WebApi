@@ -29,15 +29,15 @@ namespace LevvaCoins.Application.Accounts.Commands
 
         public async Task Handle(UpdateAccoutCommand request, CancellationToken cancellationToken)
         {
-            var accountAlreadyExists = await _userRepository.GetByIdAsync(request.Id);
-            if (accountAlreadyExists is null) throw new ModelNotFoundException("Esse usuário não existe.");
+            var account = await _userRepository.GetByIdAsync(request.Id);
+            if (account is null) throw new ModelNotFoundException("Esse usuário não existe.");
 
-            accountAlreadyExists.Update(
+            account.Update(
                 name: request.Name,
                 avatar: request.Avatar
             );
 
-            await _userRepository.UpdateAsync(accountAlreadyExists);
+            await _userRepository.UpdateAsync(account);
         }
     }
 }

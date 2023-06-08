@@ -5,12 +5,12 @@ namespace LevvaCoins.Application.Accounts.Interfaces
 {
     public interface IAccountServices
     {
-        Task<IEnumerable<AccountDto>> GetAllAccountAsync();
-        Task CreateAccountAsync(CreateAccountDto accountDto);
-        Task UpdateAccountAsync(Guid id, UpdateAccountDto accountDto);
-        Task DeleteAccountAsync(Guid id);
-        Task<AccountDto> GetAccountByIdAsync(Guid id);
-        Task<User?> GetAccountByEmailAsync(string email);
+        Task<IEnumerable<AccountDto>> GetAllAsync();
+        Task SaveAsync(SaveAccountDto accountDto);
+        Task UpdateAsync(Guid id, UpdateAccountDto accountDto);
+        Task RemoveAsync(Guid id);
+        Task<AccountDto> GetByIdAsync(Guid id);
+        Task<User?> GetByEmailAsync(string email);
 
 
     }

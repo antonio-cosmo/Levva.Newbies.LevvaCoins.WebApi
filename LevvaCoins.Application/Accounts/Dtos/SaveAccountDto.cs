@@ -1,6 +1,6 @@
 ﻿namespace LevvaCoins.Application.Accounts.Dtos
 {
-    public class CreateAccountDto
+    public class SaveAccountDto
     {
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
