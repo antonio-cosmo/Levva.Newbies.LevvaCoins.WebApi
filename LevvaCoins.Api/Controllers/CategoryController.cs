@@ -39,13 +39,12 @@ namespace LevvaCoins.Api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(CategoryDto) ,StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PostAsync([FromBody] CreateCategoryDto body)
-        {
-            await _categoryServices.CreateCategoryAsync(body);
-            return Created("", null);
+        {   
+            return Created("", await _categoryServices.CreateCategoryAsync(body));
         }
 
         [HttpPut("{id:Guid}")]

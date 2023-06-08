@@ -22,11 +22,13 @@ namespace LevvaCoins.Application.Transactions.Services
             _mapper = mapper;
         }
 
-        public async Task CreateTransactionAsync(CreateTransactionDto transaction, Guid userId)
+        public async Task<TransactionViewDto> CreateTransactionAsync(CreateTransactionDto transactionDto, Guid userId)
         {   
             
-            var command = new CreateTransactionCommand(transaction.Description, transaction.Amount, transaction.Type, transaction.CategoryId, userId);
-            await _mediator.Send(command);
+            var command = new CreateTransactionCommand(transactionDto.Description, transactionDto.Amount, transactionDto.Type, transactionDto.CategoryId, userId);
+            var transaction = await _mediator.Send(command);
+
+            return _mapper.Map<TransactionViewDto>( transaction );
         }
 
         public async Task DeleteByIdTransaction(Guid transactionId)
@@ -53,9 +55,9 @@ namespace LevvaCoins.Application.Transactions.Services
 
         }
 
-        public async Task<IEnumerable<TransactionViewDto>> SearchTransactionByDescription(string search)
+        public async Task<IEnumerable<TransactionViewDto>> SearchTransactionByDescription(Guid userId, string search)
         {
-            var query = new GetTransactionByDescriptionQuery(search);
+            var query = new GetTransactionByDescriptionQuery(userId,search);
             var result = await _mediator.Send(query);
 
             return _mapper.Map<IEnumerable<TransactionViewDto>>(result);

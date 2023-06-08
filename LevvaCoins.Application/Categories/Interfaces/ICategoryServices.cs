@@ -10,7 +10,7 @@ namespace LevvaCoins.Application.Categories.Interfaces
     public interface ICategoryServices
     {
         Task<IEnumerable<CategoryDto>> GetAllCategoryAsync();
-        Task CreateCategoryAsync(CreateCategoryDto categoryDto);
+        Task<CategoryDto> CreateCategoryAsync(CreateCategoryDto categoryDto);
         Task UpdateCategoryAsync(Guid id, UpdateCategoryDto categoryDto);
         Task DeleteCategoryAsync(Guid id);
         Task<CategoryDto> GetCategoryByIdAsync(Guid id);

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace LevvaCoins.Application.Categories.Commands
 {
-    public class CreateCategoryCommand : IRequest
+    public class CreateCategoryCommand : IRequest<Category>
     {
         public string Description { get; set; } = string.Empty;
 
@@ -16,7 +16,7 @@ namespace LevvaCoins.Application.Categories.Commands
         }
     }
 
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand>
+    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Category>
     {
         readonly ICategoryRepository _categoryRepository;
         readonly IMapper _mapper;
@@ -27,13 +27,13 @@ namespace LevvaCoins.Application.Categories.Commands
             _mapper = mapper;
         }
 
-        public async Task Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             var categoryAlreadyExists = await _categoryRepository.GetByDescriptionAsync(request.Description!);
             if (categoryAlreadyExists != null) throw new ModelNotFoundException("Uma categoria com esse nome já existe.");
 
             var category = _mapper.Map<Category>(request);
-            await _categoryRepository.SaveAsync(category);
+            return await _categoryRepository.SaveAsync(category);
         }
     }
 }

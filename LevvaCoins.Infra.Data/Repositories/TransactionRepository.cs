@@ -10,24 +10,25 @@ namespace LevvaCoins.Infra.Data.Repositories
     {
         public TransactionRepository(IContext context): base(context) { }
 
-        public async Task<IEnumerable<Transaction>> GetAllTransactionIncludingCategory(Guid userId)
+        public async Task<IEnumerable<Transaction>> GetAllAndIncludeCategories(Guid userId)
         {
             return await Entity.Include(x => x.Category)
                                 .Where(x => x.UserId == userId)
+                                .OrderByDescending(x => x.CreatedAt)
                                 .AsNoTracking()
                                 .ToListAsync();
         }
 
-        public async Task<Transaction?> GetTransactionByIdIncludingCategory(Guid transactionId)
+        public async Task<Transaction?> GetByIdAndIncludeCategory(Guid transactionId)
         {
             return await _entity.Include(x => x.Category).AsNoTracking().FirstOrDefaultAsync(x => x.Id == transactionId);
         }
 
-        public async Task<PagedResult<Transaction>> GetTransactionByUserIdIncludingCategory(Guid userId, PaginationOptions paginationOptions)
+        public async Task<PagedResult<Transaction>> GetbyUserIdAndIncludeCategory(Guid userId, PaginationOptions paginationOptions)
         {
             var items = await _entity.Include(x => x.Category).AsNoTracking()
                                               .Where(x => x.UserId == userId)
-                                              .OrderBy(x => x.CreatedAt)
+                                              .OrderByDescending(x => x.CreatedAt)
                                               .Skip((paginationOptions.PageNumber - 1) * paginationOptions.PageSize)
                                               .Take(paginationOptions.PageSize)
                                               .ToListAsync();
@@ -40,11 +41,17 @@ namespace LevvaCoins.Infra.Data.Repositories
                );
         }
 
-        public async Task<IEnumerable<Transaction>> SearchTransactionByDescription(string search)
+        public async Task<IEnumerable<Transaction>> SearchByDescriptionAndIncludeCategory(Guid userId, string search)
         {
             var result = await _entity.Include(x => x.Category)
                                     .AsNoTracking()
-                                    .Where(t => EF.Functions.Like(t.Description, $"%{search}%") || EF.Functions.Like(t.Category!.Description, $"%{search}%"))
+                                    .Where(x => x.UserId == userId)
+                                    .Where(x => 
+                                                EF.Functions.Like(x.Description, $"%{search}%") || 
+                                                EF.Functions.Like(x.Category!.Description, $"%{search}%") ||
+                                                EF.Functions.Like(x.Amount.ToString(), $"%{search}%")
+                                          )
+                                    .OrderByDescending(x => x.CreatedAt)
                                     .ToListAsync();
             return result;
         }

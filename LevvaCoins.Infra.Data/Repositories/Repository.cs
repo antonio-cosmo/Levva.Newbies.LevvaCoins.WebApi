@@ -34,10 +34,12 @@ namespace LevvaCoins.Infra.Data.Repositories
             return true;
         }
 
-        public async Task SaveAsync(TEntity obj)
+        public async Task<TEntity> SaveAsync(TEntity obj)
         {
             _entity.Add(obj);
             await _context.SaveChangesAsync();
+
+            return obj;
         }
 
         public async Task<bool> UpdateAsync(TEntity obj)

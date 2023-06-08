@@ -18,11 +18,13 @@ namespace LevvaCoins.Application.Categories.Services
             _mapper = mapper;
         }
 
-        public async Task CreateCategoryAsync(CreateCategoryDto categoryDto)
+        public async Task<CategoryDto> CreateCategoryAsync(CreateCategoryDto categoryDto)
         {
 
             var command = _mapper.Map<CreateCategoryCommand>(categoryDto);
-            await _mediator.Send(command);
+            var category = await _mediator.Send(command);
+
+            return _mapper.Map<CategoryDto>(category);
         }
 
         public async Task DeleteCategoryAsync(Guid id)

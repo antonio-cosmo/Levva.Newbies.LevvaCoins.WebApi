@@ -23,19 +23,14 @@ namespace LevvaCoins.Application.Middlewares
                 context.Response.StatusCode == StatusCodes.Status403Forbidden)
             {
 
-                // Defina a resposta de erro
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "application/json";
 
-                // Crie um objeto de resposta de erro
                 var errorResponse = new ErrorResponse
                 {
                     HasError = true,
                     Message = "Usuario não autenticado"
                 };
 
-
-                // Serializar o objeto de resposta de erro em formato JSON
                 var json = JsonSerializer.Serialize(errorResponse);
 
                 // Escrever a resposta de erro na resposta HTTP

@@ -6,10 +6,12 @@ namespace LevvaCoins.Application.Transactions.Queries
 {
     public class GetTransactionByDescriptionQuery : IRequest<IEnumerable<Transaction>>
     {
-        public string Text { get; set; } = string.Empty;
+        public Guid UserId { get; set; }
 
-        public GetTransactionByDescriptionQuery(string text)
+        public string Text { get; set; } 
+        public GetTransactionByDescriptionQuery(Guid userId, string text)
         {
+            UserId = userId;
             Text = text;
         }
     }
@@ -25,7 +27,7 @@ namespace LevvaCoins.Application.Transactions.Queries
 
         public async Task<IEnumerable<Transaction>> Handle(GetTransactionByDescriptionQuery request, CancellationToken cancellationToken)
         {
-            return await _transactionRepository.SearchTransactionByDescription(request.Text);
+            return await _transactionRepository.SearchByDescriptionAndIncludeCategory(request.UserId,request.Text);
           
         }
     }
