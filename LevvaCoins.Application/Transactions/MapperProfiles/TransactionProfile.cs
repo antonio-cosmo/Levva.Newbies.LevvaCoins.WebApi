@@ -10,9 +10,9 @@ namespace LevvaCoins.Application.Transactions.Mapper
     {
         public TransactionProfile()
         {
-            CreateMap<CreateTransactionDto, CreateTransactionCommand>().ReverseMap();
+            CreateMap<SaveTransactionDto, SaveTransactionCommand>().ReverseMap();
             CreateMap<UpdateTransactionDto, UpdateTransactionCommand>().ReverseMap();
-            CreateMap<CreateTransactionCommand, Transaction>().ReverseMap();
+            CreateMap<SaveTransactionCommand, Transaction>().ReverseMap();
             CreateMap<UpdateTransactionCommand, Transaction>().ReverseMap();
             CreateMap<PagedResult<Transaction>, PagedResult<TransactionViewDto>>().ReverseMap();
             CreateMap<Transaction, TransactionViewDto>().ReverseMap();

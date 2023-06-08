@@ -6,7 +6,7 @@ using MediatR;
 
 namespace LevvaCoins.Application.Transactions.Commands
 {
-    public class CreateTransactionCommand: IRequest<Transaction>
+    public class SaveTransactionCommand: IRequest<Transaction>
     {
         public string Description { get; set; } = string.Empty;
         public double Amount { get; set; }
@@ -14,7 +14,7 @@ namespace LevvaCoins.Application.Transactions.Commands
         public Guid CategoryId { get; set; }
         public Guid UserId { get; set; }
 
-        public CreateTransactionCommand(string description, double amount, TransactionTypeEnum type, Guid categoryId, Guid userId)
+        public SaveTransactionCommand(string description, double amount, TransactionTypeEnum type, Guid categoryId, Guid userId)
         {
             Description = description;
             Amount = amount;
@@ -24,7 +24,7 @@ namespace LevvaCoins.Application.Transactions.Commands
         }
     }
 
-    public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, Transaction>
+    public class CreateTransactionCommandHandler : IRequestHandler<SaveTransactionCommand, Transaction>
     {
         readonly ITransactionRepository _transactionRepository;
         readonly IMapper _mapper;
@@ -35,7 +35,7 @@ namespace LevvaCoins.Application.Transactions.Commands
             _mapper = mapper;
         }
 
-        public async Task<Transaction> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
+        public async Task<Transaction> Handle(SaveTransactionCommand request, CancellationToken cancellationToken)
         {
             var transaction = _mapper.Map<Transaction>(request);
             return await _transactionRepository.SaveAsync(transaction);

@@ -2,7 +2,7 @@
 
 namespace LevvaCoins.Application.Transactions.Dtos
 {
-    public class CreateTransactionDto
+    public class SaveTransactionDto
     {
         public string Description { get; set; } = string.Empty;
         public double Amount { get; set; }

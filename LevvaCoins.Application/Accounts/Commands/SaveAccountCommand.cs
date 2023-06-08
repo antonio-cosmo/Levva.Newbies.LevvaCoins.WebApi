@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using LevvaCoins.Application.Utils;
+using LevvaCoins.Application.Helpers;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Interfaces.Repositories;

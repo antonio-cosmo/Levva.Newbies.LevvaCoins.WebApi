@@ -3,7 +3,7 @@ using LevvaCoins.Application.Accounts.Dtos;
 using LevvaCoins.Application.Accounts.Interfaces;
 using LevvaCoins.Application.Accounts.Services;
 using LevvaCoins.Application.Common.Dtos;
-using LevvaCoins.Application.Utils;
+using LevvaCoins.Application.Helpers;
 using LevvaCoins.Domain.AppExceptions;
 using Microsoft.AspNetCore.Mvc;
 

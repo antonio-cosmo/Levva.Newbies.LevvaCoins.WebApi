@@ -44,9 +44,9 @@ namespace LevvaCoins.Api.Controllers
         public async Task<ActionResult<IEnumerable<TransactionViewDto>>> GetAllTransactions([FromQuery] string? search)
         {
             var userId = new Guid(User.GetUserId());
-            if(search.IsNullOrEmpty()) return Ok(await _transactionServices.GetAllTransactions(userId));
+            if(search.IsNullOrEmpty()) return Ok(await _transactionServices.GetAllAsync(userId));
 
-            return Ok(await _transactionServices.SearchTransactionByDescription(userId,search!));
+            return Ok(await _transactionServices.SearchByDescriptionAsync(userId,search!));
 
         }
 
@@ -56,18 +56,18 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<TransactionViewDto>> GetByIdAsync([FromRoute] Guid id)
         {
-            return Ok(await _transactionServices.GetByIdTransaction(id));
+            return Ok(await _transactionServices.GetByIdAsync(id));
         }
         
         [HttpPost]
         [ProducesResponseType(typeof(TransactionViewDto),StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> PostAsync([FromBody] CreateTransactionDto body)
+        public async Task<ActionResult> PostAsync([FromBody] SaveTransactionDto body)
         {
             var userId = new Guid(User.GetUserId());
             var category = _categoryServices.GetByIdAsync(body.CategoryId);
-            var transaction = await _transactionServices.CreateTransactionAsync(body, userId);
+            var transaction = await _transactionServices.SaveAsync(body, userId);
 
             transaction.Category = await category;
 
@@ -81,7 +81,7 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateTransactionDto updateTransactionDto )
         {
-            await _transactionServices.UpdateTransaction(id, updateTransactionDto);
+            await _transactionServices.UpdateAsync(id, updateTransactionDto);
             return NoContent();
         }
 
@@ -91,7 +91,7 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
-            await _transactionServices.DeleteByIdTransaction(id);
+            await _transactionServices.RemoveAsync(id);
 
             return NoContent();
         }

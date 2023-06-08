@@ -10,7 +10,7 @@ namespace LevvaCoins.Infra.Data.Repositories
     {
         public TransactionRepository(IContext context): base(context) { }
 
-        public async Task<IEnumerable<Transaction>> GetAllAndIncludeCategories(Guid userId)
+        public async Task<IEnumerable<Transaction>> GetAllAndIncludeCategoriesAsync(Guid userId)
         {
             return await Entity.Include(x => x.Category)
                                 .Where(x => x.UserId == userId)
@@ -19,12 +19,12 @@ namespace LevvaCoins.Infra.Data.Repositories
                                 .ToListAsync();
         }
 
-        public async Task<Transaction?> GetByIdAndIncludeCategory(Guid transactionId)
+        public async Task<Transaction?> GetByIdAndIncludeCategoryAsync(Guid transactionId)
         {
             return await Entity.Include(x => x.Category).AsNoTracking().FirstOrDefaultAsync(x => x.Id == transactionId);
         }
 
-        public async Task<PagedResult<Transaction>> GetbyUserIdAndIncludeCategory(Guid userId, PaginationOptions paginationOptions)
+        public async Task<PagedResult<Transaction>> GetByUserIdAndIncludeCategoryAsync(Guid userId, PaginationOptions paginationOptions)
         {
             var items = await Entity.Include(x => x.Category).AsNoTracking()
                                               .Where(x => x.UserId == userId)
@@ -41,7 +41,7 @@ namespace LevvaCoins.Infra.Data.Repositories
                );
         }
 
-        public async Task<IEnumerable<Transaction>> SearchByDescriptionAndIncludeCategory(Guid userId, string search)
+        public async Task<IEnumerable<Transaction>> SearchByDescriptionAndIncludeCategoryAsync(Guid userId, string search)
         {
             var result = await Entity.Include(x => x.Category)
                                     .AsNoTracking()
