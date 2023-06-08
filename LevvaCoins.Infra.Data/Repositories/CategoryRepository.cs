@@ -10,7 +10,7 @@ namespace LevvaCoins.Infra.Data.Repositories
         public CategoryRepository(IContext context): base(context) { }
         public async Task<Category?> GetByDescriptionAsync(string name)
         {
-            return await _entity.AsNoTracking().FirstOrDefaultAsync(x => x.Description == name);
+            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => x.Description == name);
         }
     }
 }

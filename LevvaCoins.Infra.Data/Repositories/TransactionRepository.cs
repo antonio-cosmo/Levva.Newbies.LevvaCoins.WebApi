@@ -21,12 +21,12 @@ namespace LevvaCoins.Infra.Data.Repositories
 
         public async Task<Transaction?> GetByIdAndIncludeCategory(Guid transactionId)
         {
-            return await _entity.Include(x => x.Category).AsNoTracking().FirstOrDefaultAsync(x => x.Id == transactionId);
+            return await Entity.Include(x => x.Category).AsNoTracking().FirstOrDefaultAsync(x => x.Id == transactionId);
         }
 
         public async Task<PagedResult<Transaction>> GetbyUserIdAndIncludeCategory(Guid userId, PaginationOptions paginationOptions)
         {
-            var items = await _entity.Include(x => x.Category).AsNoTracking()
+            var items = await Entity.Include(x => x.Category).AsNoTracking()
                                               .Where(x => x.UserId == userId)
                                               .OrderByDescending(x => x.CreatedAt)
                                               .Skip((paginationOptions.PageNumber - 1) * paginationOptions.PageSize)
@@ -43,7 +43,7 @@ namespace LevvaCoins.Infra.Data.Repositories
 
         public async Task<IEnumerable<Transaction>> SearchByDescriptionAndIncludeCategory(Guid userId, string search)
         {
-            var result = await _entity.Include(x => x.Category)
+            var result = await Entity.Include(x => x.Category)
                                     .AsNoTracking()
                                     .Where(x => x.UserId == userId)
                                     .Where(x => 

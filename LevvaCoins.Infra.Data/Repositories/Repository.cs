@@ -6,8 +6,8 @@ namespace LevvaCoins.Infra.Data.Repositories
 {
     public class Repository<TEntity> : IRepositoryBase<TEntity, Guid> where TEntity : class 
     {
-        protected readonly IContext _context;
-        protected readonly DbSet<TEntity> _entity;
+        private readonly IContext _context;
+        private readonly DbSet<TEntity> _entity;
         public IQueryable<TEntity> Entity => _entity;
 
         public Repository(IContext context)

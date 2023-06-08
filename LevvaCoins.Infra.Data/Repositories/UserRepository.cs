@@ -10,7 +10,7 @@ namespace LevvaCoins.Infra.Data.Repositories
         public UserRepository(IContext context) : base(context) { }
         public async Task<User?> GetByEmailAsync(string email)
         {
-            return await _entity.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email);
+            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email);
 
         }
      
