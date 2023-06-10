@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+﻿using LevvaCoins.Domain.Entities;
 using MediatR;
 
 namespace LevvaCoins.Application.Transactions.Queries
@@ -16,19 +10,6 @@ namespace LevvaCoins.Application.Transactions.Queries
         public GetAllTransactionsQuery(Guid userId)
         {
             UserId = userId;
-        }
-    }
-
-    public class GetAllTransactionsHandler : IRequestHandler<GetAllTransactionsQuery, IEnumerable<Transaction>>
-    {
-        readonly ITransactionRepository _transactionRepository;
-        public GetAllTransactionsHandler(ITransactionRepository transactionRepository) 
-        { 
-            _transactionRepository = transactionRepository;
-        }
-        public async Task<IEnumerable<Transaction>> Handle(GetAllTransactionsQuery request, CancellationToken cancellationToken)
-        {
-            return await _transactionRepository.GetAllAndIncludeCategoriesAsync(request.UserId);
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using LevvaCoins.Application.Helpers;
-using LevvaCoins.Domain.AppExceptions;
-using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+﻿using LevvaCoins.Application.Helpers;
 using MediatR;
 
 namespace LevvaCoins.Application.Accounts.Commands
@@ -20,27 +16,6 @@ namespace LevvaCoins.Application.Accounts.Commands
             Email = email;
             Password = PasswordHash.Generate(password); ;
             Avatar = avatar;
-        }
-    }
-
-    public class CreateAccountCommandHandler : IRequestHandler<SaveAccountCommand>
-    {
-        readonly IUserRepository _userRepository;
-        readonly IMapper _mapper;
-
-        public CreateAccountCommandHandler(IUserRepository userRepository, IMapper mapper)
-        {
-            _userRepository = userRepository;
-            _mapper = mapper;
-        }
-
-        public async Task Handle(SaveAccountCommand request, CancellationToken cancellationToken)
-        {
-            var account = await _userRepository.GetByEmailAsync(request.Email);
-            
-            if (account is not null) throw new ModelAlreadyExistsException("Esse e-mail já existe");
-
-            await _userRepository.SaveAsync(_mapper.Map<User>(request));
         }
     }
 }

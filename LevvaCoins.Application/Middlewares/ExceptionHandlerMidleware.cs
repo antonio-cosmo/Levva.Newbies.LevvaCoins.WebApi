@@ -37,6 +37,19 @@ namespace LevvaCoins.Application.Middlewares
 
                 await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
             }
+            catch (ModelAlreadyExistsException ex)
+            {
+                var body = new ErrorResponse
+                {
+                    HasError = true,
+                    Message = ex.Message
+                };
+
+                context.Response.StatusCode = 400;
+                context.Response.ContentType = "application/json";
+
+                await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+            }
             catch (DomainExceptionValidation ex)
             {
                 var body = new ErrorResponse
