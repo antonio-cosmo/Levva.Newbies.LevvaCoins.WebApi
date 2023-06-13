@@ -6,6 +6,7 @@ using LevvaCoins.Application.Transactions.Queries;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Common;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LevvaCoins.Application.Transactions.Services
 {
@@ -37,9 +38,11 @@ namespace LevvaCoins.Application.Transactions.Services
             await _mediator.Send(removeCommand);
         }
 
-        public async Task<IEnumerable<TransactionViewDto>> GetAllAsync(Guid userId)
+        public async Task<IEnumerable<TransactionViewDto>> GetAllAsync(Guid userId, string? searchDescription)
         {
-            var queryAll = new GetAllTransactionsQuery(userId);
+            if (! searchDescription.IsNullOrEmpty()) return await SearchByDescriptionAsync(userId, searchDescription!);
+            
+            var queryAll = new GetAllTransactionsByUserQuery(userId);
             var transactions =  await _mediator.Send(queryAll);
 
             return _mapper.Map<IEnumerable<TransactionViewDto>>(transactions);
@@ -56,18 +59,9 @@ namespace LevvaCoins.Application.Transactions.Services
 
         }
 
-        public async Task<IEnumerable<TransactionViewDto>> SearchByDescriptionAsync(Guid userId, string search)
+        public async Task<PagedResult<TransactionViewDto>> GetAllPagedAsync(Guid userId, PaginationOptions paginationOptions)
         {
-            var queryByDescription = new GetTransactionByDescriptionQuery(userId,search);
-            var transactions = await _mediator.Send(queryByDescription);
-
-            return _mapper.Map<IEnumerable<TransactionViewDto>>(transactions);
-
-        }
-
-        public async Task<PagedResult<TransactionViewDto>> SearchByUserIdAsync(Guid userId, PaginationOptions paginationOptions)
-        {
-            var queryByUserId = new GetTransactionByUserIdQuery(userId, paginationOptions);
+            var queryByUserId = new GetAllTransactionByUserPagedQuery(userId, paginationOptions);
             var transactionsPaged = await _mediator.Send(queryByUserId);
 
             return _mapper.Map<PagedResult<TransactionViewDto>>(transactionsPaged);
@@ -78,5 +72,14 @@ namespace LevvaCoins.Application.Transactions.Services
             var updateCommand = new UpdateTransactionCommand(id, transaction.Description, transaction.Amount, transaction.Type, transaction.CategoryId);
             await _mediator.Send(updateCommand);
         }
+        private async Task<IEnumerable<TransactionViewDto>> SearchByDescriptionAsync(Guid userId, string search)
+        {
+            var queryByDescription = new SearchAllTransactionByUserAndDescriptionQuery(userId, search);
+            var transactions = await _mediator.Send(queryByDescription);
+
+            return _mapper.Map<IEnumerable<TransactionViewDto>>(transactions);
+
+        }
+
     }
 }

@@ -3,11 +3,11 @@ using MediatR;
 
 namespace LevvaCoins.Application.Transactions.Queries
 {
-    public class GetAllTransactionsQuery: IRequest<IEnumerable<Transaction>>
+    public class GetAllTransactionsByUserQuery: IRequest<IEnumerable<Transaction>>
     {
         public Guid UserId { get; set; }
 
-        public GetAllTransactionsQuery(Guid userId)
+        public GetAllTransactionsByUserQuery(Guid userId)
         {
             UserId = userId;
         }

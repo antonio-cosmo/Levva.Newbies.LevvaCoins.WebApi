@@ -1,5 +1,4 @@
-﻿
-using LevvaCoins.Application.Accounts.Extensions;
+﻿using LevvaCoins.Application.Accounts.Extensions;
 using LevvaCoins.Application.Categories.Interfaces;
 using LevvaCoins.Application.Common.Dtos;
 using LevvaCoins.Application.Transactions.Dtos;
@@ -42,9 +41,9 @@ namespace LevvaCoins.Api.Controllers
         {
             var userId = new Guid(User.GetUserId());
 
-            if(search.IsNullOrEmpty()) return Ok(await _transactionServices.GetAllAsync(userId));
+            return Ok(await _transactionServices.GetAllAsync(userId, search));
 
-            return Ok(await _transactionServices.SearchByDescriptionAsync(userId,search!));
+            //return Ok(await _transactionServices.SearchByDescriptionAsync(userId,search!));
 
         }
 

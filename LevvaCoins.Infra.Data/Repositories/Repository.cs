@@ -15,17 +15,10 @@ namespace LevvaCoins.Infra.Data.Repositories
             _context = context;
             _entity = _context.Set<TEntity>();
         }
-
-        public async Task<ICollection<TEntity>> GetAllAsync()
-        {
-            return await _entity.AsNoTracking().ToListAsync();
-        }
-
         public async Task<TEntity?> GetByIdAsync(Guid id)
         {
             return await _entity.FindAsync(id);
         }
-
         public async Task<bool> RemoveAsync(TEntity obj)
         {
             _entity.Remove(obj);
@@ -33,7 +26,6 @@ namespace LevvaCoins.Infra.Data.Repositories
 
             return true;
         }
-
         public async Task<TEntity> SaveAsync(TEntity obj)
         {
             _entity.Add(obj);
@@ -41,7 +33,6 @@ namespace LevvaCoins.Infra.Data.Repositories
 
             return obj;
         }
-
         public async Task<bool> UpdateAsync(TEntity obj)
         {
             _entity.Update(obj);

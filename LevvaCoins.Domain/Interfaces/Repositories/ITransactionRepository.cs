@@ -5,9 +5,9 @@ namespace LevvaCoins.Domain.Interfaces.Repositories
 {
     public interface ITransactionRepository : IRepositoryBase<Transaction, Guid>
     {
-        Task<PagedResult<Transaction>> GetByUserIdAndIncludeCategoryAsync(Guid userId, PaginationOptions paginationOptions);
-        Task<IEnumerable<Transaction>> SearchByDescriptionAndIncludeCategoryAsync(Guid userId, string text);
-        Task<Transaction?> GetByIdAndIncludeCategoryAsync(Guid transactionId);
-        Task<IEnumerable<Transaction>> GetAllAndIncludeCategoriesAsync(Guid userId);
+        Task<IEnumerable<Transaction>> GetAllAsync();
+        Task<PagedResult<Transaction>> GetByUserPagedAsync(Guid userId, PaginationOptions paginationOptions);
+        Task<IEnumerable<Transaction>> SearchByDescriptionAsync(Guid userId, string text);
+        Task<IEnumerable<Transaction>> GetAllByUserAsync(Guid userId);
     }
 }

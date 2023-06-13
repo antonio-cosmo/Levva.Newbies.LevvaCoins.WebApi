@@ -1,6 +1,6 @@
 ﻿namespace LevvaCoins.Application.Accounts.Dtos
 {
-    public class AccountWithTokenDto
+    public class LoginResponseDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;

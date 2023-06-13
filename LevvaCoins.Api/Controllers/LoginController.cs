@@ -25,7 +25,7 @@ namespace LevvaCoins.Api.Controllers
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<AccountWithTokenDto>> PostAuthAsync([FromBody] LoginDto loginDto)
+        public async Task<ActionResult<LoginResponseDto>> PostAuthAsync([FromBody] LoginDto loginDto)
         {
 
             var account = await _accountServices.GetByEmailAsync(loginDto.Email);
@@ -34,7 +34,7 @@ namespace LevvaCoins.Api.Controllers
             if (!PasswordHash.Verify(loginDto.Password, account.Password)) 
                 throw new NotAuthorizedException("Usuário ou senha inválidos.");
 
-            var accounWithToken = _mapper.Map<AccountWithTokenDto>(account);
+            var accounWithToken = _mapper.Map<LoginResponseDto>(account);
             accounWithToken.Token = TokenService.GenereteToken(account, _config);
 
             return Ok(accounWithToken);
