@@ -11,12 +11,12 @@ namespace LevvaCoins.Api.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class AuthController : ControllerBase
     {
         readonly IAccountServices _accountServices;
         readonly IMapper _mapper;
         readonly IConfiguration _config;
-        public LoginController(IAccountServices accountServices, IMapper mapper, IConfiguration config)
+        public AuthController(IAccountServices accountServices, IMapper mapper, IConfiguration config)
         {
             _accountServices = accountServices;
             _mapper = mapper;

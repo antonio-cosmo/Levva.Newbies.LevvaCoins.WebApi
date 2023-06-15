@@ -11,11 +11,6 @@ namespace LevvaCoins.Infra.Data.Context
         }
 
         public Task<int> SaveChangesAsync() => base.SaveChangesAsync();
-
-        //public DbSet<User> Users { get; set; }
-        //public DbSet<Category> Categories { get; set; }
-        //public DbSet<Transaction> Transactions { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMap());

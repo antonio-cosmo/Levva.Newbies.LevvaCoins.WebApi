@@ -4,7 +4,7 @@
     {
         Task<TEntity> SaveAsync(TEntity obj);
         Task<TEntity?> GetByIdAsync(TId id);
-        Task<bool> UpdateAsync(TEntity obj);
-        Task<bool> RemoveAsync(TEntity obj);
+        Task UpdateAsync(TEntity obj);
+        Task RemoveAsync(TEntity obj);
     }
 }

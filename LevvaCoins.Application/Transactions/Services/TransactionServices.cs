@@ -38,10 +38,8 @@ namespace LevvaCoins.Application.Transactions.Services
             await _mediator.Send(removeCommand);
         }
 
-        public async Task<IEnumerable<TransactionViewDto>> GetAllAsync(Guid userId, string? searchDescription)
-        {
-            if (! searchDescription.IsNullOrEmpty()) return await SearchByDescriptionAsync(userId, searchDescription!);
-            
+        public async Task<IEnumerable<TransactionViewDto>> GetAllAsync(Guid userId)
+        {          
             var queryAll = new GetAllTransactionsByUserQuery(userId);
             var transactions =  await _mediator.Send(queryAll);
 
@@ -72,7 +70,7 @@ namespace LevvaCoins.Application.Transactions.Services
             var updateCommand = new UpdateTransactionCommand(id, transaction.Description, transaction.Amount, transaction.Type, transaction.CategoryId);
             await _mediator.Send(updateCommand);
         }
-        private async Task<IEnumerable<TransactionViewDto>> SearchByDescriptionAsync(Guid userId, string search)
+        public async Task<IEnumerable<TransactionViewDto>> SearchByDescriptionAsync(Guid userId, string search)
         {
             var queryByDescription = new SearchAllTransactionByUserAndDescriptionQuery(userId, search);
             var transactions = await _mediator.Send(queryByDescription);

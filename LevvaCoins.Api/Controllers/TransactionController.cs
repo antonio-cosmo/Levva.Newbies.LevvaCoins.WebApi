@@ -23,27 +23,25 @@ namespace LevvaCoins.Api.Controllers
             _categoryServices = categoryServices;
         }
 
-        //[HttpGet]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        //public async Task<ActionResult<PagedResult<TransactionViewDto>>> GetTransactionsByUser([FromQuery] int page = 1, [FromQuery] int size = 10)
-        //{
-        //    var userId = new Guid(User.GetUserId());
-        //    var paginationOpt = new PaginationOptions(page, size);
-
-        //    return Ok(await _transactionServices.SearchTransactionByUser(userId, paginationOpt));
-        //}
-
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<TransactionViewDto>>> GetAllTransactionsAsync([FromQuery] string? search)
+        public async Task<ActionResult<IEnumerable<TransactionViewDto>>> GetAllTransactionsAsync()
         {
             var userId = new Guid(User.GetUserId());
 
-            return Ok(await _transactionServices.GetAllAsync(userId, search));
+            return Ok(await _transactionServices.GetAllAsync(userId));
 
-            //return Ok(await _transactionServices.SearchByDescriptionAsync(userId,search!));
+        }
+
+        [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<IEnumerable<TransactionViewDto>>> SearchAllTransactionsByDescriptionAsync([FromQuery] string query)
+        {
+            var userId = new Guid(User.GetUserId());
+
+            return Ok(await _transactionServices.SearchByDescriptionAsync(userId,query));
 
         }
 
