@@ -7,7 +7,7 @@ using MediatR;
 
 namespace LevvaCoins.Application.Accounts.Handlers
 {
-    public class SaveAccountCommandHandler : IRequestHandler<SaveAccountCommand>
+    public class SaveAccountCommandHandler : IRequestHandler<SaveAccountCommand, User>
     {
         readonly IUserRepository _userRepository;
         readonly IMapper _mapper;
@@ -18,13 +18,13 @@ namespace LevvaCoins.Application.Accounts.Handlers
             _mapper = mapper;
         }
 
-        public async Task Handle(SaveAccountCommand request, CancellationToken cancellationToken)
+        public async Task<User> Handle(SaveAccountCommand request, CancellationToken cancellationToken)
         {
             var account = await _userRepository.GetByEmailAsync(request.Email);
 
             if (account is not null) throw new ModelAlreadyExistsException("Esse e-mail já existe");
 
-            await _userRepository.SaveAsync(_mapper.Map<User>(request));
+            return await _userRepository.SaveAsync(_mapper.Map<User>(request));
         }
     }
 }

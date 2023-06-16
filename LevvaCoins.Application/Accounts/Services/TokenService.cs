@@ -12,7 +12,7 @@ namespace LevvaCoins.Application.Accounts.Services
     {
         public static string GenereteToken(User user, IConfiguration configuration)
         {
-            if (user == null) throw new ArgumentNullException();
+            if (user is null) throw new ArgumentNullException();
 
             var userClaims = user.GetClaims();
 

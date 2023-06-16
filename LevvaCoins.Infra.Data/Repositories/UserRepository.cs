@@ -16,7 +16,7 @@ namespace LevvaCoins.Infra.Data.Repositories
 
         public async Task<User?> GetByEmailAsync(string email)
         {
-            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email);
+            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => x.Email.Equals(email));
 
         }
      

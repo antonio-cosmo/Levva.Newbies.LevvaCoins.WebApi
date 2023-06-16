@@ -39,10 +39,10 @@ namespace LevvaCoins.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> PostAsync([FromBody] SaveAccountDto body)
+        public async Task<ActionResult<AccountDto>> PostAsync([FromBody] SaveAccountDto body)
         {
-            await _accountServices.SaveAsync(body);
-            return Created("", null);
+            var account  = await _accountServices.SaveAsync(body);
+            return Created("", account);
         }
 
         [HttpPut("{userId:Guid}")]

@@ -20,10 +20,10 @@ namespace LevvaCoins.Application.Accounts.Services
             _mapper = mapper;
         }
 
-        public async Task SaveAsync(SaveAccountDto accountDto)
+        public async Task<AccountDto> SaveAsync(SaveAccountDto accountDto)
         {
             var saveCommand = _mapper.Map<SaveAccountCommand>(accountDto);
-            await _mediator.Send(saveCommand);
+            return _mapper.Map<AccountDto>(await _mediator.Send(saveCommand));
         }
 
         public async Task RemoveAsync(Guid id)

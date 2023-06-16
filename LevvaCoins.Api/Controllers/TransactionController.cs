@@ -24,7 +24,7 @@ namespace LevvaCoins.Api.Controllers
         }
 
         [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<IEnumerable<TransactionViewDto>>> GetAllTransactionsAsync()
         {

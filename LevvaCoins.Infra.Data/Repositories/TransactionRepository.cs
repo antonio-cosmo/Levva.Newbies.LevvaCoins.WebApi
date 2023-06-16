@@ -13,7 +13,7 @@ namespace LevvaCoins.Infra.Data.Repositories
         public async Task<IEnumerable<Transaction>> GetAllByUserAsync(Guid userId)
         {
             return await Entity.Include(x => x.Category)
-                                .Where(x => x.UserId == userId)
+                                .Where(x => x.UserId.Equals(userId))
                                 .OrderByDescending(x => x.CreatedAt)
                                 .AsNoTracking()
                                 .ToListAsync();
@@ -29,7 +29,7 @@ namespace LevvaCoins.Infra.Data.Repositories
         public async Task<PagedResult<Transaction>> GetByUserPagedAsync(Guid userId, PaginationOptions paginationOptions)
         {
             var items = await Entity.Include(x => x.Category).AsNoTracking()
-                                              .Where(x => x.UserId == userId)
+                                              .Where(x => x.UserId.Equals(userId))
                                               .OrderByDescending(x => x.CreatedAt)
                                               .Skip((paginationOptions.PageNumber - 1) * paginationOptions.PageSize)
                                               .Take(paginationOptions.PageSize)
@@ -47,13 +47,14 @@ namespace LevvaCoins.Infra.Data.Repositories
         {
             var result = await Entity.Include(x => x.Category)
                                     .AsNoTracking()
-                                    .Where(x => x.UserId == userId)
-                                    .Where(x => 
-                                                EF.Functions.Like(x.Description, $"%{search}%") || 
+                                    .Where(x => x.UserId.Equals(userId))
+                                    .Where(x =>
+                                                EF.Functions.Like(x.Description, $"%{search}%") ||
                                                 EF.Functions.Like(x.Category!.Description, $"%{search}%")
                                           )
                                     .OrderByDescending(x => x.CreatedAt)
                                     .ToListAsync();
+
             return result;
         }
     }

@@ -5,28 +5,28 @@ namespace LevvaCoins.Application.Helpers
 {
     public static class PasswordHash
     {
-        public static string Generate(string value)
+        public static string Generate(string password)
         {
-            var hashValue = HashGenerate(value);
+            var passwordhash = HashGenerate(password);
 
-            return Convert.ToBase64String(hashValue);
+            return Convert.ToBase64String(passwordhash);
         }
 
-        public static bool Verify(string value, string sentHashValue)
+        public static bool Verify(string sendPassword, string currentPassword)
         {
-            var hashValue = HashGenerate(value);
+            var sendPassworddHash = HashGenerate(sendPassword);
 
-            byte[] sentHash = Convert.FromBase64String(sentHashValue);
+            byte[] currentPasswordHash = Convert.FromBase64String(currentPassword);
 
-            var isSame = sentHash.SequenceEqual(hashValue);
+            var isSame = currentPasswordHash.SequenceEqual(sendPassworddHash);
 
             return isSame;
         }
 
-        private static byte[] HashGenerate(string value)
+        private static byte[] HashGenerate(string password)
         {
-            var valueByte = Encoding.UTF8.GetBytes(value);
-            return  SHA256.HashData(valueByte);
+            var passwordByte = Encoding.UTF8.GetBytes(password);
+            return  SHA256.HashData(passwordByte);
         }
     }
 }

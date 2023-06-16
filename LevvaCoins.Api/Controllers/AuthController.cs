@@ -31,7 +31,7 @@ namespace LevvaCoins.Api.Controllers
             var account = await _accountServices.GetByEmailAsync(loginDto.Email);
             if (account is null) throw new NotAuthorizedException("Usuário ou senha inválidos.");
 
-            if (!PasswordHash.Verify(loginDto.Password, account.Password)) 
+            if (!PasswordHash.Verify(sendPassword: loginDto.Password, currentPassword: account.Password)) 
                 throw new NotAuthorizedException("Usuário ou senha inválidos.");
 
             var accounWithToken = _mapper.Map<LoginResponseDto>(account);

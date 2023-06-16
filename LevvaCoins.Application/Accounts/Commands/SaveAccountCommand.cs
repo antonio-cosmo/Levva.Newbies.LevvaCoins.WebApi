@@ -1,9 +1,10 @@
 ﻿using LevvaCoins.Application.Helpers;
+using LevvaCoins.Domain.Entities;
 using MediatR;
 
 namespace LevvaCoins.Application.Accounts.Commands
 {
-    public class SaveAccountCommand : IRequest
+    public class SaveAccountCommand : IRequest<User>
     {
         public string Name { get; set; }
         public string Email { get; set; }
