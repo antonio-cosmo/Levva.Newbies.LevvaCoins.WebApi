@@ -5,7 +5,6 @@ using LevvaCoins.Application.Transactions.Dtos;
 using LevvaCoins.Application.Transactions.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace LevvaCoins.Api.Controllers
 {
@@ -24,7 +23,7 @@ namespace LevvaCoins.Api.Controllers
         }
 
         [HttpGet()]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<IEnumerable<TransactionViewDto>>> GetAllTransactionsAsync()
         {
@@ -61,10 +60,10 @@ namespace LevvaCoins.Api.Controllers
         public async Task<ActionResult> PostAsync([FromBody] SaveTransactionDto body)
         {
             var userId = new Guid(User.GetUserId());
-            var category = _categoryServices.GetByIdAsync(body.CategoryId);
+            var category = await _categoryServices.GetByIdAsync(body.CategoryId);
             var transaction = await _transactionServices.SaveAsync(body, userId);
 
-            transaction.Category = await category;
+            transaction.Category = category;
 
             return Created("", transaction);
         }
