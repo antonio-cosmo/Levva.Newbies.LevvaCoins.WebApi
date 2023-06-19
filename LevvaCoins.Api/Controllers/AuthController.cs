@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using LevvaCoins.Application.Accounts.Dtos;
-using LevvaCoins.Application.Accounts.Interfaces;
-using LevvaCoins.Application.Accounts.Services;
+using LevvaCoins.Application.Users.Dtos;
+using LevvaCoins.Application.Users.Interfaces;
+using LevvaCoins.Application.Users.Services;
 using LevvaCoins.Application.Common.Dtos;
 using LevvaCoins.Application.Helpers;
 using LevvaCoins.Domain.AppExceptions;
@@ -13,10 +13,10 @@ namespace LevvaCoins.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        readonly IAccountServices _accountServices;
+        readonly IUserServices _accountServices;
         readonly IMapper _mapper;
         readonly IConfiguration _config;
-        public AuthController(IAccountServices accountServices, IMapper mapper, IConfiguration config)
+        public AuthController(IUserServices accountServices, IMapper mapper, IConfiguration config)
         {
             _accountServices = accountServices;
             _mapper = mapper;
@@ -27,14 +27,16 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<LoginResponseDto>> PostAuthAsync([FromBody] LoginDto loginDto)
         {
+            var account = await _accountServices.GetByEmailAsync(loginDto.Email ?? throw new ArgumentNullException("Email vazio", nameof(loginDto.Email)))
+                ?? throw new NotAuthorizedException("Usuário ou senha inválidos.");
 
-            var account = await _accountServices.GetByEmailAsync(loginDto.Email);
-            if (account is null) throw new NotAuthorizedException("Usuário ou senha inválidos.");
+            var currentPassword = new PasswordHash(loginDto.Password ?? throw new ArgumentNullException("Senha vazio", nameof(loginDto.Password)));
 
-            if (!PasswordHash.Verify(sendPassword: loginDto.Password, currentPassword: account.Password)) 
+            if (!currentPassword.IsSame(account.Password))
                 throw new NotAuthorizedException("Usuário ou senha inválidos.");
 
             var accounWithToken = _mapper.Map<LoginResponseDto>(account);
+
             accounWithToken.Token = TokenService.GenereteToken(account, _config);
 
             return Ok(accounWithToken);

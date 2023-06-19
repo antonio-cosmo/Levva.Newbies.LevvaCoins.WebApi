@@ -20,11 +20,7 @@ namespace LevvaCoins.Application.Categories.Handlers
 
         }
 
-        public async Task<IEnumerable<Category>> Handle(GetAllCategoryQuery request, CancellationToken cancellationToken)
-        {
-            return await _categoryRepository.GetAllAsync();
-
-
-        }
+        public async Task<IEnumerable<Category>> Handle(GetAllCategoryQuery request, CancellationToken cancellationToken) =>
+            await _categoryRepository.GetAllAsync();
     }
 }

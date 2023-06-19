@@ -2,9 +2,9 @@
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
-using LevvaCoins.Application.Accounts.Interfaces;
-using LevvaCoins.Application.Accounts.MapperProfiles;
-using LevvaCoins.Application.Accounts.Services;
+using LevvaCoins.Application.Users.Interfaces;
+using LevvaCoins.Application.Users.MapperProfiles;
+using LevvaCoins.Application.Users.Services;
 using LevvaCoins.Application.Categories.Interfaces;
 using LevvaCoins.Application.Categories.MapperProfiles;
 using LevvaCoins.Application.Categories.Services;
@@ -23,6 +23,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace LevvaCoins.Infra.IoC
 {
@@ -52,10 +53,10 @@ namespace LevvaCoins.Infra.IoC
                 opt.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
             });
             services.AddScoped<ICategoryServices, CategoryServices>();
-            services.AddScoped<IAccountServices, AccountServices>();
+            services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<ITransactionServices, TransactionServices>();
             services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.Load("LevvaCoins.Application")));
-            services.AddAutoMapper(typeof(AccountProfile), typeof(CategoryProfile), typeof(TransactionProfile));
+            services.AddAutoMapper(typeof(UserProfile), typeof(CategoryProfile), typeof(TransactionProfile));
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -103,7 +104,7 @@ namespace LevvaCoins.Infra.IoC
             });
             services.AddCors(opt =>
             {
-                opt.AddDefaultPolicy(opt =>
+                opt.AddPolicy("AllowAnyOrigin", opt =>
                 {
                     opt.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
@@ -112,7 +113,7 @@ namespace LevvaCoins.Infra.IoC
 
         public static void UseWebApi(this WebApplication app)
         {
-            app.UseCors();
+            app.UseCors("AllowAnyOrigin");
             app.UseMiddleware<ExceptionHandlerMidleware>();
             app.UseMiddleware<AuthorizationExceptionHandlerMidleware>();
         }

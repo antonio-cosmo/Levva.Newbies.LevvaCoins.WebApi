@@ -8,23 +8,19 @@ namespace LevvaCoins.Domain.Entities
         public string Description { get; private set; }
         public IList<Transaction>? Transactions { get; set; }
 
-        public Category(string description, Guid? id = null) {
-            Validate(description);
-
-            Id = id ?? Guid.NewGuid();
+        public Category(string description) {
             Description = description.ToLower();
         }
 
         public void Update(string description)
         {
-            Validate(description);
             Description = description;
         }
-        
-        private void Validate(string description)
+
+        public override void Validate()
         {
-            DomainExceptionValidation.When(string.IsNullOrWhiteSpace(description), "Descrição não pode ser vazia");
-            DomainExceptionValidation.When(description.Length < 3, "Descrição não pode ser vazia");
+            DomainExceptionValidation.When(string.IsNullOrWhiteSpace(Description), "Descrição não pode ser vazia");
+            DomainExceptionValidation.When(Description.Length < 3, "Descrição não pode ser vazia");
         }
     }
 }

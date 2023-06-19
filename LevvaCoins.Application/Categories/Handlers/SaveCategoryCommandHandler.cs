@@ -20,11 +20,21 @@ namespace LevvaCoins.Application.Categories.Handlers
 
         public async Task<Category> Handle(SaveCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.GetByDescriptionAsync(request.Description!);
+            try
+            {
+                var categoryExists = await _categoryRepository.GetByDescriptionAsync(request.Description.ToLower());
+                if (categoryExists is not null)
+                    throw new ModelAlreadyExistsException("Uma categoria com esse nome já existe.");
+                
+                var newCategory = _mapper.Map<Category>(request);
+                newCategory.Validate();
 
-            if (category is not null) throw new ModelAlreadyExistsException("Uma categoria com esse nome já existe.");
-
-            return await _categoryRepository.SaveAsync(_mapper.Map<Category>(request));
+                return await _categoryRepository.SaveAsync(newCategory);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

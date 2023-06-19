@@ -4,13 +4,13 @@ namespace LevvaCoins.Application.Categories.Commands
 {
     public class UpdateCategoryCommand : IRequest
     {
-        public string Description { get; set; } = string.Empty;
         public Guid Id { get; set; }
+        public string Description { get; set; }
 
-        public UpdateCategoryCommand(string description, Guid id)
+        public UpdateCategoryCommand(Guid id, string description)
         {
-            Description = description;
             Id = id;
+            Description = description;
         }
     }
 }

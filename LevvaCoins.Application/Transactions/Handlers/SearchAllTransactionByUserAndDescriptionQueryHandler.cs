@@ -14,10 +14,7 @@ namespace LevvaCoins.Application.Transactions.Handlers
             _transactionRepository = transactionRepository;
         }
 
-        public async Task<IEnumerable<Transaction>> Handle(SearchAllTransactionByUserAndDescriptionQuery request, CancellationToken cancellationToken)
-        {
-            return await _transactionRepository.SearchByDescriptionAsync(request.UserId, request.Text);
-
-        }
+        public async Task<IEnumerable<Transaction>> Handle(SearchAllTransactionByUserAndDescriptionQuery request, CancellationToken cancellationToken) =>
+            await _transactionRepository.SearchByDescriptionAsync(request.UserId, request.Text);
     }
 }

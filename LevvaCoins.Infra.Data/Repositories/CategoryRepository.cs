@@ -7,7 +7,9 @@ namespace LevvaCoins.Infra.Data.Repositories
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
-        public CategoryRepository(IContext context): base(context) { }
+        public CategoryRepository(IContext context): base(context)
+        {
+        }
 
         public async Task<ICollection<Category>> GetAllAsync()
         {

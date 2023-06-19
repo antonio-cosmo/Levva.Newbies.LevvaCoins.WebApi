@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LevvaCoins.Infra.Data.Repositories
 {
-    public class Repository<TEntity> : IRepositoryBase<TEntity, Guid> where TEntity : class 
+    public class Repository<TEntity> : IRepositoryBase<TEntity, Guid> where TEntity : class
     {
         private readonly IContext _context;
         private readonly DbSet<TEntity> _entity;
@@ -19,21 +19,21 @@ namespace LevvaCoins.Infra.Data.Repositories
         {
             return await _entity.FindAsync(id);
         }
-        public async Task RemoveAsync(TEntity obj)
+        public async Task RemoveAsync(TEntity entity)
         {
-            _entity.Remove(obj);
+            _entity.Remove(entity);
             await _context.SaveChangesAsync();
         }
-        public async Task<TEntity> SaveAsync(TEntity obj)
+        public async Task<TEntity> SaveAsync(TEntity entity)
         {
-            _entity.Add(obj);
+            _entity.Add(entity);
             await _context.SaveChangesAsync();
 
-            return obj;
+            return entity;
         }
-        public async Task UpdateAsync(TEntity obj)
+        public async Task UpdateAsync(TEntity entity)
         {
-            _entity.Update(obj);
+            _entity.Update(entity);
             await _context.SaveChangesAsync(); 
         }
     }

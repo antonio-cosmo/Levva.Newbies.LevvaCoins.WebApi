@@ -22,7 +22,6 @@ namespace LevvaCoins.Application.Middlewares
             if (context.Response.StatusCode == StatusCodes.Status401Unauthorized ||
                 context.Response.StatusCode == StatusCodes.Status403Forbidden)
             {
-
                 context.Response.ContentType = "application/json";
 
                 var errorResponse = new ErrorResponse

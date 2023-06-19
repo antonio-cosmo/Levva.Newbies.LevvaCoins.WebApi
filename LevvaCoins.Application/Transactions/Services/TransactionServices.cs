@@ -23,59 +23,72 @@ namespace LevvaCoins.Application.Transactions.Services
             _mapper = mapper;
         }
 
-        public async Task<TransactionViewDto> SaveAsync(SaveTransactionDto transactionDto, Guid userId)
-        {   
-            
-            var saveCommand = new SaveTransactionCommand(transactionDto.Description, transactionDto.Amount, transactionDto.Type, transactionDto.CategoryId, userId);
+        public async Task<TransactionDetailsDto> SaveAsync(Guid userId, CreateTransactionDto createTransactionDto)
+        {
+            var saveCommand = new SaveTransactionCommand(
+                userId,
+                description: createTransactionDto.Description
+                                                ?? throw new ArgumentException("Descrição vazia", nameof(createTransactionDto.Description)),
+                amount: createTransactionDto.Amount, createTransactionDto.Type,
+                categoryId: createTransactionDto.CategoryId
+            );
+
             var transaction = await _mediator.Send(saveCommand);
 
-            return _mapper.Map<TransactionViewDto>( transaction );
+            return _mapper.Map<TransactionDetailsDto>( transaction );
         }
 
-        public async Task RemoveAsync(Guid transactionId)
+        public async Task RemoveAsync(Guid id)
         {
-            var removeCommand = new RemoveTransactionCommand(transactionId);
+            var removeCommand = new RemoveTransactionCommand(id);
             await _mediator.Send(removeCommand);
         }
 
-        public async Task<IEnumerable<TransactionViewDto>> GetAllAsync(Guid userId)
-        {          
+        public async Task<IEnumerable<TransactionDetailsDto>> GetAllAsync(Guid userId)
+        {
             var queryAll = new GetAllTransactionsByUserQuery(userId);
             var transactions =  await _mediator.Send(queryAll);
 
-            return _mapper.Map<IEnumerable<TransactionViewDto>>(transactions);
+            return _mapper.Map<IEnumerable<TransactionDetailsDto>>(transactions);
         }
 
-        public async Task<TransactionViewDto> GetByIdAsync(Guid transactionId)
+        public async Task<TransactionDetailsDto> GetByIdAsync(Guid id)
         {
-            var queryById = new GetTransactionByIdQuery(transactionId);
-            var transaction = await _mediator.Send(queryById); 
+            var queryById = new GetTransactionByIdQuery(id);
 
-            if (transaction is null) throw new ModelNotFoundException("Essa transação não existe.");
+            var transaction = await _mediator.Send(queryById)
+                ?? throw new ModelNotFoundException("Essa transação não existe.");
 
-            return _mapper.Map<TransactionViewDto>(transaction);
-
+            return _mapper.Map<TransactionDetailsDto>(transaction);
         }
 
-        public async Task<PagedResult<TransactionViewDto>> GetAllPagedAsync(Guid userId, PaginationOptions paginationOptions)
+        public async Task<PagedResult<TransactionDetailsDto>> GetAllPagedAsync(Guid userId, PaginationOptions paginationOptions)
         {
             var queryByUserId = new GetAllTransactionByUserPagedQuery(userId, paginationOptions);
             var transactionsPaged = await _mediator.Send(queryByUserId);
 
-            return _mapper.Map<PagedResult<TransactionViewDto>>(transactionsPaged);
+            return _mapper.Map<PagedResult<TransactionDetailsDto>>(transactionsPaged);
         }
 
-        public async Task UpdateAsync(Guid id, UpdateTransactionDto transaction)
+        public async Task UpdateAsync(Guid id, UpdateTransactionDto updateTransactionDto)
         {
-            var updateCommand = new UpdateTransactionCommand(id, transaction.Description, transaction.Amount, transaction.Type, transaction.CategoryId);
+            var updateCommand = new UpdateTransactionCommand(
+                id,
+                description: updateTransactionDto.Description
+                                        ?? throw new ArgumentException("Descrição vazia",nameof(updateTransactionDto.Description)),
+                amount: updateTransactionDto.Amount,
+                type: updateTransactionDto.Type,
+                categoryId: updateTransactionDto.CategoryId
+            );
+
             await _mediator.Send(updateCommand);
         }
-        public async Task<IEnumerable<TransactionViewDto>> SearchByDescriptionAsync(Guid userId, string search)
+        public async Task<IEnumerable<TransactionDetailsDto>> SearchByDescriptionAsync(Guid userId, string search)
         {
             var queryByDescription = new SearchAllTransactionByUserAndDescriptionQuery(userId, search);
             var transactions = await _mediator.Send(queryByDescription);
 
-            return _mapper.Map<IEnumerable<TransactionViewDto>>(transactions);
+            return _mapper.Map<IEnumerable<TransactionDetailsDto>>(transactions);
 
         }
 

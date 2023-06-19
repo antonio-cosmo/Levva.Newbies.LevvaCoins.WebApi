@@ -22,73 +22,43 @@ namespace LevvaCoins.Application.Middlewares
         {
             try
             {
+                // Chame o próximo middleware na pipeline
                 await _next(context);
             }
             catch (ModelNotFoundException ex)
             {
-                var body = new ErrorResponse
-                {
-                    HasError = true,
-                    Message = ex.Message
-                };
-
-                context.Response.StatusCode = 400;
-                context.Response.ContentType = "application/json";
-
-                await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+                await ErrorResponse(context, ex);
             }
             catch (ModelAlreadyExistsException ex)
             {
-                var body = new ErrorResponse
-                {
-                    HasError = true,
-                    Message = ex.Message
-                };
-
-                context.Response.StatusCode = 400;
-                context.Response.ContentType = "application/json";
-
-                await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+                await ErrorResponse(context, ex);
             }
             catch (DomainExceptionValidation ex)
             {
-                var body = new ErrorResponse
-                {
-                    HasError = true,
-                    Message = ex.Message
-                };
-
-                context.Response.StatusCode = 400;
-                context.Response.ContentType = "application/json";
-
-                await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+                await ErrorResponse(context, ex);
             }
             catch(NotAuthorizedException ex)
             {
-                var body = new ErrorResponse
-                {
-                    HasError = true,
-                    Message = ex.Message
-                };
-
-                context.Response.StatusCode = 401;
-                context.Response.ContentType = "application/json";
-
-                await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+                await ErrorResponse(context, ex, 401);
             }
             catch (Exception ex)
             {
-                var body = new ErrorResponse
-                {
-                    HasError = true,
-                    Message = ex.Message
-                };
-
-                context.Response.StatusCode = 500;
-                context.Response.ContentType = "application/json";
-
-                await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+                await ErrorResponse(context, ex, 500);
             }
+        }
+        private async Task ErrorResponse(HttpContext context, Exception ex, int statusCode = 400)
+        {
+            var body = new ErrorResponse
+            {
+                HasError = true,
+                Message = ex.Message
+            };
+
+            context.Response.StatusCode = statusCode;
+            context.Response.ContentType = "application/json";
+
+            // Escrever a resposta de erro na resposta HTTP
+            await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
         }
     }
 }

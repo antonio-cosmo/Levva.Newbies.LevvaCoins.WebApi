@@ -19,8 +19,16 @@ namespace LevvaCoins.Application.Transactions.Handlers
 
         public async Task<Transaction> Handle(SaveTransactionCommand request, CancellationToken cancellationToken)
         {
-            var transaction = _mapper.Map<Transaction>(request);
-            return await _transactionRepository.SaveAsync(transaction);
+            try
+            {
+                var transaction = _mapper.Map<Transaction>(request);
+                transaction.Validate();
+
+                return await _transactionRepository.SaveAsync(transaction);
+            }catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

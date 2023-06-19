@@ -5,12 +5,12 @@ namespace LevvaCoins.Application.Transactions.Interfaces
 {
     public interface ITransactionServices
     {
-        Task<TransactionViewDto> SaveAsync(SaveTransactionDto transaction, Guid userId);
-        Task<IEnumerable<TransactionViewDto>> GetAllAsync(Guid userId);
-        Task<TransactionViewDto> GetByIdAsync(Guid transactionId);
-        Task UpdateAsync(Guid id, UpdateTransactionDto transaction);
-        Task RemoveAsync(Guid transactionId);
-        Task<PagedResult<TransactionViewDto>> GetAllPagedAsync(Guid userId, PaginationOptions paginationOptions);
-        Task<IEnumerable<TransactionViewDto>> SearchByDescriptionAsync(Guid userId, string search);
+        Task<TransactionDetailsDto> SaveAsync(Guid userId, CreateTransactionDto createTransactionDto);
+        Task<IEnumerable<TransactionDetailsDto>> GetAllAsync(Guid userId);
+        Task<TransactionDetailsDto> GetByIdAsync(Guid transactionId);
+        Task UpdateAsync(Guid id, UpdateTransactionDto updateTransactionDto);
+        Task RemoveAsync(Guid id);
+        Task<PagedResult<TransactionDetailsDto>> GetAllPagedAsync(Guid userId, PaginationOptions paginationOptions);
+        Task<IEnumerable<TransactionDetailsDto>> SearchByDescriptionAsync(Guid userId, string search);
     }
 }

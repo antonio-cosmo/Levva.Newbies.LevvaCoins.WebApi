@@ -19,9 +19,7 @@ namespace LevvaCoins.Application.Categories.Handlers
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<Category?> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
-        {
-            return await _categoryRepository.GetByIdAsync(request.Id);
-        }
+        public async Task<Category?> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken) =>
+            await _categoryRepository.GetByIdAsync(request.Id);
     }
 }

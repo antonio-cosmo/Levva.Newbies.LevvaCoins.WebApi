@@ -18,10 +18,10 @@ namespace LevvaCoins.Application.Categories.Services
             _mapper = mapper;
         }
 
-        public async Task<CategoryDto> SaveAsync(SaveCategoryDto categoryDto)
+        public async Task<CategoryDto> SaveAsync(CreateCategoryDto createCategoryDto)
         {
 
-            var saveCommand = _mapper.Map<SaveCategoryCommand>(categoryDto);
+            var saveCommand = _mapper.Map<SaveCategoryCommand>(createCategoryDto);
             var category = await _mediator.Send(saveCommand);
 
             return _mapper.Map<CategoryDto>(category);
@@ -36,25 +36,24 @@ namespace LevvaCoins.Application.Categories.Services
         public async Task<IEnumerable<CategoryDto>> GetAllAsync()
         {
             var queryAll = new GetAllCategoryQuery();
-            var category = await _mediator.Send(queryAll);
+            var categories = await _mediator.Send(queryAll);
 
-            return _mapper.Map<IEnumerable<CategoryDto>>(category);
+            return _mapper.Map<IEnumerable<CategoryDto>>(categories);
         }
 
         public async Task<CategoryDto> GetByIdAsync(Guid id)
         {
             var queryById = new GetCategoryByIdQuery(id);
-            var category = await _mediator.Send(queryById);
-            
-            if(category is null) throw new ModelNotFoundException("Essa categoria não existe.");
-
+            var category = await _mediator.Send(queryById) ?? throw new ModelNotFoundException("Essa categoria não existe.");
             return _mapper.Map<CategoryDto>(category);
         }
 
-        public async Task UpdateAsync(Guid id, UpdateCategoryDto categoryDto)
+        public async Task UpdateAsync(Guid id, UpdateCategoryDto updateCategoryDto)
         {
-            var updateCommand = new UpdateCategoryCommand(categoryDto.Description, id);
-            
+            var updateCommand = new UpdateCategoryCommand(
+                id,
+                description: updateCategoryDto.Description
+                                        ?? throw new ArgumentException("Descrição vazia", nameof(updateCategoryDto.Description)));
             await _mediator.Send(updateCommand);
         }
     }

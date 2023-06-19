@@ -3,52 +3,46 @@ using LevvaCoins.Domain.Validation;
 
 namespace LevvaCoins.Domain.Entities
 {
-    public sealed class Transaction
+    public sealed class Transaction:Entity
     {
-        public Guid? Id { get; }
         public DateTime CreatedAt { get; }
         public string Description { get; private set; }
         public double Amount { get; private set; }
         public TransactionTypeEnum Type { get; private set; }
         public Guid CategoryId { get; private set; }
-        public Guid UserId { get; private set; }
+        public Guid UserId { get; }
         public User? User { get; set; }
         public Category? Category { get; set; }
 
-        public Transaction(string description, double amount, TransactionTypeEnum type, Guid categoryId, Guid userId , Guid? id = null)
+        public Transaction(string description, double amount, TransactionTypeEnum type, Guid categoryId, Guid userId)
         {
-            Validate(description, amount, type, categoryId, userId);
-            Id = id ?? Guid.NewGuid();
             Description = description;
             Amount = amount;
-            Type = (TransactionTypeEnum) type;
+            Type = type;
             CategoryId = categoryId;
             UserId = userId;
         }
         public void Update(string description, double amount, TransactionTypeEnum type, Guid categoryId)
         {
-            Validate(description,amount, type, categoryId);
             Description = description;
             Amount = amount;
             Type = type;
             CategoryId = categoryId;
         }
-        private void Validate(string description, double amount, TransactionTypeEnum type, Guid categoryId, Guid userId)
+
+        public override void Validate()
         {
-            Validate(description, amount, type, categoryId);
-            DomainExceptionValidation.When(
-                userId == Guid.Empty || string.IsNullOrWhiteSpace(userId.ToString()),"Informe uma usuario valido"
-            );
-        }
-        private void Validate(string description, double amount, TransactionTypeEnum type, Guid categoryId)
-        {
-            DomainExceptionValidation.When(string.IsNullOrWhiteSpace(description), "Descrição não pode ser vazia");
-            DomainExceptionValidation.When(amount < 0, "Valor não pode ser negativo");
-            var transactionType = (int)type;
+            DomainExceptionValidation.When(string.IsNullOrWhiteSpace(Description), "Descrição não pode ser vazia");
+            DomainExceptionValidation.When(Amount < 0, "Valor não pode ser negativo");
+            var transactionType = (int) Type;
             DomainExceptionValidation.When(transactionType != 0 && transactionType != 1, "Informe um tipo valido de transação");
             DomainExceptionValidation.When(
-                categoryId == Guid.Empty || string.IsNullOrWhiteSpace(categoryId.ToString()), "Informe uma categoria valida"
+                CategoryId == Guid.Empty || string.IsNullOrWhiteSpace(CategoryId.ToString()), "Informe uma categoria valida"
             );
+            DomainExceptionValidation.When(
+                UserId == Guid.Empty || string.IsNullOrWhiteSpace(UserId.ToString()), "Informe uma usuario valido"
+            );
+
         }
     }
 }

@@ -19,17 +19,24 @@ namespace LevvaCoins.Application.Transactions.Handlers
 
         public async Task Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
         {
-            var transaction = await _transactionRepository.GetByIdAsync(request.Id);
-            if (transaction is null) throw new ModelNotFoundException("Essa transação não existe");
+            try
+            {
+                var transactionExists = await _transactionRepository.GetByIdAsync(request.Id)
+                    ?? throw new ModelNotFoundException("Essa transação não existe");
 
-            transaction.Update(
-                    request.Description,
-                    request.Amount,
-                    request.Type,
-                    request.CategoryId
-                );
-
-            await _transactionRepository.UpdateAsync(transaction);
+                transactionExists.Update(
+                        request.Description,
+                        request.Amount,
+                        request.Type,
+                        request.CategoryId
+                    );
+                transactionExists.Validate();
+                await _transactionRepository.UpdateAsync(transactionExists);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
     }
 }
