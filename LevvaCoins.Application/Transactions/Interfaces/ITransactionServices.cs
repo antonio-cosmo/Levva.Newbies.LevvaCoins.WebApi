@@ -7,7 +7,7 @@ namespace LevvaCoins.Application.Transactions.Interfaces
     {
         Task<TransactionDetailsDto> SaveAsync(Guid userId, CreateTransactionDto createTransactionDto);
         Task<IEnumerable<TransactionDetailsDto>> GetAllAsync(Guid userId);
-        Task<TransactionDetailsDto> GetByIdAsync(Guid transactionId);
+        Task<TransactionDetailsDto> GetByIdAsync(Guid id);
         Task UpdateAsync(Guid id, UpdateTransactionDto updateTransactionDto);
         Task RemoveAsync(Guid id);
         Task<PagedResult<TransactionDetailsDto>> GetAllPagedAsync(Guid userId, PaginationOptions paginationOptions);

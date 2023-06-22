@@ -16,17 +16,10 @@ namespace LevvaCoins.Application.Categories.Handlers
 
         public async Task Handle(RemoveCategoryCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var category = await _categoryRepository.GetByIdAsync(request.Id)
-                    ?? throw new ModelNotFoundException("Essa categoria não existe.");
+            var category = await _categoryRepository.GetByIdAsync(request.Id)
+                ?? throw new ModelNotFoundException("Essa categoria não existe.");
 
-                await _categoryRepository.RemoveAsync(category);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            await _categoryRepository.RemoveAsync(category);
         }
     }
 }

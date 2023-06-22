@@ -17,22 +17,18 @@ namespace LevvaCoins.Application.Categories.Services
             _mediator = mediator;
             _mapper = mapper;
         }
-
         public async Task<CategoryDto> SaveAsync(CreateCategoryDto createCategoryDto)
         {
-
             var saveCommand = _mapper.Map<SaveCategoryCommand>(createCategoryDto);
             var category = await _mediator.Send(saveCommand);
 
             return _mapper.Map<CategoryDto>(category);
         }
-
         public async Task RemoveAsync(Guid id)
         {
             var removeCommand = new RemoveCategoryCommand(id);
             await _mediator.Send(removeCommand);
         }
-
         public async Task<IEnumerable<CategoryDto>> GetAllAsync()
         {
             var queryAll = new GetAllCategoryQuery();
@@ -40,21 +36,21 @@ namespace LevvaCoins.Application.Categories.Services
 
             return _mapper.Map<IEnumerable<CategoryDto>>(categories);
         }
-
         public async Task<CategoryDto> GetByIdAsync(Guid id)
         {
             var queryById = new GetCategoryByIdQuery(id);
             var category = await _mediator.Send(queryById) ?? throw new ModelNotFoundException("Essa categoria não existe.");
             return _mapper.Map<CategoryDto>(category);
         }
-
         public async Task UpdateAsync(Guid id, UpdateCategoryDto updateCategoryDto)
         {
-            var updateCommand = new UpdateCategoryCommand(
-                id,
-                description: updateCategoryDto.Description
-                                        ?? throw new ArgumentException("Descrição vazia", nameof(updateCategoryDto.Description)));
+            var updateCommand = BuilderUpdateCategoryCommand(id, updateCategoryDto);
             await _mediator.Send(updateCommand);
+        }
+        private static UpdateCategoryCommand BuilderUpdateCategoryCommand(Guid id, UpdateCategoryDto updateCategoryDto)
+        {
+            var description = updateCategoryDto.Description ?? throw new NullReferenceException(nameof(updateCategoryDto.Description));
+            return new UpdateCategoryCommand(id, description);
         }
     }
 }

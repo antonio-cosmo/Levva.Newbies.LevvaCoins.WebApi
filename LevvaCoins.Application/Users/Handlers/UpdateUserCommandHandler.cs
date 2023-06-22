@@ -1,5 +1,6 @@
 ﻿using LevvaCoins.Application.Users.Commands;
 using LevvaCoins.Domain.AppExceptions;
+using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using MediatR;
 
@@ -16,19 +17,22 @@ namespace LevvaCoins.Application.Users.Handlers
 
         public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var userExists = await _userRepository.GetByIdAsync(request.Id)
-                    ?? throw new ModelNotFoundException("Esse usuário não existe.");
+            var user = await GetUserById(request.Id);
 
-                userExists.Update(request.Name, request.Avatar);
-                userExists.Validate();
+            user.Update(request.Name, request.Avatar);
+            ValidateUser(user);
 
-                await _userRepository.UpdateAsync(userExists);
-            }
-            catch (Exception)
+            await _userRepository.UpdateAsync(user);
+        }
+        private async Task<User> GetUserById(Guid id)
+        {
+            return await _userRepository.GetByIdAsync(id) ?? throw new ModelNotFoundException("Esse usuário não existe.");
+        }
+        private static void ValidateUser(User user)
+        {
+            if (!user.IsValid())
             {
-                throw;
+                throw new DomainValidationException("Entidade invalida.");
             }
         }
     }

@@ -34,7 +34,7 @@ namespace LevvaCoins.Infra.Data.Repositories
         public async Task UpdateAsync(TEntity entity)
         {
             _entity.Update(entity);
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
         }
     }
 }

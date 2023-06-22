@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LevvaCoins.Application.Transactions.Commands;
+using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using MediatR;
@@ -19,15 +20,16 @@ namespace LevvaCoins.Application.Transactions.Handlers
 
         public async Task<Transaction> Handle(SaveTransactionCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var transaction = _mapper.Map<Transaction>(request);
-                transaction.Validate();
+            var newTransaction = _mapper.Map<Transaction>(request);
+            ValidateTransaction(newTransaction);
 
-                return await _transactionRepository.SaveAsync(transaction);
-            }catch (Exception)
+            return await _transactionRepository.SaveAsync(newTransaction);
+        }
+        private static void ValidateTransaction(Transaction transaction)
+        {
+            if (!transaction.IsValid())
             {
-                throw;
+                throw new DomainValidationException("Entidade invalida.");
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using LevvaCoins.Application.Categories.Commands;
 using LevvaCoins.Domain.AppExceptions;
+using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Interfaces.Repositories;
 using MediatR;
 
@@ -16,19 +17,24 @@ namespace LevvaCoins.Application.Categories.Handlers
 
         public async Task Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
-            try
+            var category = await GetCategoryById(request.Id);
+
+            category.Update(request.Description);
+            ValidateCategory(category);
+
+            await _categoryRepository.UpdateAsync(category);
+        }
+
+        private async Task<Category> GetCategoryById(Guid id)
+        {
+            return await _categoryRepository.GetByIdAsync(id) ?? throw new ModelNotFoundException("Essa categoria não existe.");
+        }
+
+        private static void ValidateCategory(Category category)
+        {
+            if (!category.IsValid())
             {
-                var categoryExists = await _categoryRepository.GetByIdAsync(request.Id)
-                    ?? throw new ModelNotFoundException("Essa categoria não existe.");
-
-                categoryExists.Update(request.Description);
-                categoryExists.Validate();
-
-                await _categoryRepository.UpdateAsync(categoryExists);
-
-            }catch (Exception)
-            {
-                throw;
+                throw new DomainValidationException("Entidade invalida");
             }
         }
     }

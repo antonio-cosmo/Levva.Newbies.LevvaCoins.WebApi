@@ -20,20 +20,26 @@ namespace LevvaCoins.Application.Users.Handlers
 
         public async Task<User> Handle(SaveUserCommand request, CancellationToken cancellationToken)
         {
-            try
+            await ValidateUserAlreadyExists(request.Email);
+
+            var newUser = _mapper.Map<User>(request);
+            ValidateUser(newUser);
+
+            return await _userRepository.SaveAsync(newUser);
+        }
+        private async Task ValidateUserAlreadyExists(string email)
+        {
+            var user = await _userRepository.GetByEmailAsync(email);
+            if (user is not null)
             {
-                var userAlreadyExists = await _userRepository.GetByEmailAsync(request.Email);
-                if (userAlreadyExists is not null)
-                    throw new ModelAlreadyExistsException("Esse e-mail já existe");
-
-                var newUser = _mapper.Map<User>(request);
-                newUser.Validate();
-
-                return await _userRepository.SaveAsync(newUser);
+                throw new ModelAlreadyExistsException("Esse e-mail já existe.");
             }
-            catch (Exception)
+        }
+        private static void ValidateUser(User user)
+        {
+            if (!user.IsValid())
             {
-                throw;
+                throw new DomainValidationException("Entidade inválida");
             }
         }
     }

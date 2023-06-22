@@ -7,7 +7,7 @@ namespace LevvaCoins.Domain.Interfaces.Repositories
     {
         Task<IEnumerable<Transaction>> GetAllAsync();
         Task<PagedResult<Transaction>> GetByUserPagedAsync(Guid userId, PaginationOptions paginationOptions);
-        Task<IEnumerable<Transaction>> SearchByDescriptionAsync(Guid userId, string text);
+        Task<IEnumerable<Transaction>> SearchByDescriptionAsync(Guid userId, string searchTerm);
         Task<IEnumerable<Transaction>> GetAllByUserAsync(Guid userId);
     }
 }

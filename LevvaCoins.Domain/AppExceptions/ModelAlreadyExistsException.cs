@@ -2,7 +2,15 @@
 {
     public class ModelAlreadyExistsException : Exception
     {
-        public ModelAlreadyExistsException(string message = "Model already exists") : base(message) { }
+        public ModelAlreadyExistsException() : base()
+        {
+        }
+        public ModelAlreadyExistsException(string? message) : base(message)
+        {
+        }
 
+        public ModelAlreadyExistsException(string? message, Exception? innerException) : base(message, innerException)
+        {
+        }
     }
 }

@@ -13,9 +13,9 @@ namespace LevvaCoins.Infra.Data.Repositories
         public async Task<IEnumerable<Transaction>> GetAllByUserAsync(Guid userId)
         {
             return await Entity.Include(x => x.Category)
+                                .AsNoTracking()
                                 .Where(x => x.UserId.Equals(userId))
                                 .OrderByDescending(x => x.CreatedAt)
-                                .AsNoTracking()
                                 .ToListAsync();
         }
 
@@ -28,29 +28,34 @@ namespace LevvaCoins.Infra.Data.Repositories
 
         public async Task<PagedResult<Transaction>> GetByUserPagedAsync(Guid userId, PaginationOptions paginationOptions)
         {
-            var items = await Entity.Include(x => x.Category).AsNoTracking()
-                                              .Where(x => x.UserId.Equals(userId))
-                                              .OrderByDescending(x => x.CreatedAt)
-                                              .Skip((paginationOptions.PageNumber - 1) * paginationOptions.PageSize)
-                                              .Take(paginationOptions.PageSize)
-                                              .ToListAsync();
+            var items = await Entity
+                .Include(x => x.Category)
+                .AsNoTracking()
+                .Where(x => x.UserId.Equals(userId))
+                .ToListAsync();
+
+            items = items.OrderByDescending(x => x.CreatedAt).ToList();
+
+            var pagedItems = items
+                .Skip((paginationOptions.PageNumber - 1) * paginationOptions.PageSize)
+                .Take(paginationOptions.PageSize);
 
             return new PagedResult<Transaction>(
-                   items: items,
+                   items: pagedItems,
                    pageNumber: paginationOptions.PageNumber,
                    pageSize: paginationOptions.PageSize,
-                   totalElements: items.Count()
+                   totalElements: items.Count
                );
         }
 
-        public async Task<IEnumerable<Transaction>> SearchByDescriptionAsync(Guid userId, string search)
+        public async Task<IEnumerable<Transaction>> SearchByDescriptionAsync(Guid userId, string searchTerm)
         {
             var result = await Entity.Include(x => x.Category)
                                     .AsNoTracking()
                                     .Where(x => x.UserId.Equals(userId))
                                     .Where(x =>
-                                                EF.Functions.Like(x.Description, $"%{search}%") ||
-                                                EF.Functions.Like(x.Category!.Description, $"%{search}%")
+                                                EF.Functions.Like(x.Description, $"%{searchTerm}%") ||
+                                                EF.Functions.Like(x.Category!.Description, $"%{searchTerm}%")
                                           )
                                     .OrderByDescending(x => x.CreatedAt)
                                     .ToListAsync();

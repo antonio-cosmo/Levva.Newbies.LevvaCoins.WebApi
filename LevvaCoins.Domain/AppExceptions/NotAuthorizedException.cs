@@ -2,6 +2,15 @@
 {
     public class ModelNotFoundException: Exception
     {
-        public ModelNotFoundException(string message = "Model not found") : base(message) { }
+        public ModelNotFoundException() : base()
+        {
+        }
+        public ModelNotFoundException(string? message) : base(message)
+        {
+        }
+
+        public ModelNotFoundException(string? message, Exception? innerException) : base(message, innerException)
+        {
+        }
     }
 }

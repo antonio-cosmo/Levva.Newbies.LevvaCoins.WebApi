@@ -1,15 +1,18 @@
-﻿using LevvaCoins.Domain.Validation;
-
-namespace LevvaCoins.Domain.Entities
+﻿namespace LevvaCoins.Domain.Entities
 {
-    public sealed class Category: Entity
+    public sealed class Category : Entity
     {
-
-        public string Description { get; private set; }
+        private string _description = string.Empty;
+        public string Description
+        {
+            get { return _description; }
+            private set { _description = value.ToLower(); }
+        }
         public IList<Transaction>? Transactions { get; set; }
 
-        public Category(string description) {
-            Description = description.ToLower();
+        public Category(string description)
+        {
+            Description = description;
         }
 
         public void Update(string description)
@@ -17,10 +20,9 @@ namespace LevvaCoins.Domain.Entities
             Description = description;
         }
 
-        public override void Validate()
+        public override bool IsValid()
         {
-            DomainExceptionValidation.When(string.IsNullOrWhiteSpace(Description), "Descrição não pode ser vazia");
-            DomainExceptionValidation.When(Description.Length < 3, "Descrição não pode ser vazia");
+            return !string.IsNullOrWhiteSpace(Description) && Description.Length >= 3;
         }
     }
 }

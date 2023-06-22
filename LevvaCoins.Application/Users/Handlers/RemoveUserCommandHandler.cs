@@ -16,16 +16,11 @@ namespace LevvaCoins.Application.Users.Handlers
 
         public async Task Handle(RemoveUserCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var userExists = await _userRepository.GetByIdAsync(request.Id)
-                    ?? throw new ModelNotFoundException("Esse usuário não existe.");
+            var userExists = await _userRepository.GetByIdAsync(request.Id)
+                ?? throw new ModelNotFoundException("Esse usuário não existe.");
 
-                await _userRepository.RemoveAsync(userExists);
-            }catch(Exception)
-            {
-                throw;
-            }    
+            await _userRepository.RemoveAsync(userExists);
+
         }
     }
 }

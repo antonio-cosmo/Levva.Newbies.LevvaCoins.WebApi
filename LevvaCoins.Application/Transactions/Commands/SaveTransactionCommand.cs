@@ -6,13 +6,13 @@ namespace LevvaCoins.Application.Transactions.Commands
 {
     public class SaveTransactionCommand: IRequest<Transaction>
     {
-        public Guid UserId { get; set; }
-        public string Description { get; set; }
-        public double Amount { get; set; }
-        public TransactionTypeEnum Type { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid UserId { get; }
+        public string Description { get;}
+        public double Amount { get; }
+        public TransactionType Type { get; }
+        public Guid CategoryId { get; }
 
-        public SaveTransactionCommand(Guid userId, string description, double amount, TransactionTypeEnum type, Guid categoryId)
+        public SaveTransactionCommand(Guid userId, string description, double amount, TransactionType type, Guid categoryId)
         {
             Description = description;
             Amount = amount;

@@ -2,32 +2,34 @@
 {
     public class PagedResult<TEntity>
     {
-        public IEnumerable<TEntity> Items { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
-        public int FirstPage { get; set; }
-        public int LastPage { get; set; }
-        public int TotalPages { get; set; }
-        public int TotalElements { get; set; }
-        public bool HasPreviousPage { get; set; }
-        public bool HasNextPage { get; set; }
-        public PagedResult(
-          IEnumerable<TEntity> items,
-          int pageNumber,
-          int pageSize,
-          int totalElements
-        )
+        private const int FIRST_PAGE = 1;
+        public IEnumerable<TEntity> Items { get; }
+        public int PageNumber { get; }
+        public int PageSize { get; }
+        public int FirstPage { get; }
+        public int LastPage { get; }
+        public int TotalPages { get; }
+        public int TotalElements { get; }
+        public bool HasPreviousPage { get; }
+        public bool HasNextPage { get; }
+
+        public PagedResult(IEnumerable<TEntity> items, int pageNumber, int pageSize, int totalElements)
         {
             Items = items;
             PageNumber = pageNumber;
             PageSize = pageSize;
             TotalElements = totalElements;
-            TotalPages = (int)Math.Ceiling(totalElements / (double)pageSize);
-            FirstPage = 1;
+            TotalPages = CalculateTotalPages(totalElements, pageSize);
+            FirstPage = FIRST_PAGE;
             LastPage = TotalPages;
-            HasPreviousPage = PageNumber > 1;
+            HasPreviousPage = PageNumber > FIRST_PAGE;
             HasNextPage = PageNumber < TotalPages;
+        }
 
+        private static int CalculateTotalPages(int totalElements, int pageSize)
+        {
+            return (int)Math.Ceiling(totalElements / (double)pageSize);
         }
     }
+
 }

@@ -2,6 +2,15 @@
 {
     public class NotAuthorizedException : Exception
     {
-        public NotAuthorizedException(string message = "Not authorized") : base(message) { }
+        public NotAuthorizedException() : base()
+        {
+        }
+        public NotAuthorizedException(string? message) : base(message)
+        {
+        }
+
+        public NotAuthorizedException(string? message, Exception? innerException) : base(message, innerException)
+        {
+        }
     }
 }

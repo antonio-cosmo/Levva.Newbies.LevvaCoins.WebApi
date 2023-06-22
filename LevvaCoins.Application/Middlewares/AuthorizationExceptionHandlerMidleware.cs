@@ -15,26 +15,29 @@ namespace LevvaCoins.Application.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            // Chame o próximo middleware na pipeline
             await _next(context);
 
-            // Verifique se há erros de autorização
             if (context.Response.StatusCode == StatusCodes.Status401Unauthorized ||
                 context.Response.StatusCode == StatusCodes.Status403Forbidden)
             {
-                context.Response.ContentType = "application/json";
-
-                var errorResponse = new ErrorResponse
-                {
-                    HasError = true,
-                    Message = "Usuario não autenticado"
-                };
-
-                var json = JsonSerializer.Serialize(errorResponse);
-
-                // Escrever a resposta de erro na resposta HTTP
-                await context.Response.WriteAsync(json);
+                await WriteErrorResponse(context);
             }
         }
+
+        private static async Task WriteErrorResponse(HttpContext context)
+        {
+            context.Response.ContentType = "application/json";
+
+            var errorResponse = new ErrorResponse
+            {
+                HasError = true,
+                Message = "Usuario não autenticado"
+            };
+
+            var json = JsonSerializer.Serialize(errorResponse);
+
+            await context.Response.WriteAsync(json);
+        }
+
     }
 }

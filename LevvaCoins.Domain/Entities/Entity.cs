@@ -3,6 +3,6 @@
     public abstract class Entity
     {
         public Guid Id { get; }
-        public abstract void Validate();
+        public abstract bool IsValid();
     }
 }
