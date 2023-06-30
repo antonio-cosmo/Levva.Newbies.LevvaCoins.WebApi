@@ -27,7 +27,7 @@ namespace LevvaCoins.Application.Transactions.Handlers
         }
         private static void ValidateTransaction(Transaction transaction)
         {
-            if (!transaction.IsValid())
+            if (!transaction.IsValid)
             {
                 throw new DomainValidationException("Entidade invalida.");
             }

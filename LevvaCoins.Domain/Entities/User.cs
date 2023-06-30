@@ -1,13 +1,18 @@
-﻿namespace LevvaCoins.Domain.Entities
+﻿using System.Diagnostics.Contracts;
+using LevvaCoins.Domain.Shared.Entities;
+using LevvaCoins.Domain.Shared.Validations;
+
+namespace LevvaCoins.Domain.Entities
 {
     public sealed class User : Entity
     {
         private const int MAX_AVATAR_LENGTH = 255;
         public string Name { get; private set; }
-        public string Email { get;}
-        public string Password { get;}
+        public string Email { get; }
+        public string Password { get; }
         public string? Avatar { get; private set; }
         public IList<Transaction>? Transactions { get; set; }
+        private User() { }
         public User(string name, string email, string password, string? avatar = null)
         {
             Name = name;
@@ -15,25 +20,30 @@
             Password = password;
             Avatar = avatar;
             Transactions = new List<Transaction>();
+
+            AddNotifications(
+                    new ValidationRule().Requires().IsNotNull(Name, nameof(Name), "should not be null"),
+                    new ValidationRule().Requires().IsNotNull(Email, nameof(Email), "should not be null"),
+                    new ValidationRule().Requires().IsNotNull(Password, nameof(Password), "should not be null"),
+                    new ValidationRule().Requires().HasLowerThan(Avatar, MAX_AVATAR_LENGTH, nameof(Avatar), $"should have more than {MAX_AVATAR_LENGTH} characters")
+
+                );
         }
-        public void Update(string name, string avatar)
+        public void ChangeName(string name)
         {
             Name = name;
-            Avatar = avatar;
+            AddNotifications(
+                    new ValidationRule().Requires().
+                    IsNotNull(Name, nameof(Name), "should not be null")
+                );
         }
-
-        public override bool IsValid()
+        public void ChangeAvatar(string avatar)
         {
-            if (string.IsNullOrEmpty(Name))
-                return false;
-            if (string.IsNullOrEmpty(Email))
-                return false;
-            if (string.IsNullOrEmpty(Password))
-                return false;
-            if (Avatar?.Length > MAX_AVATAR_LENGTH)
-                return false;
-
-            return true;
+            Avatar = avatar;
+            AddNotifications(
+                    new ValidationRule().Requires().
+                    HasLowerThan(Avatar, MAX_AVATAR_LENGTH, nameof(Avatar), $"should have more than {MAX_AVATAR_LENGTH} characters")
+                );
         }
     }
 }

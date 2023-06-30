@@ -39,15 +39,15 @@ namespace LevvaCoins.Application.Categories.Services
         public async Task<CategoryDto> GetByIdAsync(Guid id)
         {
             var queryById = new GetCategoryByIdQuery(id);
-            var category = await _mediator.Send(queryById) ?? throw new ModelNotFoundException("Essa categoria não existe.");
+            var category = await _mediator.Send(queryById) ?? throw new ModelNotFoundException("Categoria não existe.");
             return _mapper.Map<CategoryDto>(category);
         }
         public async Task UpdateAsync(Guid id, UpdateCategoryDto updateCategoryDto)
         {
-            var updateCommand = BuilderUpdateCategoryCommand(id, updateCategoryDto);
+            var updateCommand = GetInstanceUpdateCommand(id, updateCategoryDto);
             await _mediator.Send(updateCommand);
         }
-        private static UpdateCategoryCommand BuilderUpdateCategoryCommand(Guid id, UpdateCategoryDto updateCategoryDto)
+        private static UpdateCategoryCommand GetInstanceUpdateCommand(Guid id, UpdateCategoryDto updateCategoryDto)
         {
             var description = updateCategoryDto.Description ?? throw new NullReferenceException(nameof(updateCategoryDto.Description));
             return new UpdateCategoryCommand(id, description);

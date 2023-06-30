@@ -14,13 +14,8 @@ namespace LevvaCoins.Infra.Data.Mappings
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .HasColumnName("id");
-
-            builder.Property(x => x.Description)
-                .HasColumnName("description")
-                .HasColumnType("VARCHAR")
-                .HasMaxLength(255)
-                .IsRequired();
+                .HasColumnName("id")
+                .ValueGeneratedNever();
 
             builder.Property(x => x.Amount)
                 .HasColumnName("amount")
@@ -45,6 +40,16 @@ namespace LevvaCoins.Infra.Data.Mappings
             builder.Property(x => x.UserId)
                 .HasColumnName("userId");
 
+            builder.OwnsOne(x => x.Description, descriptionBuilder =>
+            {
+                descriptionBuilder.Property(x => x.Text)
+                    .HasColumnName("description")
+                    .HasColumnType("VARCHAR")
+                    .HasMaxLength(255)
+                    .IsRequired();
+                descriptionBuilder.Ignore(x => x.Notifications);
+            });
+
             builder.HasOne(x => x.Category)
                 .WithMany(x => x.Transactions)
                 .HasForeignKey(x => x.CategoryId)
@@ -57,6 +62,8 @@ namespace LevvaCoins.Infra.Data.Mappings
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Ignore(x => x.Notifications);
+            builder.Ignore(x => x.IsValid);
 
         }
     }

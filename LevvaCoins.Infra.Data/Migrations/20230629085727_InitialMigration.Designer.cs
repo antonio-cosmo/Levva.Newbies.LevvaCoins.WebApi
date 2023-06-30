@@ -11,34 +11,22 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LevvaCoins.Infra.Data.Migrations
 {
     [DbContext(typeof(MysqlDbContext))]
-    [Migration("20230506235122_InitialMigration")]
+    [Migration("20230629085727_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.7");
 
             modelBuilder.Entity("LevvaCoins.Domain.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("id");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("VARCHAR")
-                        .HasColumnName("description");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("Description")
-                        .IsUnique();
 
                     b.ToTable("categories", (string)null);
                 });
@@ -46,8 +34,7 @@ namespace LevvaCoins.Infra.Data.Migrations
             modelBuilder.Entity("LevvaCoins.Domain.Entities.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("id");
 
                     b.Property<decimal>("Amount")
@@ -56,7 +43,7 @@ namespace LevvaCoins.Infra.Data.Migrations
                         .HasColumnName("amount");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("categoryId");
 
                     b.Property<DateTime>("CreatedAt")
@@ -65,20 +52,12 @@ namespace LevvaCoins.Infra.Data.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("VARCHAR")
-                        .HasColumnName("description");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("VARCHAR")
+                    b.Property<int>("Type")
+                        .HasColumnType("int")
                         .HasColumnName("type");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("userId");
 
                     b.HasKey("Id");
@@ -93,8 +72,7 @@ namespace LevvaCoins.Infra.Data.Migrations
             modelBuilder.Entity("LevvaCoins.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("id");
 
                     b.Property<string>("Avatar")
@@ -128,6 +106,34 @@ namespace LevvaCoins.Infra.Data.Migrations
                     b.ToTable("users", (string)null);
                 });
 
+            modelBuilder.Entity("LevvaCoins.Domain.Entities.Category", b =>
+                {
+                    b.OwnsOne("LevvaCoins.Domain.ValueObjects.Description", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("CategoryId")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Text")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("VARCHAR")
+                                .HasColumnName("description");
+
+                            b1.HasKey("CategoryId");
+
+                            b1.HasIndex("Text")
+                                .IsUnique();
+
+                            b1.ToTable("categories");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CategoryId");
+                        });
+
+                    b.Navigation("Description")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LevvaCoins.Domain.Entities.Transaction", b =>
                 {
                     b.HasOne("LevvaCoins.Domain.Entities.Category", "Category")
@@ -142,7 +148,29 @@ namespace LevvaCoins.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsOne("LevvaCoins.Domain.ValueObjects.Description", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("TransactionId")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Text")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("VARCHAR")
+                                .HasColumnName("description");
+
+                            b1.HasKey("TransactionId");
+
+                            b1.ToTable("transactions");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TransactionId");
+                        });
+
                     b.Navigation("Category");
+
+                    b.Navigation("Description")
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

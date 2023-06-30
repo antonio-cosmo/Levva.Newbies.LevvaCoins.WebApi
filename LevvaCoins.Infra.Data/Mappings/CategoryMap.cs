@@ -13,18 +13,21 @@ namespace LevvaCoins.Infra.Data.Mappings
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .ValueGeneratedNever();
 
-
-
-            builder.Property(x => x.Description)
-                .HasColumnName("description")
-                .HasColumnType("VARCHAR")
-                .HasMaxLength(50)
-                .IsRequired();
-
-            builder.HasIndex(x => x.Description).IsUnique();
-
+            builder.OwnsOne(x => x.Description, descriptionBuilder =>
+            {
+                descriptionBuilder.Property(x => x.Text)
+                    .HasColumnName("description")
+                    .HasColumnType("VARCHAR")
+                    .HasMaxLength(50)
+                    .IsRequired();
+                descriptionBuilder.Ignore(x => x.Notifications);
+                descriptionBuilder.HasIndex(x => x.Text).IsUnique();
+            });
+            builder.Ignore(x => x.Notifications);
+            builder.Ignore(x => x.IsValid);
         }
     }
 }

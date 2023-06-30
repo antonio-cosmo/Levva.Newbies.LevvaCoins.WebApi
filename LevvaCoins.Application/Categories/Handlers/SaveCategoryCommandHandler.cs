@@ -3,6 +3,7 @@ using LevvaCoins.Application.Categories.Commands;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.ValueObjects;
 using MediatR;
 
 namespace LevvaCoins.Application.Categories.Handlers
@@ -23,6 +24,7 @@ namespace LevvaCoins.Application.Categories.Handlers
             await ValidateCategoryAlreadyExists(request.Description);
 
             var newCategory = _mapper.Map<Category>(request);
+
             ValidateCategory(newCategory);
 
             return await _categoryRepository.SaveAsync(newCategory);
@@ -38,9 +40,9 @@ namespace LevvaCoins.Application.Categories.Handlers
         }
         private static void ValidateCategory(Category category)
         {
-            if (!category.IsValid())
+            if (!category.IsValid)
             {
-                throw new DomainValidationException("Entidade inválida");
+                throw new DomainValidationException("Entidade inválida.");
             }
         }
     }

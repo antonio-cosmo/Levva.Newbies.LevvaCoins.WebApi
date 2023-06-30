@@ -11,48 +11,43 @@ namespace LevvaCoins.Infra.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySQL:Charset", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "categories",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    description = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false)
+                    id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    description = table.Column<string>(type: "VARCHAR", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_categories", x => x.id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    name = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: false),
-                    email = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: false),
-                    password = table.Column<string>(type: "VARCHAR(255)", maxLength: 255, nullable: false),
-                    avatar = table.Column<string>(type: "VARCHAR(2000)", maxLength: 2000, nullable: true)
+                    id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    name = table.Column<string>(type: "VARCHAR", maxLength: 100, nullable: false),
+                    email = table.Column<string>(type: "VARCHAR", maxLength: 200, nullable: false),
+                    password = table.Column<string>(type: "VARCHAR", maxLength: 255, nullable: false),
+                    avatar = table.Column<string>(type: "VARCHAR", maxLength: 2000, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_users", x => x.id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "transactions",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    description = table.Column<string>(type: "VARCHAR(255)", maxLength: 255, nullable: false),
-                    amount = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
+                    id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    description = table.Column<string>(type: "VARCHAR", maxLength: 255, nullable: false),
+                    amount = table.Column<decimal>(type: "decimal", precision: 8, scale: 2, nullable: false),
                     type = table.Column<int>(type: "int", nullable: false),
-                    categoryId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    userId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    categoryId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    userId = table.Column<Guid>(type: "TEXT", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
@@ -70,8 +65,7 @@ namespace LevvaCoins.Infra.Data.Migrations
                         principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_categories_description",

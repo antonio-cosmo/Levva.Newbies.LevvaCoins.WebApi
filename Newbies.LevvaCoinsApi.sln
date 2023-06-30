@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevvaCoins.Domain", "LevvaCoins.Domain\LevvaCoins.Domain.csproj", "{FB989F6C-9AC5-476E-A19C-8E8758913A00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Domain", "LevvaCoins.Domain\LevvaCoins.Domain.csproj", "{FB989F6C-9AC5-476E-A19C-8E8758913A00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevvaCoins.Infra.Data", "LevvaCoins.Infra.Data\LevvaCoins.Infra.Data.csproj", "{FDADF615-E97F-4770-884C-E033673BE56B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Infra.Data", "LevvaCoins.Infra.Data\LevvaCoins.Infra.Data.csproj", "{FDADF615-E97F-4770-884C-E033673BE56B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevvaCoins.Infra.IoC", "LevvaCoins.Infra.IoC\LevvaCoins.Infra.IoC.csproj", "{4F5525BD-B79B-429D-86AB-5042F53EF79F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Infra.IoC", "LevvaCoins.Infra.IoC\LevvaCoins.Infra.IoC.csproj", "{4F5525BD-B79B-429D-86AB-5042F53EF79F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevvaCoins.Application", "LevvaCoins.Application\LevvaCoins.Application.csproj", "{10FDC0C0-8732-43B8-B6E6-BC3D49223F8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Application", "LevvaCoins.Application\LevvaCoins.Application.csproj", "{10FDC0C0-8732-43B8-B6E6-BC3D49223F8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevvaCoins.Api", "LevvaCoins.Api\LevvaCoins.Api.csproj", "{75A184CB-33C4-495A-85FB-CCDEE88CC9D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Api", "LevvaCoins.Api\LevvaCoins.Api.csproj", "{75A184CB-33C4-495A-85FB-CCDEE88CC9D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Application.Tests", "LevvaCoins.Application.Tests\LevvaCoins.Application.Tests.csproj", "{422779B9-A18E-4AC5-8823-4F8F221DE2FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevvaCoins.Domain.Shared", "LevvaCoins.Domain.Shared\LevvaCoins.Domain.Shared.csproj", "{BBFD22ED-E140-46CB-B4E2-FC378AB5FD3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{75A184CB-33C4-495A-85FB-CCDEE88CC9D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75A184CB-33C4-495A-85FB-CCDEE88CC9D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75A184CB-33C4-495A-85FB-CCDEE88CC9D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{422779B9-A18E-4AC5-8823-4F8F221DE2FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{422779B9-A18E-4AC5-8823-4F8F221DE2FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{422779B9-A18E-4AC5-8823-4F8F221DE2FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{422779B9-A18E-4AC5-8823-4F8F221DE2FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBFD22ED-E140-46CB-B4E2-FC378AB5FD3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBFD22ED-E140-46CB-B4E2-FC378AB5FD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBFD22ED-E140-46CB-B4E2-FC378AB5FD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBFD22ED-E140-46CB-B4E2-FC378AB5FD3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

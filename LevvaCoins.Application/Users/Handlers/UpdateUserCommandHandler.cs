@@ -19,7 +19,8 @@ namespace LevvaCoins.Application.Users.Handlers
         {
             var user = await GetUserById(request.Id);
 
-            user.Update(request.Name, request.Avatar);
+            user.ChangeName(request.Name);
+            user.ChangeAvatar(request.Avatar);
             ValidateUser(user);
 
             await _userRepository.UpdateAsync(user);
@@ -30,7 +31,7 @@ namespace LevvaCoins.Application.Users.Handlers
         }
         private static void ValidateUser(User user)
         {
-            if (!user.IsValid())
+            if (!user.IsValid)
             {
                 throw new DomainValidationException("Entidade invalida.");
             }

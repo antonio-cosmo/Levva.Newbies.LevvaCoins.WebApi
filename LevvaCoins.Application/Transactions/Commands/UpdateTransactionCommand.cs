@@ -7,11 +7,11 @@ namespace LevvaCoins.Application.Transactions.Commands
     {
         public Guid Id { get; }
         public string Description { get; }
-        public double Amount { get; }
+        public decimal Amount { get; }
         public TransactionType Type { get; }
         public Guid CategoryId { get; }
 
-        public UpdateTransactionCommand(Guid id, string description, double amount, TransactionType type, Guid categoryId)
+        public UpdateTransactionCommand(Guid id, string description, decimal amount, TransactionType type, Guid categoryId)
         {
             Id = id;
             Description = description;

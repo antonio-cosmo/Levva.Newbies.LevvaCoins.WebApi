@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LevvaCoins.Application.Categories.Dtos;
 using LevvaCoins.Application.Transactions.Commands;
 using LevvaCoins.Application.Transactions.Dtos;
 using LevvaCoins.Application.Transactions.Interfaces;
@@ -20,8 +21,7 @@ namespace LevvaCoins.Application.Transactions.Services
         }
         public async Task<TransactionDetailsDto> SaveAsync(Guid userId, CreateTransactionDto createTransactionDto)
         {
-            var saveCommand = BuilderSaveTransactionCommand(userId, createTransactionDto);
-
+            var saveCommand = GetInstanceSaveTransactionCommand(userId, createTransactionDto);
             var transaction = await _mediator.Send(saveCommand);
 
             return _mapper.Map<TransactionDetailsDto>(transaction);
@@ -54,7 +54,7 @@ namespace LevvaCoins.Application.Transactions.Services
         }
         public async Task UpdateAsync(Guid id, UpdateTransactionDto updateTransactionDto)
         {
-            var updateCommand = BuilderUpdateTransactionCommand(id, updateTransactionDto);
+            var updateCommand = GetInstanceUpdateTransactionCommand(id, updateTransactionDto);
 
             await _mediator.Send(updateCommand);
         }
@@ -65,7 +65,7 @@ namespace LevvaCoins.Application.Transactions.Services
 
             return _mapper.Map<IEnumerable<TransactionDetailsDto>>(transactions);
         }
-        private static SaveTransactionCommand BuilderSaveTransactionCommand(Guid userId, CreateTransactionDto createTransactionDto)
+        private static SaveTransactionCommand GetInstanceSaveTransactionCommand(Guid userId, CreateTransactionDto createTransactionDto)
         {
             var description = createTransactionDto.Description
                 ?? throw new NullReferenceException(nameof(createTransactionDto.Description));
@@ -78,7 +78,7 @@ namespace LevvaCoins.Application.Transactions.Services
                     createTransactionDto.CategoryId
                 );
         }
-        private static UpdateTransactionCommand BuilderUpdateTransactionCommand(Guid id, UpdateTransactionDto updateTransactionDto)
+        private static UpdateTransactionCommand GetInstanceUpdateTransactionCommand(Guid id, UpdateTransactionDto updateTransactionDto)
         {
             var description = updateTransactionDto.Description
                 ?? throw new NullReferenceException(nameof(updateTransactionDto.Description));

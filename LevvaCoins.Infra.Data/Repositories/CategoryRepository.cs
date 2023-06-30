@@ -18,7 +18,7 @@ namespace LevvaCoins.Infra.Data.Repositories
 
         public async Task<Category?> GetByDescriptionAsync(string name)
         {
-            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => x.Description.Equals(name));
+            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => x.Description.Text.Equals(name));
         }
     }
 }

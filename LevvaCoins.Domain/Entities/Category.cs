@@ -1,28 +1,22 @@
-﻿namespace LevvaCoins.Domain.Entities
+﻿using LevvaCoins.Domain.Shared.Entities;
+using LevvaCoins.Domain.ValueObjects;
+
+namespace LevvaCoins.Domain.Entities
 {
     public sealed class Category : Entity
     {
-        private string _description = string.Empty;
-        public string Description
-        {
-            get { return _description; }
-            private set { _description = value.ToLower(); }
-        }
+        public Description Description { get; private set; }
         public IList<Transaction>? Transactions { get; set; }
-
-        public Category(string description)
+        private Category() { }
+        public Category(Description description)
         {
             Description = description;
-        }
 
-        public void Update(string description)
+            AddNotifications(Description);
+        }
+        public void ChangeDescription(Description description)
         {
             Description = description;
-        }
-
-        public override bool IsValid()
-        {
-            return !string.IsNullOrWhiteSpace(Description) && Description.Length >= 3;
         }
     }
 }

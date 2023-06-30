@@ -13,7 +13,8 @@ namespace LevvaCoins.Infra.Data.Mappings
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .ValueGeneratedNever();
 
             builder.Property(x => x.Name)
                 .HasColumnName("name")
@@ -38,6 +39,9 @@ namespace LevvaCoins.Infra.Data.Mappings
 
             builder.HasIndex(x => x.Email)
                 .IsUnique();
+
+            builder.Ignore(x => x.Notifications);
+            builder.Ignore(x => x.IsValid);
         }
     }
 }

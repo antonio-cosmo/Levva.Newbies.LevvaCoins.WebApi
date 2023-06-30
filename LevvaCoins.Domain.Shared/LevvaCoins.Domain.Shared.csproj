@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\LevvaCoins.Domain.Shared\LevvaCoins.Domain.Shared.csproj" />
-  </ItemGroup>
-
 </Project>

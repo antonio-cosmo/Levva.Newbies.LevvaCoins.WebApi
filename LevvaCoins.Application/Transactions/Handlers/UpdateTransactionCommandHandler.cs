@@ -3,6 +3,7 @@ using LevvaCoins.Application.Transactions.Commands;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.ValueObjects;
 using MediatR;
 
 namespace LevvaCoins.Application.Transactions.Handlers
@@ -19,13 +20,13 @@ namespace LevvaCoins.Application.Transactions.Handlers
         public async Task Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
         {
             var transaction = await GetTransactionById(request.Id);
+            var description = new Description(request.Description);
 
-            transaction.Update(
-                    request.Description,
-                    request.Amount,
-                    request.Type,
-                    request.CategoryId
-                );
+            transaction.ChangeDescription(description);
+            transaction.ChangeType(request.Type);
+            transaction.ChangeAmount(request.Amount);
+            transaction.ChangeCategory(request.CategoryId);
+
             ValidateTransaction(transaction);
 
             await _transactionRepository.UpdateAsync(transaction);
@@ -36,7 +37,7 @@ namespace LevvaCoins.Application.Transactions.Handlers
         }
         private static void ValidateTransaction(Transaction transaction)
         {
-            if (!transaction.IsValid())
+            if (!transaction.IsValid)
             {
                 throw new DomainValidationException("Entidade invalida");
             }

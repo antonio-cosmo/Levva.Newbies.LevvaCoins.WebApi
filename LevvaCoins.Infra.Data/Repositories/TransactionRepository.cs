@@ -54,8 +54,8 @@ namespace LevvaCoins.Infra.Data.Repositories
                                     .AsNoTracking()
                                     .Where(x => x.UserId.Equals(userId))
                                     .Where(x =>
-                                                EF.Functions.Like(x.Description, $"%{searchTerm}%") ||
-                                                EF.Functions.Like(x.Category!.Description, $"%{searchTerm}%")
+                                                EF.Functions.Like(x.Description.Text, $"%{searchTerm}%") ||
+                                                EF.Functions.Like(x.Category!.Description.Text, $"%{searchTerm}%")
                                           )
                                     .OrderByDescending(x => x.CreatedAt)
                                     .ToListAsync();
