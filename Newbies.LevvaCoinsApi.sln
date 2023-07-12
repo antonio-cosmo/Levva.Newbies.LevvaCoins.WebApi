@@ -3,19 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Domain", "LevvaCoins.Domain\LevvaCoins.Domain.csproj", "{FB989F6C-9AC5-476E-A19C-8E8758913A00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Domain", "src\LevvaCoins.Domain\LevvaCoins.Domain.csproj", "{FB989F6C-9AC5-476E-A19C-8E8758913A00}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Infra.Data", "LevvaCoins.Infra.Data\LevvaCoins.Infra.Data.csproj", "{FDADF615-E97F-4770-884C-E033673BE56B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Infra.Data", "src\LevvaCoins.Infra.Data\LevvaCoins.Infra.Data.csproj", "{FDADF615-E97F-4770-884C-E033673BE56B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Infra.IoC", "LevvaCoins.Infra.IoC\LevvaCoins.Infra.IoC.csproj", "{4F5525BD-B79B-429D-86AB-5042F53EF79F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Infra.IoC", "src\LevvaCoins.Infra.IoC\LevvaCoins.Infra.IoC.csproj", "{4F5525BD-B79B-429D-86AB-5042F53EF79F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Application", "LevvaCoins.Application\LevvaCoins.Application.csproj", "{10FDC0C0-8732-43B8-B6E6-BC3D49223F8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Application", "src\LevvaCoins.Application\LevvaCoins.Application.csproj", "{10FDC0C0-8732-43B8-B6E6-BC3D49223F8F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Api", "LevvaCoins.Api\LevvaCoins.Api.csproj", "{75A184CB-33C4-495A-85FB-CCDEE88CC9D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Api", "src\LevvaCoins.Api\LevvaCoins.Api.csproj", "{75A184CB-33C4-495A-85FB-CCDEE88CC9D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Application.Tests", "LevvaCoins.Application.Tests\LevvaCoins.Application.Tests.csproj", "{422779B9-A18E-4AC5-8823-4F8F221DE2FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.UnitTests", "tests\LevvaCoins.UnitTests\LevvaCoins.UnitTests.csproj", "{422779B9-A18E-4AC5-8823-4F8F221DE2FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevvaCoins.Domain.Shared", "LevvaCoins.Domain.Shared\LevvaCoins.Domain.Shared.csproj", "{BBFD22ED-E140-46CB-B4E2-FC378AB5FD3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevvaCoins.Domain.Shared", "src\LevvaCoins.Domain.Shared\LevvaCoins.Domain.Shared.csproj", "{BBFD22ED-E140-46CB-B4E2-FC378AB5FD3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9E6F832D-1A1D-4BF6-91B5-D63A36F50524}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{464FEB31-DB3B-4978-B6CB-0C0408CA7D23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +58,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FB989F6C-9AC5-476E-A19C-8E8758913A00} = {9E6F832D-1A1D-4BF6-91B5-D63A36F50524}
+		{FDADF615-E97F-4770-884C-E033673BE56B} = {9E6F832D-1A1D-4BF6-91B5-D63A36F50524}
+		{4F5525BD-B79B-429D-86AB-5042F53EF79F} = {9E6F832D-1A1D-4BF6-91B5-D63A36F50524}
+		{10FDC0C0-8732-43B8-B6E6-BC3D49223F8F} = {9E6F832D-1A1D-4BF6-91B5-D63A36F50524}
+		{75A184CB-33C4-495A-85FB-CCDEE88CC9D9} = {9E6F832D-1A1D-4BF6-91B5-D63A36F50524}
+		{422779B9-A18E-4AC5-8823-4F8F221DE2FF} = {464FEB31-DB3B-4978-B6CB-0C0408CA7D23}
+		{BBFD22ED-E140-46CB-B4E2-FC378AB5FD3C} = {9E6F832D-1A1D-4BF6-91B5-D63A36F50524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FF34374B-5355-43CE-9D6B-C1FFB2E5D5C1}

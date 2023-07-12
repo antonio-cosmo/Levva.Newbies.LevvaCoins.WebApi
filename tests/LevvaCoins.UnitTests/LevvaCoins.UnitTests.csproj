@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LevvaCoins.Application\LevvaCoins.Application.csproj" />
+    <ProjectReference Include="..\..\src\LevvaCoins.Application\LevvaCoins.Application.csproj" />
   </ItemGroup>
 
 </Project>
