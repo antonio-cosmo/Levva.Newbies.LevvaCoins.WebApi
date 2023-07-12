@@ -2,7 +2,7 @@
 using LevvaCoins.Application.Users.Commands;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using MediatR;
 
 namespace LevvaCoins.Application.Users.Handlers
@@ -25,7 +25,7 @@ namespace LevvaCoins.Application.Users.Handlers
             var newUser = _mapper.Map<User>(request);
             ValidateUser(newUser);
 
-            return await _userRepository.SaveAsync(newUser);
+            return await _userRepository.InsertAsync(newUser);
         }
         private async Task ValidateUserAlreadyExists(string email)
         {

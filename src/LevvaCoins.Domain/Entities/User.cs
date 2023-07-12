@@ -1,6 +1,5 @@
-﻿using System.Diagnostics.Contracts;
-using LevvaCoins.Domain.Shared.Entities;
-using LevvaCoins.Domain.Shared.Validations;
+﻿using LevvaCoins.Domain.SeedWork;
+using LevvaCoins.Domain.Validation;
 
 namespace LevvaCoins.Domain.Entities
 {
@@ -12,7 +11,6 @@ namespace LevvaCoins.Domain.Entities
         public string Password { get; }
         public string? Avatar { get; private set; }
         public IList<Transaction>? Transactions { get; set; }
-        private User() { }
         public User(string name, string email, string password, string? avatar = null)
         {
             Name = name;
@@ -20,30 +18,26 @@ namespace LevvaCoins.Domain.Entities
             Password = password;
             Avatar = avatar;
             Transactions = new List<Transaction>();
-
-            AddNotifications(
-                    new ValidationRule().Requires().IsNotNull(Name, nameof(Name), "should not be null"),
-                    new ValidationRule().Requires().IsNotNull(Email, nameof(Email), "should not be null"),
-                    new ValidationRule().Requires().IsNotNull(Password, nameof(Password), "should not be null"),
-                    new ValidationRule().Requires().HasLowerThan(Avatar, MAX_AVATAR_LENGTH, nameof(Avatar), $"should have more than {MAX_AVATAR_LENGTH} characters")
-
-                );
+            Validate();
         }
         public void ChangeName(string name)
         {
             Name = name;
-            AddNotifications(
-                    new ValidationRule().Requires().
-                    IsNotNull(Name, nameof(Name), "should not be null")
-                );
+            Validate();
         }
         public void ChangeAvatar(string avatar)
         {
             Avatar = avatar;
-            AddNotifications(
-                    new ValidationRule().Requires().
-                    HasLowerThan(Avatar, MAX_AVATAR_LENGTH, nameof(Avatar), $"should have more than {MAX_AVATAR_LENGTH} characters")
-                );
+            Validate();
         }
+
+        private void Validate()
+        {
+            DomainValidation.IsNull(Name, nameof(Name));
+            DomainValidation.IsNull(Email, nameof(Email));
+            DomainValidation.IsNull(Password, nameof(Password));
+            DomainValidation.HasGreaterThan(Avatar, MAX_AVATAR_LENGTH, nameof(Avatar));
+        }
+        private User() { }
     }
 }

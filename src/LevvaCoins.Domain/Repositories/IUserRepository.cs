@@ -1,8 +1,9 @@
 ﻿using LevvaCoins.Domain.Entities;
+using LevvaCoins.Domain.SeedWork;
 
-namespace LevvaCoins.Domain.Interfaces.Repositories
+namespace LevvaCoins.Domain.Repositories
 {
-    public interface IUserRepository : IRepositoryBase<User, Guid>
+    public interface IUserRepository : IGenericRepository<User, Guid>
     {
         Task<ICollection<User>> GetAllAsync();
         Task<User?> GetByEmailAsync(string email);

@@ -5,7 +5,7 @@ using LevvaCoins.Application.Categories.Commands;
 using LevvaCoins.Application.Categories.Handlers;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using LevvaCoins.Domain.ValueObjects;
 using Moq;
 
@@ -34,7 +34,7 @@ namespace LevvaCoins.Application.Tests.CategoryTests.Handlers
             _repositoryMock.Setup(repo => repo.GetByDescriptionAsync(It.IsAny<string>()))
                 .ReturnsAsync(null as Category);
 
-            _repositoryMock.Setup(repo => repo.SaveAsync(It.IsAny<Category>()))
+            _repositoryMock.Setup(repo => repo.InsertAsync(It.IsAny<Category>()))
                 .ReturnsAsync(category);
 
             // Act
@@ -42,7 +42,7 @@ namespace LevvaCoins.Application.Tests.CategoryTests.Handlers
 
             // Assert
             result.Should().BeEquivalentTo(category);
-            _repositoryMock.Verify(x => x.SaveAsync(It.IsAny<Category>()), Times.Exactly(1));
+            _repositoryMock.Verify(x => x.InsertAsync(It.IsAny<Category>()), Times.Exactly(1));
             _repositoryMock.Verify(x => x.GetByDescriptionAsync(It.IsAny<string>()), Times.Exactly(1));
         }
 

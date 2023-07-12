@@ -1,6 +1,6 @@
 ﻿using LevvaCoins.Application.Users.Queries;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using MediatR;
 
 namespace LevvaCoins.Application.Users.Handlers

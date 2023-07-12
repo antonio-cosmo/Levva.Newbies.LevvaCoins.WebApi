@@ -1,7 +1,7 @@
 ﻿using LevvaCoins.Application.Users.Commands;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using MediatR;
 
 namespace LevvaCoins.Application.Users.Handlers
@@ -27,7 +27,7 @@ namespace LevvaCoins.Application.Users.Handlers
         }
         private async Task<User> GetUserById(Guid id)
         {
-            return await _userRepository.GetByIdAsync(id) ?? throw new ModelNotFoundException("Esse usuário não existe.");
+            return await _userRepository.GetAsync(id) ?? throw new ModelNotFoundException("Esse usuário não existe.");
         }
         private static void ValidateUser(User user)
         {

@@ -9,10 +9,10 @@ namespace LevvaCoins.Application.Transactions.Commands
         public Guid UserId { get; }
         public string Description { get;}
         public decimal Amount { get; }
-        public TransactionType Type { get; }
+        public ETransactionType Type { get; }
         public Guid CategoryId { get; }
 
-        public SaveTransactionCommand(Guid userId, string description, decimal amount, TransactionType type, Guid categoryId)
+        public SaveTransactionCommand(Guid userId, string description, decimal amount, ETransactionType type, Guid categoryId)
         {
             Description = description;
             Amount = amount;

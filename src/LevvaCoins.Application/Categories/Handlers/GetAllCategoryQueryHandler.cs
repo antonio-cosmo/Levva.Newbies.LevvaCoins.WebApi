@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LevvaCoins.Application.Categories.Queries;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using MediatR;
 
 namespace LevvaCoins.Application.Categories.Handlers

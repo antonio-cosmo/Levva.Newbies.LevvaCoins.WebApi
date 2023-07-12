@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LevvaCoins.Application.Categories.Queries;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using MediatR;
 
 namespace LevvaCoins.Application.Categories.Handlers
@@ -20,6 +20,6 @@ namespace LevvaCoins.Application.Categories.Handlers
         }
 
         public async Task<Category?> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken) =>
-            await _categoryRepository.GetByIdAsync(request.Id);
+            await _categoryRepository.GetAsync(request.Id);
     }
 }

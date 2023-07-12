@@ -1,7 +1,7 @@
 ﻿using LevvaCoins.Application.Categories.Commands;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using LevvaCoins.Domain.ValueObjects;
 using MediatR;
 
@@ -30,7 +30,7 @@ namespace LevvaCoins.Application.Categories.Handlers
 
         private async Task<Category> GetCategoryById(Guid id)
         {
-            return await _categoryRepository.GetByIdAsync(id) ?? throw new ModelNotFoundException("Essa categoria não existe.");
+            return await _categoryRepository.GetAsync(id) ?? throw new ModelNotFoundException("Essa categoria não existe.");
         }
 
         private static void ValidateCategory(Category category)

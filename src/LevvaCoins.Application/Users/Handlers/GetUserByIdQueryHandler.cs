@@ -1,6 +1,6 @@
 ﻿using LevvaCoins.Application.Users.Queries;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using MediatR;
 
 namespace LevvaCoins.Application.Users.Handlers
@@ -15,7 +15,7 @@ namespace LevvaCoins.Application.Users.Handlers
         }
 
         public async Task<User?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken) =>
-            await _userRepository.GetByIdAsync(request.Id);
+            await _userRepository.GetAsync(request.Id);
 
     }
 }

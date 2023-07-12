@@ -1,5 +1,5 @@
 ﻿using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using LevvaCoins.Infra.Data.Interface;
 using Microsoft.EntityFrameworkCore;
 

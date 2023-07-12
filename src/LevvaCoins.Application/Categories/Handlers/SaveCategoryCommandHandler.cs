@@ -2,7 +2,7 @@
 using LevvaCoins.Application.Categories.Commands;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using LevvaCoins.Domain.ValueObjects;
 using MediatR;
 
@@ -27,7 +27,7 @@ namespace LevvaCoins.Application.Categories.Handlers
 
             ValidateCategory(newCategory);
 
-            return await _categoryRepository.SaveAsync(newCategory);
+            return await _categoryRepository.InsertAsync(newCategory);
         }
 
         private async Task ValidateCategoryAlreadyExists(string description)

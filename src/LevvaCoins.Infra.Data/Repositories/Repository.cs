@@ -1,10 +1,10 @@
-﻿using LevvaCoins.Domain.Interfaces.Repositories;
+﻿using LevvaCoins.Domain.SeedWork;
 using LevvaCoins.Infra.Data.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace LevvaCoins.Infra.Data.Repositories
 {
-    public class Repository<TEntity> : IRepositoryBase<TEntity, Guid> where TEntity : class
+    public class Repository<TEntity> : IGenericRepository<TEntity, Guid> where TEntity : class
     {
         private readonly IContext _context;
         private readonly DbSet<TEntity> _entity;
@@ -15,7 +15,7 @@ namespace LevvaCoins.Infra.Data.Repositories
             _context = context;
             _entity = _context.Set<TEntity>();
         }
-        public async Task<TEntity?> GetByIdAsync(Guid id)
+        public async Task<TEntity?> GetAsync(Guid id)
         {
             return await _entity.FindAsync(id);
         }

@@ -8,7 +8,7 @@ using LevvaCoins.Application.Transactions.Interfaces;
 using LevvaCoins.Application.Transactions.Services;
 using LevvaCoins.Application.Users.Interfaces;
 using LevvaCoins.Application.Users.Services;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using LevvaCoins.Infra.Data.Context;
 using LevvaCoins.Infra.Data.Interface;
 using LevvaCoins.Infra.Data.Repositories;

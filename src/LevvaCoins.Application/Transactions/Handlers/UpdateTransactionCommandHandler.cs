@@ -2,7 +2,7 @@
 using LevvaCoins.Application.Transactions.Commands;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using LevvaCoins.Domain.ValueObjects;
 using MediatR;
 
@@ -33,7 +33,7 @@ namespace LevvaCoins.Application.Transactions.Handlers
         }
         private async Task<Transaction> GetTransactionById(Guid id)
         {
-            return await _transactionRepository.GetByIdAsync(id) ?? throw new ModelNotFoundException("Essa transação não existe.");
+            return await _transactionRepository.GetAsync(id) ?? throw new ModelNotFoundException("Essa transação não existe.");
         }
         private static void ValidateTransaction(Transaction transaction)
         {

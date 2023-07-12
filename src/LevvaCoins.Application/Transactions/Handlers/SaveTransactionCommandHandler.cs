@@ -2,7 +2,7 @@
 using LevvaCoins.Application.Transactions.Commands;
 using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using MediatR;
 
 namespace LevvaCoins.Application.Transactions.Handlers
@@ -23,7 +23,7 @@ namespace LevvaCoins.Application.Transactions.Handlers
             var newTransaction = _mapper.Map<Transaction>(request);
             ValidateTransaction(newTransaction);
 
-            return await _transactionRepository.SaveAsync(newTransaction);
+            return await _transactionRepository.InsertAsync(newTransaction);
         }
         private static void ValidateTransaction(Transaction transaction)
         {

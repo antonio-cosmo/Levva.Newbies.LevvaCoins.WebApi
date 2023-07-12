@@ -1,6 +1,6 @@
 ﻿namespace LevvaCoins.Domain.Enums
 {
-    public enum TransactionType
+    public enum ETransactionType
     {
         Income = 0,
         Outcome = 1,

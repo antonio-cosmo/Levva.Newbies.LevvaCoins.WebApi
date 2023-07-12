@@ -1,6 +1,6 @@
 ﻿using LevvaCoins.Application.Users.Commands;
 using LevvaCoins.Domain.AppExceptions;
-using LevvaCoins.Domain.Interfaces.Repositories;
+using LevvaCoins.Domain.Repositories;
 using MediatR;
 
 namespace LevvaCoins.Application.Users.Handlers
@@ -16,7 +16,7 @@ namespace LevvaCoins.Application.Users.Handlers
 
         public async Task Handle(RemoveUserCommand request, CancellationToken cancellationToken)
         {
-            var userExists = await _userRepository.GetByIdAsync(request.Id)
+            var userExists = await _userRepository.GetAsync(request.Id)
                 ?? throw new ModelNotFoundException("Esse usuário não existe.");
 
             await _userRepository.RemoveAsync(userExists);

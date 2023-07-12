@@ -1,4 +1,5 @@
-﻿using LevvaCoins.Domain.Shared.Entities;
+﻿using LevvaCoins.Domain.SeedWork;
+using LevvaCoins.Domain.Validation;
 using LevvaCoins.Domain.ValueObjects;
 
 namespace LevvaCoins.Domain.Entities
@@ -7,16 +8,20 @@ namespace LevvaCoins.Domain.Entities
     {
         public Description Description { get; private set; }
         public IList<Transaction>? Transactions { get; set; }
-        private Category() { }
         public Category(Description description)
         {
             Description = description;
-
-            AddNotifications(Description);
+            Validate();
         }
         public void ChangeDescription(Description description)
         {
             Description = description;
+            Validate();
         }
+        private void Validate()
+        {
+            DomainValidation.IsNull(Description, nameof(Description));
+        }
+        private Category() { }
     }
 }

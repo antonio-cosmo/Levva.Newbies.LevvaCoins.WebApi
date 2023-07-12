@@ -1,9 +1,10 @@
 ﻿using LevvaCoins.Domain.Common;
 using LevvaCoins.Domain.Entities;
+using LevvaCoins.Domain.SeedWork;
 
-namespace LevvaCoins.Domain.Interfaces.Repositories
+namespace LevvaCoins.Domain.Repositories
 {
-    public interface ITransactionRepository : IRepositoryBase<Transaction, Guid>
+    public interface ITransactionRepository : IGenericRepository<Transaction, Guid>
     {
         Task<IEnumerable<Transaction>> GetAllAsync();
         Task<PagedResult<Transaction>> GetByUserPagedAsync(Guid userId, PaginationOptions paginationOptions);
