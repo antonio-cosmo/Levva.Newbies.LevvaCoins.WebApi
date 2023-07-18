@@ -1,5 +1,6 @@
-﻿using LevvaCoins.Application.Common.Dtos;
+﻿using LevvaCoins.Application.Common;
 using LevvaCoins.Domain.AppExceptions;
+using LevvaCoins.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 
@@ -32,7 +33,7 @@ namespace LevvaCoins.Application.Middlewares
             {
                 await WriteErrorResponse(context, ex);
             }
-            catch (DomainValidationException ex)
+            catch (EntityValidationException ex)
             {
                 await WriteErrorResponse(context, ex);
             }

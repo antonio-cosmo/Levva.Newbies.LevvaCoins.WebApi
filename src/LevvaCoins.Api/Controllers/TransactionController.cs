@@ -1,10 +1,10 @@
-﻿using LevvaCoins.Application.Users.Extensions;
-using LevvaCoins.Application.Categories.Interfaces;
-using LevvaCoins.Application.Common.Dtos;
-using LevvaCoins.Application.Transactions.Dtos;
-using LevvaCoins.Application.Transactions.Interfaces;
+﻿using LevvaCoins.Application.Categories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LevvaCoins.Application.Common;
+using LevvaCoins.Application.UseCases.Users.Extensions;
+using LevvaCoins.Application.UseCases.Transactions.Dtos;
+using LevvaCoins.Application.UseCases.Transactions.Interfaces;
 
 namespace LevvaCoins.Api.Controllers
 {

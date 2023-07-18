@@ -1,11 +1,11 @@
 ﻿namespace LevvaCoins.Domain.SeedWork
 {
-    public interface IGenericRepository<TEntity, UId> : IRepository 
+    public interface IGenericRepository<TEntity, UId> : IRepository
         where TEntity : Entity
     {
-        Task InsertAsync(TEntity entity);
-        Task<TEntity?> GetAsync(UId id);
-        Task UpdateAsync(TEntity entity);
-        Task RemoveAsync(TEntity entity);
+        Task InsertAsync(TEntity entity, CancellationToken cancellationToken);
+        Task<TEntity?> GetAsync(UId id, CancellationToken cancellationToken);
+        Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
+        Task RemoveAsync(TEntity entity, CancellationToken cancellationToken);
     }
 }

@@ -25,7 +25,7 @@ namespace LevvaCoins.Domain.Entities
             Type = type;
             CategoryId = categoryId;
             UserId = userId;
-
+            CreatedAt = DateTime.Now;
             Validate();
         }
         public void ChangeDescription(Description description)

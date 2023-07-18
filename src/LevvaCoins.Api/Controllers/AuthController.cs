@@ -1,6 +1,6 @@
-﻿using LevvaCoins.Application.Common.Dtos;
-using LevvaCoins.Application.Users.Dtos;
-using LevvaCoins.Application.Users.Interfaces;
+﻿using LevvaCoins.Application.Common;
+using LevvaCoins.Application.UseCases.Users.Dtos;
+using LevvaCoins.Application.UseCases.Users.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers

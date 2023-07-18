@@ -22,6 +22,8 @@ namespace LevvaCoins.Domain.Entities
         {
             DomainValidation.IsNull(Description, nameof(Description));
         }
+
+        // For EF
         private Category() { }
     }
 }

@@ -5,20 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LevvaCoins.Infra.Data.Repositories
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
     {
         public CategoryRepository(IContext context): base(context)
         {
         }
-
-        public async Task<ICollection<Category>> GetAllAsync()
+        public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await Entity.AsNoTracking().ToListAsync();
+            return await Entity.AsNoTracking().ToListAsync(cancellationToken);
         }
-
-        public async Task<Category?> GetByDescriptionAsync(string name)
+        public async Task<Category?> GetByDescriptionAsync(string name, CancellationToken cancellationToken = default)
         {
-            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => x.Description.Text.Equals(name));
+            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => EF.Functions.Like(x.Description.Text, $"{name}"), cancellationToken);
         }
     }
 }

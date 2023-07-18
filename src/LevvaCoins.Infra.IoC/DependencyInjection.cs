@@ -4,12 +4,13 @@ using LevvaCoins.Application.Categories.Interfaces;
 using LevvaCoins.Application.Categories.Services;
 using LevvaCoins.Application.MapperProfiles;
 using LevvaCoins.Application.Middlewares;
-using LevvaCoins.Application.Transactions.Interfaces;
-using LevvaCoins.Application.Transactions.Services;
-using LevvaCoins.Application.Users.Interfaces;
-using LevvaCoins.Application.Users.Services;
+using LevvaCoins.Application.UseCases.Transactions.Interfaces;
+using LevvaCoins.Application.UseCases.Transactions.Services;
+using LevvaCoins.Application.UseCases.Users.Interfaces;
+using LevvaCoins.Application.UseCases.Users.Services;
 using LevvaCoins.Domain.Repositories;
-using LevvaCoins.Infra.Data.Context;
+using LevvaCoins.Domain.SeedWork;
+using LevvaCoins.Infra.Data;
 using LevvaCoins.Infra.Data.Interface;
 using LevvaCoins.Infra.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,17 +29,18 @@ namespace LevvaCoins.Infra.IoC
         public static void AddLevvaCoinsService(this IServiceCollection services)
         {
             var secretKey = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("SECRET__KEY")!);
-            services.AddDbContext<IContext, MysqlDbContext>(opt =>
+            services.AddDbContext<IContext, LevvaCoinsDbContext>(opt =>
             {
                 opt.UseSqlite(
                     $"Data Source={Environment.GetEnvironmentVariable("DATABASE__CONNECTION__URL")}",
-                    x => x.MigrationsAssembly(typeof(MysqlDbContext).Assembly.FullName)
+                    x => x.MigrationsAssembly(typeof(LevvaCoinsDbContext).Assembly.FullName)
                 );
             });
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<ICategoryServices, CategoryServices>();
             services.AddScoped<IUserServices, UserServices>();

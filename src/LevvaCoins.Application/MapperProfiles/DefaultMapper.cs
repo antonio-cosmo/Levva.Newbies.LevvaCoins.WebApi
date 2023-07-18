@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using LevvaCoins.Application.Categories.Commands;
 using LevvaCoins.Application.Categories.Dtos;
-using LevvaCoins.Application.Transactions.Commands;
-using LevvaCoins.Application.Transactions.Dtos;
-using LevvaCoins.Application.Users.Commands;
-using LevvaCoins.Application.Users.Dtos;
+using LevvaCoins.Application.UseCases.Categories.Common;
+using LevvaCoins.Application.UseCases.Categories.CreateCategory;
+using LevvaCoins.Application.UseCases.Categories.UpdateCategory;
+using LevvaCoins.Application.UseCases.Transactions.Commands;
+using LevvaCoins.Application.UseCases.Transactions.Dtos;
+using LevvaCoins.Application.UseCases.Users.Commands;
+using LevvaCoins.Application.UseCases.Users.Dtos;
 using LevvaCoins.Domain.Common;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.ValueObjects;
@@ -21,12 +23,8 @@ namespace LevvaCoins.Application.MapperProfiles
         public DefaultMapper()
         {
             //Category
-            CreateMap<CreateCategoryDto, SaveCategoryCommand>().ReverseMap();
-            CreateMap<UpdateCategoryDto, UpdateCategoryCommand>().ReverseMap();
-            CreateMap<SaveCategoryCommand, Category>()
+            CreateMap<CreateCategoryInput, Category>()
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src=> new Description(src.Description)));
-            CreateMap<Category, CategoryDto>()
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description.Text));
 
             //User
             CreateMap<CreateUserDto, SaveUserCommand>().ReverseMap();

@@ -1,49 +1,57 @@
-﻿using LevvaCoins.Application.Categories.Dtos;
-using LevvaCoins.Application.Categories.Interfaces;
-using LevvaCoins.Application.Common.Dtos;
-using Microsoft.AspNetCore.Authorization;
+﻿using LevvaCoins.Api.ApiModel.Category;
+using LevvaCoins.Application.Categories.UseCases.GetAllCategory;
+using LevvaCoins.Application.Categories.UseCases.GetCategory;
+using LevvaCoins.Application.Categories.UseCases.RemoveCategory;
+using LevvaCoins.Application.Categories.UseCases.UpdateCategory;
+using LevvaCoins.Application.Common;
+using LevvaCoins.Application.UseCases.Categories.Common;
+using LevvaCoins.Application.UseCases.Categories.CreateCategory;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/category")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        readonly ICategoryServices _categoryServices;
-        public CategoryController(ICategoryServices services)
+        readonly IMediator _mediator;
+        public CategoryController(IMediator mediator)
         {
-            _categoryServices = services;
+            _mediator = mediator;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllAsync() =>
-            Ok(await _categoryServices.GetAllAsync());
+        public async Task<ActionResult<IEnumerable<CategoryOutput>>> GetAllAsync() =>
+            Ok(await _mediator.Send(new GetAllCategoryInput()));
 
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CategoryDto>> GetByIdAsync([FromRoute] Guid id) =>
-            Ok(await _categoryServices.GetByIdAsync(id));
+        public async Task<ActionResult<CategoryOutput>> GetByIdAsync([FromRoute] Guid id) =>
+            Ok(await _mediator.Send(new GetCategoryInput(id)));
 
         [HttpPost]
-        [ProducesResponseType(typeof(CategoryDto) ,StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CategoryOutput) ,StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> PostAsync([FromBody] CreateCategoryDto body) =>
-            Created("", await _categoryServices.SaveAsync(body));
+        public async Task<ActionResult> PostAsync([FromBody] CreateCategoryInput body) =>
+            Created("", await _mediator.Send(body));
 
         [HttpPut("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateCategoryDto categoryDto)
+        public async Task<IActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateCategoryApiInput updateCategoryInput)
         {
-            await _categoryServices.UpdateAsync(id, categoryDto);
+            await _mediator.Send(new UpdateCategoryInput(
+                    id,
+                    updateCategoryInput.Description
+                ));
             return NoContent();
         }
 
@@ -53,7 +61,7 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> DeleteAsync([FromRoute] Guid id)
         {
-            await _categoryServices.RemoveAsync(id);
+            await _mediator.Send(new RemoveCategoryInput(id));
             return NoContent();
         }
     }

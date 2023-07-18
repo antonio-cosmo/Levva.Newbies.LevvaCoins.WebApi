@@ -5,20 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LevvaCoins.Infra.Data.Repositories
 {
-    public class UserRepository : Repository<User> ,IUserRepository
+    public class UserRepository : GenericRepository<User> ,IUserRepository
     {
         public UserRepository(IContext context) : base(context) { }
 
-        public async Task<ICollection<User>> GetAllAsync()
+        public async Task<ICollection<User>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await Entity.AsNoTracking().ToListAsync();
+            return await Entity.AsNoTracking().ToListAsync(cancellationToken);
         }
-
-        public async Task<User?> GetByEmailAsync(string email)
+        public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
         {
-            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => x.Email.Equals(email));
-
+            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => x.Email.Equals(email), cancellationToken);
         }
-     
     }
 }
