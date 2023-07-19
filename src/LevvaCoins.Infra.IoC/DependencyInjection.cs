@@ -1,13 +1,9 @@
 ﻿using System.Reflection;
 using System.Text;
-using LevvaCoins.Application.Categories.Interfaces;
-using LevvaCoins.Application.Categories.Services;
 using LevvaCoins.Application.MapperProfiles;
 using LevvaCoins.Application.Middlewares;
 using LevvaCoins.Application.UseCases.Transactions.Interfaces;
 using LevvaCoins.Application.UseCases.Transactions.Services;
-using LevvaCoins.Application.UseCases.Users.Interfaces;
-using LevvaCoins.Application.UseCases.Users.Services;
 using LevvaCoins.Domain.Repositories;
 using LevvaCoins.Domain.SeedWork;
 using LevvaCoins.Infra.Data;
@@ -42,10 +38,7 @@ namespace LevvaCoins.Infra.IoC
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddScoped<ICategoryServices, CategoryServices>();
-            services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<ITransactionServices, TransactionServices>();
-            services.AddScoped<IAuthenticateService, AuthenticateService>();
 
             services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.Load("LevvaCoins.Application")));
             services.AddAutoMapper(typeof(DefaultMapper));

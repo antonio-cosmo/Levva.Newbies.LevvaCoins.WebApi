@@ -9,6 +9,6 @@ public class UnitOfWork : IUnitOfWork
     {
         _context = context;
     }
-    public async Task Commit(CancellationToken cancellationToken)
+    public async Task CommitAsync(CancellationToken cancellationToken)
         => await _context.SaveChangesAsync(cancellationToken);
 }

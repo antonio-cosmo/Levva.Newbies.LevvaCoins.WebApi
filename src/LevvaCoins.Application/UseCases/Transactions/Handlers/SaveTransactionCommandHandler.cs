@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using LevvaCoins.Application.UseCases.Transactions.Commands;
-using LevvaCoins.Domain.AppExceptions;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.Repositories;
 using MediatR;

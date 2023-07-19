@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using LevvaCoins.Application.Categories.Dtos;
-using LevvaCoins.Application.UseCases.Categories.Common;
+﻿using AutoMapper;
 using LevvaCoins.Application.UseCases.Categories.CreateCategory;
-using LevvaCoins.Application.UseCases.Categories.UpdateCategory;
 using LevvaCoins.Application.UseCases.Transactions.Commands;
 using LevvaCoins.Application.UseCases.Transactions.Dtos;
-using LevvaCoins.Application.UseCases.Users.Commands;
-using LevvaCoins.Application.UseCases.Users.Dtos;
+using LevvaCoins.Application.UseCases.Users.AuthenticateUser;
+using LevvaCoins.Application.UseCases.Users.CreateUser;
 using LevvaCoins.Domain.Common;
 using LevvaCoins.Domain.Entities;
 using LevvaCoins.Domain.ValueObjects;
@@ -27,11 +19,8 @@ namespace LevvaCoins.Application.MapperProfiles
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src=> new Description(src.Description)));
 
             //User
-            CreateMap<CreateUserDto, SaveUserCommand>().ReverseMap();
-            CreateMap<UpdateUserDto, UpdateUserCommand>().ReverseMap();
-            CreateMap<SaveUserCommand, User>().ReverseMap();
-            CreateMap<User, UserDto>().ReverseMap();
-            CreateMap<User,LoginResponseDto>().ReverseMap();
+            CreateMap<CreateUserInput, User>().ReverseMap();
+            CreateMap<User, AuthenticateUserOutput>().ReverseMap();
 
             //Transaction
             CreateMap<CreateTransactionDto, SaveTransactionCommand>().ReverseMap();

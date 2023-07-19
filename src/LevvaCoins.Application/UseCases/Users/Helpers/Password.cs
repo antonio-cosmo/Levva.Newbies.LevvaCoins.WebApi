@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace LevvaCoins.Application.Helpers
+namespace LevvaCoins.Application.UseCases.Users.Helpers
 {
     public class PasswordHash
     {
@@ -11,12 +11,6 @@ namespace LevvaCoins.Application.Helpers
         {
             HashedValue = GenerateHash(password);
         }
-
-        public bool IsSame(string expectedPassword)
-        {
-            return HashedValue.SequenceEqual(expectedPassword);
-        }
-
         private static string GenerateHash(string password)
         {
             var passwordHash = HashData(password);

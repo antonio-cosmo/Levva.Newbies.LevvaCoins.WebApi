@@ -13,9 +13,19 @@ namespace LevvaCoins.Infra.Data.Repositories
         {
             return await Entity.AsNoTracking().ToListAsync(cancellationToken);
         }
+        public async Task<User?> GetByEmailAndPasswordAsync(string email, string password, CancellationToken cancellationToken = default)
+        {
+            return await Entity.AsNoTracking().FirstOrDefaultAsync(
+                    x => x.Email.Equals(email) && x.Password.Equals(password),
+                    cancellationToken
+                );
+        }
         public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
         {
-            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => x.Email.Equals(email), cancellationToken);
+            return await Entity.AsNoTracking().FirstOrDefaultAsync(
+                    x => x.Email.Equals(email),
+                    cancellationToken
+                );
         }
     }
 }

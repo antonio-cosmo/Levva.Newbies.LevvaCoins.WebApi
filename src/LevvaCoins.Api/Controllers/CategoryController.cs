@@ -1,11 +1,12 @@
-﻿using LevvaCoins.Api.ApiModel.Category;
-using LevvaCoins.Application.Categories.UseCases.GetAllCategory;
-using LevvaCoins.Application.Categories.UseCases.GetCategory;
-using LevvaCoins.Application.Categories.UseCases.RemoveCategory;
-using LevvaCoins.Application.Categories.UseCases.UpdateCategory;
+﻿using System.Threading;
+using LevvaCoins.Api.ApiModel.Category;
 using LevvaCoins.Application.Common;
 using LevvaCoins.Application.UseCases.Categories.Common;
 using LevvaCoins.Application.UseCases.Categories.CreateCategory;
+using LevvaCoins.Application.UseCases.Categories.GetAllCategory;
+using LevvaCoins.Application.UseCases.Categories.GetCategory;
+using LevvaCoins.Application.UseCases.Categories.RemoveCategory;
+using LevvaCoins.Application.UseCases.Categories.UpdateCategory;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,33 +26,33 @@ namespace LevvaCoins.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<CategoryOutput>>> GetAllAsync() =>
-            Ok(await _mediator.Send(new GetAllCategoryInput()));
+        public async Task<ActionResult<IEnumerable<CategoryOutput>>> GetAllAsync(CancellationToken cancellationToken) =>
+            Ok(await _mediator.Send(new GetAllCategoryInput(), cancellationToken));
 
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CategoryOutput>> GetByIdAsync([FromRoute] Guid id) =>
-            Ok(await _mediator.Send(new GetCategoryInput(id)));
+        public async Task<ActionResult<CategoryOutput>> GetByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken) =>
+            Ok(await _mediator.Send(new GetCategoryInput(id), cancellationToken));
 
         [HttpPost]
         [ProducesResponseType(typeof(CategoryOutput) ,StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> PostAsync([FromBody] CreateCategoryInput body) =>
-            Created("", await _mediator.Send(body));
+        public async Task<ActionResult> PostAsync([FromBody] CreateCategoryInput body, CancellationToken cancellationToken) =>
+            Created("", await _mediator.Send(body, cancellationToken));
 
         [HttpPut("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateCategoryApiInput updateCategoryInput)
+        public async Task<IActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateCategoryApiInput updateCategoryInput,CancellationToken cancellationToken)
         {
             await _mediator.Send(new UpdateCategoryInput(
                     id,
                     updateCategoryInput.Description
-                ));
+                ), cancellationToken);
             return NoContent();
         }
 
@@ -59,9 +60,9 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> DeleteAsync([FromRoute] Guid id)
+        public async Task<ActionResult> DeleteAsync([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new RemoveCategoryInput(id));
+            await _mediator.Send(new RemoveCategoryInput(id), cancellationToken);
             return NoContent();
         }
     }

@@ -26,7 +26,7 @@ public class CreateCategory : ICreateCategory
         var newCategory = _mapper.Map<Category>(request);
 
         await _categoryRepository.InsertAsync(newCategory, cancellationToken);
-        await _unitOfWork.Commit(cancellationToken);
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return CategoryOutput.FromDomain(newCategory);
     }

@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using LevvaCoins.Api.ApiModel.User;
 using LevvaCoins.Application.Common;
-using LevvaCoins.Application.UseCases.Users.Dtos;
-using LevvaCoins.Application.UseCases.Users.Interfaces;
+using LevvaCoins.Application.UseCases.Users.Common;
+using LevvaCoins.Application.UseCases.Users.CreateUser;
+using LevvaCoins.Application.UseCases.Users.GetAllUser;
+using LevvaCoins.Application.UseCases.Users.GetUser;
+using LevvaCoins.Application.UseCases.Users.RemoveUser;
+using LevvaCoins.Application.UseCases.Users.UpdateUser;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
@@ -11,43 +17,43 @@ namespace LevvaCoins.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        readonly IUserServices _accountServices;
-        public UserController(IUserServices accountServices)
+        private readonly IMediator _mediator;
+        public UserController(IMediator mediator)
         {
-            _accountServices = accountServices;
+            _mediator = mediator;
         }
-
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllAsync() => 
-            Ok(await _accountServices.GetAllAsync());
-        
+        public async Task<ActionResult<IEnumerable<UserOutput>>> GetAllAsync() =>
+            Ok(await _mediator.Send(new GetAllUsersInput()));
 
         [HttpGet("{userId:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<UserDto>> GetByIdAsync([FromRoute] Guid userId) =>
-            Ok(await _accountServices.GetByIdAsync(userId));
-        
+        public async Task<ActionResult<UserOutput>> GetByIdAsync([FromRoute] Guid userId) =>
+            Ok(await _mediator.Send(new GetUserInput(userId)));
 
         [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UserDto>> PostAsync([FromBody] CreateUserDto body) =>
-            Created("", await _accountServices.SaveAsync(body));
-        
+        public async Task<ActionResult<UserOutput>> PostAsync([FromBody] CreateUserInput body) =>
+            Created("", await _mediator.Send(body));
 
         [HttpPut("{userId:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> PutAsync([FromRoute] Guid userId, [FromBody] UpdateUserDto body)
+        public async Task<ActionResult> PutAsync([FromRoute] Guid userId, [FromBody] UpdateUserApiInput body)
         {
-            await _accountServices.UpdateAsync(userId, body);
+            await _mediator.Send(new UpdateUserInput(
+                    userId,
+                    body.Name,
+                    body.Avatar
+                ));
             return NoContent();
         }
 
@@ -58,7 +64,7 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid userId)
         {
-            await _accountServices.RemoveAsync(userId);
+            await _mediator.Send(new RemoveUserInput(userId));
             return NoContent();
         }
     }

@@ -1,17 +1,17 @@
-﻿using LevvaCoins.Application.Helpers;
-using LevvaCoins.Domain.Entities;
+﻿using LevvaCoins.Application.UseCases.Users.Common;
+using LevvaCoins.Application.UseCases.Users.Helpers;
 using MediatR;
 
-namespace LevvaCoins.Application.UseCases.Users.Commands
+namespace LevvaCoins.Application.UseCases.Users.CreateUser
 {
-    public class SaveUserCommand : IRequest
+    public class CreateUserInput : IRequest<UserOutput>
     {
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string Avatar { get; set; }
 
-        public SaveUserCommand(string name, string email, string password, string avatar)
+        public CreateUserInput(string name, string email, string password, string avatar)
         {
             Name = name;
             Email = email;

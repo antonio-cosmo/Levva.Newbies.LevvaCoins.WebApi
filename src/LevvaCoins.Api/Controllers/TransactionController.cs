@@ -1,10 +1,11 @@
-﻿using LevvaCoins.Application.Categories.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using LevvaCoins.Application.Common;
-using LevvaCoins.Application.UseCases.Users.Extensions;
+﻿using LevvaCoins.Application.Common;
+using LevvaCoins.Application.UseCases.Categories.GetCategory;
 using LevvaCoins.Application.UseCases.Transactions.Dtos;
 using LevvaCoins.Application.UseCases.Transactions.Interfaces;
+using LevvaCoins.Application.UseCases.Users.Extensions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
@@ -14,12 +15,12 @@ namespace LevvaCoins.Api.Controllers
     public class TransactionController : ControllerBase
     {
         readonly ITransactionServices _transactionServices;
-        readonly ICategoryServices _categoryServices;
+        private readonly IMediator _mediator;
 
-        public TransactionController(ITransactionServices transactionServices, ICategoryServices categoryServices)
+        public TransactionController(IMediator mediator,ITransactionServices transactionServices )
         {
             _transactionServices = transactionServices;
-            _categoryServices = categoryServices;
+            _mediator = mediator;
         }
 
         [HttpGet()]
@@ -55,7 +56,7 @@ namespace LevvaCoins.Api.Controllers
         public async Task<ActionResult> PostAsync([FromBody] CreateTransactionDto body)
         {
             var userId = User.GetUserId();
-            var category = await _categoryServices.GetByIdAsync(body.CategoryId);
+            var category = await _mediator.Send(new GetCategoryInput(body.CategoryId));
             var transaction = await _transactionServices.SaveAsync(userId, body);
 
             transaction.Category = category;

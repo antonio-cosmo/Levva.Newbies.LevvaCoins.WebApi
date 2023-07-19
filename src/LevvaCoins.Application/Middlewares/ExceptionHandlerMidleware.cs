@@ -1,8 +1,8 @@
-﻿using LevvaCoins.Application.Common;
-using LevvaCoins.Domain.AppExceptions;
+﻿using System.Text.Json;
+using LevvaCoins.Application.Common;
+using LevvaCoins.Application.Exceptions;
 using LevvaCoins.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
-using System.Text.Json;
 
 namespace LevvaCoins.Application.Middlewares
 {

@@ -22,7 +22,7 @@ namespace LevvaCoins.Application.UseCases.Categories.RemoveCategory
             var category = await FindCategory(request.Id, cancellationToken);
 
             await _categoryRepository.RemoveAsync(category, cancellationToken);
-            await _unitOfWork.Commit(cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
         }
         private async Task<Category> FindCategory(Guid id, CancellationToken cancellationToken)
         {

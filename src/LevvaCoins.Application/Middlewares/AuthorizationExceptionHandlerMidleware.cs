@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using LevvaCoins.Application.Common.Dtos;
+using LevvaCoins.Application.Common;
 using Microsoft.AspNetCore.Http;
 
 namespace LevvaCoins.Application.Middlewares
@@ -38,6 +38,5 @@ namespace LevvaCoins.Application.Middlewares
 
             await context.Response.WriteAsync(json);
         }
-
     }
 }

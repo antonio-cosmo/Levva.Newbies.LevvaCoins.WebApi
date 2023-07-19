@@ -1,6 +1,6 @@
 ﻿using LevvaCoins.Application.Common;
-using LevvaCoins.Application.UseCases.Users.Dtos;
-using LevvaCoins.Application.UseCases.Users.Interfaces;
+using LevvaCoins.Application.UseCases.Users.AuthenticateUser;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
@@ -9,18 +9,19 @@ namespace LevvaCoins.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        readonly IAuthenticateService _authenticateService;
+        private readonly IMediator _mediator;
 
-        public AuthController(IAuthenticateService authenticateService)
+        public AuthController(IMediator mediator)
         {
-            _authenticateService = authenticateService;
+            _mediator = mediator;
         }
-        [HttpPost()]
+
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<LoginResponseDto>> PostAuthAsync([FromBody] LoginDto loginDto)
+        public async Task<ActionResult<AuthenticateUserOutput>> PostAuthAsync([FromBody] AuthenticateUserInput authenticateUser, CancellationToken cancellationToken)
         {
-            return Ok(await _authenticateService.GenerateToken(loginDto));
+            return Ok(await _mediator.Send(authenticateUser, cancellationToken));
         }
     }
 }

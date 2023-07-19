@@ -1,14 +1,14 @@
 ﻿using MediatR;
 
-namespace LevvaCoins.Application.UseCases.Users.Commands
+namespace LevvaCoins.Application.UseCases.Users.UpdateUser
 {
-    public class UpdateUserCommand : IRequest
+    public class UpdateUserInput : IRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Avatar { get; set; }
 
-        public UpdateUserCommand(Guid id, string name, string avatar)
+        public UpdateUserInput(Guid id, string name, string avatar)
         {
             Id = id;
             Name = name;
