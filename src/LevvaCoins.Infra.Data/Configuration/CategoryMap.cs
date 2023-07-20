@@ -15,16 +15,22 @@ namespace LevvaCoins.Infra.Data.Configuration
             builder.Property(x => x.Id)
                 .HasColumnName("id")
                 .ValueGeneratedNever();
+            builder.Property(x => x.Description)
+                .HasColumnName("description")
+                .HasColumnType("VARCHAR")
+                .HasMaxLength(50)
+                .IsRequired();
+            builder.HasIndex(x => x.Description);
 
-            builder.OwnsOne(x => x.Description, descriptionBuilder =>
-            {
-                descriptionBuilder.Property(x => x.Text)
-                    .HasColumnName("description")
-                    .HasColumnType("VARCHAR")
-                    .HasMaxLength(50)
-                    .IsRequired();
-                descriptionBuilder.HasIndex(x => x.Text).IsUnique();
-            });
+            //builder.OwnsOne(x => x.Description, descriptionBuilder =>
+            //{
+            //    descriptionBuilder.Property(x => x.Text)
+            //        .HasColumnName("description")
+            //        .HasColumnType("VARCHAR")
+            //        .HasMaxLength(50)
+            //        .IsRequired();
+            //    descriptionBuilder.HasIndex(x => x.Text).IsUnique();
+            //});
         }
     }
 }

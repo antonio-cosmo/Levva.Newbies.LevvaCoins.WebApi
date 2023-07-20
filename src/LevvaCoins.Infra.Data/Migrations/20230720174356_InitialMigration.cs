@@ -70,8 +70,7 @@ namespace LevvaCoins.Infra.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_categories_description",
                 table: "categories",
-                column: "description",
-                unique: true);
+                column: "description");
 
             migrationBuilder.CreateIndex(
                 name: "IX_transactions_categoryId",

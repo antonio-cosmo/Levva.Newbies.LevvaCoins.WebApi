@@ -16,7 +16,7 @@ namespace LevvaCoins.Application.UseCases.Categories.Common
         {
             return new(
                     category.Id,
-                    category.Description.Text
+                    category.Description
                 );
         }
         public static IEnumerable<CategoryOutput> FromDomain(IEnumerable<Category> categories)

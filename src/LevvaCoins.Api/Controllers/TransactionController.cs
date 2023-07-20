@@ -1,7 +1,13 @@
-﻿using LevvaCoins.Api.Common;
+﻿using LevvaCoins.Api.ApiModel.Transaction;
+using LevvaCoins.Api.Common;
 using LevvaCoins.Application.UseCases.Categories.GetCategory;
-using LevvaCoins.Application.UseCases.Transactions.Dtos;
-using LevvaCoins.Application.UseCases.Transactions.Interfaces;
+using LevvaCoins.Application.UseCases.Transactions.Common;
+using LevvaCoins.Application.UseCases.Transactions.CreateTransaction;
+using LevvaCoins.Application.UseCases.Transactions.GetAllTransactions;
+using LevvaCoins.Application.UseCases.Transactions.GetTransaction;
+using LevvaCoins.Application.UseCases.Transactions.RemoveTransaction;
+using LevvaCoins.Application.UseCases.Transactions.SearchTransactionByDescription;
+using LevvaCoins.Application.UseCases.Transactions.UpdateTransaction;
 using LevvaCoins.Application.UseCases.Users.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,52 +20,53 @@ namespace LevvaCoins.Api.Controllers
     [Route("api/transaction")]
     public class TransactionController : ControllerBase
     {
-        readonly ITransactionServices _transactionServices;
         private readonly IMediator _mediator;
 
-        public TransactionController(IMediator mediator,ITransactionServices transactionServices )
+        public TransactionController(IMediator mediator)
         {
-            _transactionServices = transactionServices;
             _mediator = mediator;
         }
 
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<TransactionDetailsDto>>> GetAllTransactionsAsync()
+        public async Task<ActionResult<IEnumerable<TransactionDetailsOutput>>> GetAllTransactionsAsync()
         {
             var userId = User.GetUserId();
 
-            return Ok(await _transactionServices.GetAllAsync(userId));
+            return Ok(await _mediator.Send(new GetAllTransactionsInput(userId)));
         }
 
         [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<TransactionDetailsDto>>> SearchAllTransactionsByDescriptionAsync([FromQuery] string query)
+        public async Task<ActionResult<IEnumerable<TransactionDetailsOutput>>> SearchAllTransactionsByDescriptionAsync([FromQuery] string query)
         {
             var userId = User.GetUserId();
-            return Ok(await _transactionServices.SearchByDescriptionAsync(userId, query));
+            return Ok(await _mediator.Send(new SearchTransactionsByDescriptionInput(userId, query)));
         }
 
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<TransactionDetailsDto>> GetByIdAsync([FromRoute] Guid id) =>
-            Ok(await _transactionServices.GetByIdAsync(id));
+        public async Task<ActionResult<TransactionOutput>> GetByIdAsync([FromRoute] Guid id) =>
+            Ok(await _mediator.Send(new GetTransactionInput(id)));
 
         [HttpPost]
-        [ProducesResponseType(typeof(TransactionDetailsDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(TransactionDetailsOutput), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> PostAsync([FromBody] CreateTransactionDto body)
+        public async Task<ActionResult> PostAsync([FromBody] CreateTransactionApiInput body)
         {
             var userId = User.GetUserId();
-            var category = await _mediator.Send(new GetCategoryInput(body.CategoryId));
-            var transaction = await _transactionServices.SaveAsync(userId, body);
-
-            transaction.Category = category;
+            var transaction = await _mediator.Send(new CreateTransactionInput(
+                    body.Description,
+                    body.Amount,
+                    body.Type,
+                    body.CategoryId,
+                    userId
+                ));
 
             return Created("", transaction);
         }
@@ -68,9 +75,15 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateTransactionDto updateTransactionDto)
+        public async Task<ActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateTransactionApiInput body)
         {
-            await _transactionServices.UpdateAsync(id, updateTransactionDto);
+            await _mediator.Send(new UpdateTransactionInput(
+                    id,
+                    body.Description,
+                    body.Amount,
+                    body.Type,
+                    body.CategoryId
+                ));
             return NoContent();
         }
 
@@ -80,7 +93,7 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
-            await _transactionServices.RemoveAsync(id);
+            await _mediator.Send(new RemoveTransactionInput(id));
 
             return NoContent();
         }

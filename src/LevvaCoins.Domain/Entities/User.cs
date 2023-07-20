@@ -38,6 +38,5 @@ namespace LevvaCoins.Domain.Entities
             DomainValidation.IsNull(Password, nameof(Password));
             DomainValidation.HasGreaterThan(Avatar, MAX_AVATAR_LENGTH, nameof(Avatar));
         }
-        private User() { }
     }
 }

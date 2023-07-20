@@ -2,14 +2,14 @@
 using LevvaCoins.Domain.Exceptions;
 using LevvaCoins.Domain.SeedWork;
 using LevvaCoins.Domain.Validation;
-using LevvaCoins.Domain.ValueObjects;
 
 namespace LevvaCoins.Domain.Entities
 {
     public sealed class Transaction : Entity
     {
         private const int MIN_AMOUNT_VALUE = 0;
-        public Description Description { get; private set; }
+        private const int MIN_DESCRIPTION_LENGTH = 3;
+        public string Description { get; private set; }
         public decimal Amount { get; private set; }
         public ETransactionType Type { get; private set; }
         public Guid CategoryId { get; private set; }
@@ -18,7 +18,7 @@ namespace LevvaCoins.Domain.Entities
         public User? User { get; set; }
         public Category? Category { get; set; }
 
-        public Transaction(Description description, decimal amount, ETransactionType type, Guid categoryId, Guid userId)
+        public Transaction(string description, decimal amount, ETransactionType type, Guid categoryId, Guid userId)
         {
             Description = description;
             Amount = amount;
@@ -28,7 +28,7 @@ namespace LevvaCoins.Domain.Entities
             CreatedAt = DateTime.Now;
             Validate();
         }
-        public void ChangeDescription(Description description)
+        public void ChangeDescription(string description)
         {
             Description = description;
             Validate();
@@ -53,11 +53,10 @@ namespace LevvaCoins.Domain.Entities
             DomainValidation.GuidIsNotEmpty(UserId, nameof(UserId));
             DomainValidation.GuidIsNotEmpty(CategoryId, nameof(CategoryId));
             DomainValidation.HasLessThan(Amount, MIN_AMOUNT_VALUE ,nameof(Amount));
+            DomainValidation.HasLessThan(Description, MIN_DESCRIPTION_LENGTH, nameof(Description));
             DomainValidation.IsNull(Description, nameof(Description));
-
             if (Type != ETransactionType.Income && Type != ETransactionType.Outcome)
                 throw new EntityValidationException($"{nameof(Type)} type different than expected");
         }
-        private Transaction() { }
     }
 }

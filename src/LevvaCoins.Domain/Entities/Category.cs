@@ -1,29 +1,27 @@
 ﻿using LevvaCoins.Domain.SeedWork;
 using LevvaCoins.Domain.Validation;
-using LevvaCoins.Domain.ValueObjects;
 
 namespace LevvaCoins.Domain.Entities
 {
     public sealed class Category : Entity
     {
-        public Description Description { get; private set; }
+        private const int MIN_DESCRIPTION_LENGTH = 3;
+        public string Description { get; private set; }
         public IList<Transaction>? Transactions { get; set; }
-        public Category(Description description)
+        public Category(string description)
         {
             Description = description;
             Validate();
         }
-        public void ChangeDescription(Description description)
+        public void ChangeDescription(string description)
         {
             Description = description;
             Validate();
         }
         private void Validate()
         {
+            DomainValidation.HasLessThan(Description, MIN_DESCRIPTION_LENGTH, nameof(Description));
             DomainValidation.IsNull(Description, nameof(Description));
         }
-
-        // For EF
-        private Category() { }
     }
 }

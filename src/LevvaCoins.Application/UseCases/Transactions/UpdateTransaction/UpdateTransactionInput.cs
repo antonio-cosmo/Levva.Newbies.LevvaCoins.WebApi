@@ -1,9 +1,9 @@
 ﻿using LevvaCoins.Domain.Enums;
 using MediatR;
 
-namespace LevvaCoins.Application.UseCases.Transactions.Commands
+namespace LevvaCoins.Application.UseCases.Transactions.UpdateTransaction
 {
-    public class UpdateTransactionCommand : IRequest
+    public class UpdateTransactionInput : IRequest
     {
         public Guid Id { get; }
         public string Description { get; }
@@ -11,7 +11,7 @@ namespace LevvaCoins.Application.UseCases.Transactions.Commands
         public ETransactionType Type { get; }
         public Guid CategoryId { get; }
 
-        public UpdateTransactionCommand(Guid id, string description, decimal amount, ETransactionType type, Guid categoryId)
+        public UpdateTransactionInput(Guid id, string description, decimal amount, ETransactionType type, Guid categoryId)
         {
             Id = id;
             Description = description;

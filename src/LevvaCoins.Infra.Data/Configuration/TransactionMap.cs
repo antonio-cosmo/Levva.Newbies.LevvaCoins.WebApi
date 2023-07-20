@@ -37,14 +37,19 @@ namespace LevvaCoins.Infra.Data.Configuration
             builder.Property(x => x.UserId)
                 .HasColumnName("userId");
 
-            builder.OwnsOne(x => x.Description, descriptionBuilder =>
-            {
-                descriptionBuilder.Property(x => x.Text)
-                    .HasColumnName("description")
-                    .HasColumnType("VARCHAR")
-                    .HasMaxLength(255)
-                    .IsRequired();
-            });
+            //builder.OwnsOne(x => x.Description, descriptionBuilder =>
+            //{
+            //    descriptionBuilder.Property(x => x.Text)
+            //        .HasColumnName("description")
+            //        .HasColumnType("VARCHAR")
+            //        .HasMaxLength(255)
+            //        .IsRequired();
+            //});
+            builder.Property(x => x.Description)
+                .HasColumnName("description")
+                .HasColumnType("VARCHAR")
+                .HasMaxLength(255)
+                .IsRequired();
 
             builder.HasOne(x => x.Category)
                 .WithMany(x => x.Transactions)

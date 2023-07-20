@@ -20,8 +20,8 @@ namespace LevvaCoins.Application.UseCases.Categories.UpdateCategory
         {
             var category = await FindCategory(request.Id, cancellationToken);
 
-            var description = new Description(request.Description);
-            category.ChangeDescription(description);
+            //var description = new Description(request.Description);
+            category.ChangeDescription(request.Description);
 
             await _categoryRepository.UpdateAsync(category, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);

@@ -16,7 +16,7 @@ namespace LevvaCoins.Infra.Data.Repositories
         }
         public async Task<Category?> GetByDescriptionAsync(string name, CancellationToken cancellationToken = default)
         {
-            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => EF.Functions.Like(x.Description.Text, $"{name}"), cancellationToken);
+            return await Entity.AsNoTracking().FirstOrDefaultAsync(x => EF.Functions.Like(x.Description, $"{name}"), cancellationToken);
         }
     }
 }
