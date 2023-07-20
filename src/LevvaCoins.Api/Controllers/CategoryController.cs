@@ -1,6 +1,5 @@
-﻿using System.Threading;
-using LevvaCoins.Api.ApiModel.Category;
-using LevvaCoins.Application.Common;
+﻿using LevvaCoins.Api.ApiModel.Category;
+using LevvaCoins.Api.Common;
 using LevvaCoins.Application.UseCases.Categories.Common;
 using LevvaCoins.Application.UseCases.Categories.CreateCategory;
 using LevvaCoins.Application.UseCases.Categories.GetAllCategory;
@@ -8,11 +7,12 @@ using LevvaCoins.Application.UseCases.Categories.GetCategory;
 using LevvaCoins.Application.UseCases.Categories.RemoveCategory;
 using LevvaCoins.Application.UseCases.Categories.UpdateCategory;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LevvaCoins.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/category")]
     [ApiController]
     public class CategoryController : ControllerBase

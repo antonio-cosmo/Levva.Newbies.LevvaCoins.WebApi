@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UseCases\Users\Services\**" />
+    <EmbeddedResource Remove="UseCases\Users\Services\**" />
+    <None Remove="UseCases\Users\Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LevvaCoins.Domain\LevvaCoins.Domain.csproj" />
   </ItemGroup>
 
@@ -14,10 +20,6 @@
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="MediatR" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="UseCases\Users\Services\" />
   </ItemGroup>
 
 </Project>

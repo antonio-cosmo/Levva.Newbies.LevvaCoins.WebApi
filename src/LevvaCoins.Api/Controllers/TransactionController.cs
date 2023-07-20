@@ -1,4 +1,4 @@
-﻿using LevvaCoins.Application.Common;
+﻿using LevvaCoins.Api.Common;
 using LevvaCoins.Application.UseCases.Categories.GetCategory;
 using LevvaCoins.Application.UseCases.Transactions.Dtos;
 using LevvaCoins.Application.UseCases.Transactions.Interfaces;

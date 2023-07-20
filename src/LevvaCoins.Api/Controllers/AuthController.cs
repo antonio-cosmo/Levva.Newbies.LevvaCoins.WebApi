@@ -1,4 +1,4 @@
-﻿using LevvaCoins.Application.Common;
+﻿using LevvaCoins.Api.Common;
 using LevvaCoins.Application.UseCases.Users.AuthenticateUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

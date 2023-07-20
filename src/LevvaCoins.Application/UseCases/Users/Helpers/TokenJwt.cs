@@ -3,18 +3,19 @@ using System.Security.Claims;
 using System.Text;
 using LevvaCoins.Application.UseCases.Users.Extensions;
 using LevvaCoins.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LevvaCoins.Application.UseCases.Users.Helpers;
 public static class TokenJwt
 {
-    public static string Generate(User user)
+    public static string Generate(User user, IConfiguration configuration)
     {
         var userClaims = user.GetClaims();
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("SECRET__KEY")
-                                   ?? throw new NullReferenceException());
+        var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("SecretKey")!);
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(userClaims),

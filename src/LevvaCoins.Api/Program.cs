@@ -1,20 +1,14 @@
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
-using LevvaCoins.Api.Config;
+using LevvaCoins.Api.Configuration;
 using LevvaCoins.Infra.IoC;
 using Microsoft.OpenApi.Models;
 
-var root = Directory.GetCurrentDirectory();
-var dotenvFile = Path.Combine(root, ".env");
-DotEnv.Load(dotenvFile);
-
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 
-builder.Services.AddLevvaCoinsService();
+builder.Services.AddLevvaCoinsService(builder.Configuration);
 
 builder.Services.AddControllers().AddJsonOptions(opt =>
 {

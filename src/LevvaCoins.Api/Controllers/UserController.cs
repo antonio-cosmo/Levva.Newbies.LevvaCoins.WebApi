@@ -1,5 +1,5 @@
 ﻿using LevvaCoins.Api.ApiModel.User;
-using LevvaCoins.Application.Common;
+using LevvaCoins.Api.Common;
 using LevvaCoins.Application.UseCases.Users.Common;
 using LevvaCoins.Application.UseCases.Users.CreateUser;
 using LevvaCoins.Application.UseCases.Users.GetAllUser;
@@ -56,7 +56,6 @@ namespace LevvaCoins.Api.Controllers
                 ));
             return NoContent();
         }
-
 
         [HttpDelete("{userId:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
