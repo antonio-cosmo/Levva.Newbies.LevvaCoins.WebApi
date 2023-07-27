@@ -1,6 +1,5 @@
-﻿using LevvaCoins.Api.ApiModel.Transaction;
+﻿using LevvaCoins.Api.ApiModels.Transaction;
 using LevvaCoins.Api.Common;
-using LevvaCoins.Application.UseCases.Categories.GetCategory;
 using LevvaCoins.Application.UseCases.Transactions.Common;
 using LevvaCoins.Application.UseCases.Transactions.CreateTransaction;
 using LevvaCoins.Application.UseCases.Transactions.GetAllTransactions;
@@ -29,8 +28,8 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<TransactionDetailsOutput>>> GetAllTransactionsAsync()
+        [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<IEnumerable<TransactionDetailsModelOutput>>> GetAllTransactionsAsync()
         {
             var userId = User.GetUserId();
 
@@ -39,8 +38,8 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<TransactionDetailsOutput>>> SearchAllTransactionsByDescriptionAsync([FromQuery] string query)
+        [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<IEnumerable<TransactionDetailsModelOutput>>> SearchAllTransactionsByDescriptionAsync([FromQuery] string query)
         {
             var userId = User.GetUserId();
             return Ok(await _mediator.Send(new SearchTransactionsByDescriptionInput(userId, query)));
@@ -48,15 +47,15 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<TransactionOutput>> GetByIdAsync([FromRoute] Guid id) =>
+        [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<TransactionModelOutput>> GetByIdAsync([FromRoute] Guid id) =>
             Ok(await _mediator.Send(new GetTransactionInput(id)));
 
         [HttpPost]
-        [ProducesResponseType(typeof(TransactionDetailsOutput), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(TransactionDetailsModelOutput), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PostAsync([FromBody] CreateTransactionApiInput body)
         {
             var userId = User.GetUserId();
@@ -73,8 +72,8 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpPut("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateTransactionApiInput body)
         {
             await _mediator.Send(new UpdateTransactionInput(
@@ -89,8 +88,8 @@ namespace LevvaCoins.Api.Controllers
 
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             await _mediator.Send(new RemoveTransactionInput(id));

@@ -1,6 +1,4 @@
-﻿using LevvaCoins.Application.Exceptions;
-using LevvaCoins.Domain.Repositories;
-using MediatR;
+﻿using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Transactions.RemoveTransaction;
 

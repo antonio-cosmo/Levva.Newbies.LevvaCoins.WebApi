@@ -2,6 +2,6 @@
 using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Categories.GetAllCategory;
-public class GetAllCategoryInput : IRequest<IEnumerable<CategoryOutput>>
+public class GetAllCategoryInput : IRequest<IEnumerable<CategoryModelOutput>>
 {
 }

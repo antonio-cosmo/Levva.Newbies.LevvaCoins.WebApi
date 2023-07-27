@@ -3,7 +3,7 @@ using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Transactions.GetAllTransactions;
 
-public class GetAllTransactionsInput : IRequest<IEnumerable<TransactionDetailsOutput>>
+public class GetAllTransactionsInput : IRequest<IEnumerable<TransactionDetailsModelOutput>>
 {
     public Guid UserId { get; set; }
 

@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
+using LevvaCoins.Application.UseCases.Categories.Common;
 using LevvaCoins.Application.UseCases.Categories.CreateCategory;
 using LevvaCoins.Application.UseCases.Transactions.Common;
 using LevvaCoins.Application.UseCases.Transactions.CreateTransaction;
-using LevvaCoins.Application.UseCases.Transactions.UpdateTransaction;
-using LevvaCoins.Application.UseCases.Users.AuthenticateUser;
+using LevvaCoins.Application.UseCases.Users.Common;
 using LevvaCoins.Application.UseCases.Users.CreateUser;
-using LevvaCoins.Domain.Common;
+using LevvaCoins.Application.UseCases.Users.UserAuthenticate;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.ValueObjects;
 
 namespace LevvaCoins.Application.MapperProfiles
 {
@@ -17,18 +16,17 @@ namespace LevvaCoins.Application.MapperProfiles
         {
             //Category
             CreateMap<CreateCategoryInput, Category>();
-                //.ForMember(dest => dest.Description, opt => opt.MapFrom(src=> new Description(src.Description)));
+            CreateMap<Category, CategoryModelOutput>();
 
             //User
-            CreateMap<CreateUserInput, User>().ReverseMap();
-            CreateMap<User, AuthenticateUserOutput>().ReverseMap();
+            CreateMap<CreateUserInput, User>();
+            CreateMap<User, UserModelOutput>();
+            CreateMap<User, UserAuthenticateModelOutput>().ReverseMap();
 
             //Transaction
             CreateMap<CreateTransactionInput, Transaction>();
-            //.ForMember(dest => dest.Description, opt => opt.MapFrom(src => new Description(src.Description)));
-            CreateMap<Transaction, TransactionDetailsOutput>();
-                //.ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description.Text));
-            CreateMap<PagedResult<Transaction>, PagedResult<TransactionDetailsOutput>>();
+            CreateMap<Transaction, TransactionModelOutput>();
+            CreateMap<Transaction, TransactionDetailsModelOutput>();
         }
     }
 }

@@ -1,14 +1,13 @@
 ﻿using MediatR;
 
-namespace LevvaCoins.Application.UseCases.Users.RemoveUser
-{
-    public class RemoveUserInput : IRequest
-    {
-        public Guid Id { get; set; }
+namespace LevvaCoins.Application.UseCases.Users.RemoveUser;
 
-        public RemoveUserInput(Guid id)
-        {
-            Id = id;
-        }
+public class RemoveUserInput : IRequest
+{
+    public Guid Id { get; set; }
+
+    public RemoveUserInput(Guid id)
+    {
+        Id = id;
     }
 }

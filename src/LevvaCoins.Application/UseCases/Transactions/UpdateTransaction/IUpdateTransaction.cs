@@ -1,8 +1,4 @@
-﻿using LevvaCoins.Application.Exceptions;
-using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Repositories;
-using LevvaCoins.Domain.ValueObjects;
-using MediatR;
+﻿using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Transactions.UpdateTransaction;
 

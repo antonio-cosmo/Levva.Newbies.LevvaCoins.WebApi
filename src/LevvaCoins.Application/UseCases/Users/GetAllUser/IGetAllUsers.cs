@@ -2,6 +2,6 @@
 using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Users.GetAllUser;
-public interface IGetAllUsers : IRequestHandler<GetAllUsersInput, IEnumerable<UserOutput>>
+public interface IGetAllUsers : IRequestHandler<GetAllUsersInput, IEnumerable<UserModelOutput>>
 {
 }

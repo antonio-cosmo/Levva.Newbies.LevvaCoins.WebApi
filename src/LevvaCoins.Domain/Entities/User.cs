@@ -10,7 +10,7 @@ namespace LevvaCoins.Domain.Entities
         public string Email { get; }
         public string Password { get; }
         public string? Avatar { get; private set; }
-        public IList<Transaction>? Transactions { get; set; }
+        public IList<Transaction> Transactions { get; set; }
         public User(string name, string email, string password, string? avatar = null)
         {
             Name = name;

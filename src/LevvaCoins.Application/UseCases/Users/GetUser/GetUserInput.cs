@@ -3,7 +3,7 @@ using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Users.GetUser;
 
-public class GetUserInput : IRequest<UserOutput?>
+public class GetUserInput : IRequest<UserModelOutput?>
 {
     public Guid Id { get; set; }
 

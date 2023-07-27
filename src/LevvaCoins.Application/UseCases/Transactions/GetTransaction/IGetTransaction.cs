@@ -3,6 +3,6 @@ using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Transactions.GetTransaction;
 
-public interface IGetTransaction : IRequestHandler<GetTransactionInput, TransactionOutput>
+public interface IGetTransaction : IRequestHandler<GetTransactionInput, TransactionModelOutput>
 {
 }

@@ -1,19 +1,19 @@
 ﻿using LevvaCoins.Application.UseCases.Categories.Common;
-using LevvaCoins.Domain.Repositories;
+using LevvaCoins.Domain.SeedWork;
 
 namespace LevvaCoins.Application.UseCases.Categories.GetAllCategory;
 internal class GetAllCategory : IGetAllCategory
 {
-    private readonly ICategoryRepository _categoryRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetAllCategory(ICategoryRepository categoryRepository)
+    public GetAllCategory(IUnitOfWork unitOfWork)
     {
-        _categoryRepository = categoryRepository;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<CategoryOutput>> Handle(GetAllCategoryInput request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<CategoryModelOutput>> Handle(GetAllCategoryInput request, CancellationToken cancellationToken)
     {
-        var categories = await _categoryRepository.GetAllAsync(cancellationToken);
-        return CategoryOutput.FromDomain(categories);
+        var categories = await _unitOfWork.CategoryRepository.GetAllAsync(cancellationToken);
+        return CategoryModelOutput.FromDomain(categories);
     }
 }

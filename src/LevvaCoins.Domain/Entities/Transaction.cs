@@ -11,14 +11,14 @@ namespace LevvaCoins.Domain.Entities
         private const int MIN_DESCRIPTION_LENGTH = 3;
         public string Description { get; private set; }
         public decimal Amount { get; private set; }
-        public ETransactionType Type { get; private set; }
+        public TransactionType Type { get; private set; }
         public Guid CategoryId { get; private set; }
         public Guid UserId { get; }
         public DateTime CreatedAt { get; }
         public User? User { get; set; }
         public Category? Category { get; set; }
 
-        public Transaction(string description, decimal amount, ETransactionType type, Guid categoryId, Guid userId)
+        public Transaction(string description, decimal amount, TransactionType type, Guid categoryId, Guid userId)
         {
             Description = description;
             Amount = amount;
@@ -38,7 +38,7 @@ namespace LevvaCoins.Domain.Entities
             Amount = amount;
             Validate();
         }
-        public void ChangeType(ETransactionType type)
+        public void ChangeType(TransactionType type)
         {
             Type = type;
             Validate();
@@ -55,7 +55,7 @@ namespace LevvaCoins.Domain.Entities
             DomainValidation.HasLessThan(Amount, MIN_AMOUNT_VALUE ,nameof(Amount));
             DomainValidation.HasLessThan(Description, MIN_DESCRIPTION_LENGTH, nameof(Description));
             DomainValidation.IsNull(Description, nameof(Description));
-            if (Type != ETransactionType.Income && Type != ETransactionType.Outcome)
+            if (Type != TransactionType.Income && Type != TransactionType.Outcome)
                 throw new EntityValidationException($"{nameof(Type)} type different than expected");
         }
     }

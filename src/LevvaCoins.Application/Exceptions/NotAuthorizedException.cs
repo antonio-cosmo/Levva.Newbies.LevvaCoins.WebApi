@@ -1,7 +1,7 @@
 ﻿namespace LevvaCoins.Application.Exceptions;
 public class NotAuthorizedException : Exception
 {
-    public NotAuthorizedException() : base()
+    public NotAuthorizedException()
     {
     }
     public NotAuthorizedException(string? message) : base(message)

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Users.CreateUser
 {
-    public class CreateUserInput : IRequest<UserOutput>
+    public class CreateUserInput : IRequest<UserModelOutput>
     {
         public string Name { get; set; }
         public string Email { get; set; }

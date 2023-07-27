@@ -3,7 +3,7 @@ using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Transactions.SearchTransactionByDescription
 {
-    public class SearchTransactionsByDescriptionInput : IRequest<IEnumerable<TransactionDetailsOutput>>
+    public class SearchTransactionsByDescriptionInput : IRequest<IEnumerable<TransactionDetailsModelOutput>>
     {
         public Guid UserId { get; set; }
         public string Text { get; set; }

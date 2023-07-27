@@ -7,10 +7,11 @@ namespace LevvaCoins.Domain.Entities
     {
         private const int MIN_DESCRIPTION_LENGTH = 3;
         public string Description { get; private set; }
-        public IList<Transaction>? Transactions { get; set; }
+        public IList<Transaction> Transactions { get; set; }
         public Category(string description)
         {
             Description = description;
+            Transactions = new List<Transaction>();
             Validate();
         }
         public void ChangeDescription(string description)

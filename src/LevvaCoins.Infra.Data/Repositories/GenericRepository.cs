@@ -16,7 +16,7 @@ namespace LevvaCoins.Infra.Data.Repositories
         }
         public async Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _entity.FindAsync(id, cancellationToken);
+            return await _entity.FindAsync(new object[] { id }, cancellationToken);
         }
         public Task RemoveAsync(TEntity entity, CancellationToken cancellationToken = default)
         {

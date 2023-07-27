@@ -1,5 +1,5 @@
 ﻿namespace LevvaCoins.Domain.SeedWork;
-public class Entity
+public abstract class Entity
 {
     public Guid Id { get; }
     protected Entity()

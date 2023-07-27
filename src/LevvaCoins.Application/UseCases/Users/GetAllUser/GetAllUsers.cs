@@ -1,20 +1,19 @@
 ﻿using LevvaCoins.Application.UseCases.Users.Common;
-using LevvaCoins.Domain.Repositories;
-using MediatR;
+using LevvaCoins.Domain.SeedWork;
 
 namespace LevvaCoins.Application.UseCases.Users.GetAllUser;
 public class GetAllUsers : IGetAllUsers
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetAllUsers(IUserRepository userRepository)
+    public GetAllUsers(IUnitOfWork unitOfWork)
     {
-        _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<UserOutput>> Handle(GetAllUsersInput request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<UserModelOutput>> Handle(GetAllUsersInput request, CancellationToken cancellationToken)
     {
-        var users = await _userRepository.GetAllAsync(cancellationToken);
-        return UserOutput.FromDomain(users);
+        var users = await _unitOfWork.UserRepository.GetAllAsync(cancellationToken);
+        return UserModelOutput.FromDomain(users);
     }
 }

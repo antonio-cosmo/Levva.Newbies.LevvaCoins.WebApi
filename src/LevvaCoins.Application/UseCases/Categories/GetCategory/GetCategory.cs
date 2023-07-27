@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LevvaCoins.Application.Exceptions;
+﻿using LevvaCoins.Application.Exceptions;
 using LevvaCoins.Application.UseCases.Categories.Common;
-using LevvaCoins.Domain.Repositories;
+using LevvaCoins.Domain.SeedWork;
 
 namespace LevvaCoins.Application.UseCases.Categories.GetCategory;
 public class GetCategory : IGetCategory
 {
-    private readonly ICategoryRepository _categoryRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetCategory(ICategoryRepository categoryRepository)
+    public GetCategory(IUnitOfWork unitOfWork)
     {
-        _categoryRepository = categoryRepository;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<CategoryOutput> Handle(GetCategoryInput request, CancellationToken cancellationToken)
+    public async Task<CategoryModelOutput> Handle(GetCategoryInput request, CancellationToken cancellationToken)
     {
-        var category = await _categoryRepository.GetAsync(request.Id, cancellationToken)
+        var category = await _unitOfWork.CategoryRepository.GetAsync(request.Id, cancellationToken)
             ?? throw new ModelNotFoundException("Categoria não existe.");
 
-        return CategoryOutput.FromDomain(category);
+        return CategoryModelOutput.FromDomain(category);
     }
 }

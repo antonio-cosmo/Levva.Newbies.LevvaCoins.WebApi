@@ -2,24 +2,24 @@
 
 namespace LevvaCoins.Application.UseCases.Categories.Common
 {
-    public class CategoryOutput
+    public class CategoryModelOutput
     {
         public Guid Id { get; set; }
         public string Description { get; set; }
-        public CategoryOutput(Guid id, string description)
+        public CategoryModelOutput(Guid id, string description)
         {
             Id = id;
             Description = description;
         }
 
-        public static CategoryOutput FromDomain(Category category)
+        public static CategoryModelOutput FromDomain(Category category)
         {
             return new(
                     category.Id,
                     category.Description
                 );
         }
-        public static IEnumerable<CategoryOutput> FromDomain(IEnumerable<Category> categories)
+        public static IEnumerable<CategoryModelOutput> FromDomain(IEnumerable<Category> categories)
         {
             return categories.Select(FromDomain);
         }

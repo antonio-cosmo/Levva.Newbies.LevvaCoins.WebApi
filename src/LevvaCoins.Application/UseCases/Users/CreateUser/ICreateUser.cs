@@ -3,6 +3,6 @@ using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Users.CreateUser;
 
-public interface ICreateUser : IRequestHandler<CreateUserInput, UserOutput>
+public interface ICreateUser : IRequestHandler<CreateUserInput, UserModelOutput>
 {
 }

@@ -9,7 +9,6 @@ namespace LevvaCoins.Infra.Data
         public LevvaCoinsDbContext(DbContextOptions<LevvaCoinsDbContext> options) : base(options)
         {
         }
-
         public Task<int> SaveChangesAsync() => base.SaveChangesAsync();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,4 +1,4 @@
-﻿namespace LevvaCoins.Api.ApiModel.Category;
+﻿namespace LevvaCoins.Api.ApiModels.Category;
 
 public class UpdateCategoryApiInput
 {

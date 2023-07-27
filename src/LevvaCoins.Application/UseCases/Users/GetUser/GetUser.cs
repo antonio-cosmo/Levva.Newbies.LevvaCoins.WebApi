@@ -1,23 +1,23 @@
 ﻿using LevvaCoins.Application.Exceptions;
 using LevvaCoins.Application.UseCases.Users.Common;
-using LevvaCoins.Domain.Repositories;
+using LevvaCoins.Domain.SeedWork;
 
 namespace LevvaCoins.Application.UseCases.Users.GetUser
 {
     public class GetUser : IGetUser
     {
-        readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetUser(IUserRepository userRepository)
+        public GetUser(IUnitOfWork unitOfWork)
         {
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<UserOutput?> Handle(GetUserInput request, CancellationToken cancellationToken)
+        public async Task<UserModelOutput?> Handle(GetUserInput request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetAsync(request.Id, cancellationToken)
+            var user = await _unitOfWork.UserRepository.GetAsync(request.Id, cancellationToken)
                 ?? throw new ModelNotFoundException("Esse usuário não existe.");
-            return UserOutput.FromDomain(user);
+            return UserModelOutput.FromDomain(user);
         }
     }
 }

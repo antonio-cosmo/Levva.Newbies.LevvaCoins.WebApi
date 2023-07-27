@@ -2,37 +2,34 @@
 using LevvaCoins.Application.Exceptions;
 using LevvaCoins.Application.UseCases.Categories.Common;
 using LevvaCoins.Domain.Entities;
-using LevvaCoins.Domain.Repositories;
 using LevvaCoins.Domain.SeedWork;
 
 namespace LevvaCoins.Application.UseCases.Categories.CreateCategory;
 public class CreateCategory : ICreateCategory
 {
-    private readonly ICategoryRepository _categoryRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
 
-    public CreateCategory(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork, IMapper mapper)
+    public CreateCategory(IUnitOfWork unitOfWork)
     {
-        _categoryRepository = categoryRepository;
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
     }
 
-    public async Task<CategoryOutput> Handle(CreateCategoryInput request, CancellationToken cancellationToken)
+    public async Task<CategoryModelOutput> Handle(CreateCategoryInput request, CancellationToken cancellationToken)
     {
         await ValidateCategoryAlreadyExists(request.Description, cancellationToken);
 
-        var newCategory = _mapper.Map<Category>(request);
+        var newCategory = new Category(
+                request.Description
+            );
 
-        await _categoryRepository.InsertAsync(newCategory, cancellationToken);
+        await _unitOfWork.CategoryRepository.InsertAsync(newCategory, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 
-        return CategoryOutput.FromDomain(newCategory);
+        return CategoryModelOutput.FromDomain(newCategory);
     }
     private async Task ValidateCategoryAlreadyExists(string description, CancellationToken cancellationToken)
     {
-        var category = await _categoryRepository.GetByDescriptionAsync(description.ToLower(), cancellationToken);
+        var category = await _unitOfWork.CategoryRepository.GetByDescriptionAsync(description, cancellationToken);
         if (category is not null)
         {
             throw new ModelAlreadyExistsException("Uma categoria com esse nome já existe.");

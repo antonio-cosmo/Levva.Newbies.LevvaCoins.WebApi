@@ -1,19 +1,19 @@
 ﻿using LevvaCoins.Application.UseCases.Transactions.Common;
-using LevvaCoins.Domain.Repositories;
+using LevvaCoins.Domain.SeedWork;
 
 namespace LevvaCoins.Application.UseCases.Transactions.GetAllTransactions
 {
     public class GetAllTransactions : IGetAllTransactions
     {
-        readonly ITransactionRepository _transactionRepository;
-        public GetAllTransactions(ITransactionRepository transactionRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public GetAllTransactions(IUnitOfWork unitOfWork)
         {
-            _transactionRepository = transactionRepository;
+            _unitOfWork = unitOfWork;
         }
-        public async Task<IEnumerable<TransactionDetailsOutput>> Handle(GetAllTransactionsInput request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TransactionDetailsModelOutput>> Handle(GetAllTransactionsInput request, CancellationToken cancellationToken)
         {
-            var transactions = await _transactionRepository.GetAllByUserAsync(request.UserId, cancellationToken);
-            return TransactionDetailsOutput.FromModel(transactions);
+            var transactions = await _unitOfWork.TransactionRepository.GetAllByUserAsync(request.UserId, cancellationToken);
+            return TransactionDetailsModelOutput.FromDomain(transactions);
         }
 
     }

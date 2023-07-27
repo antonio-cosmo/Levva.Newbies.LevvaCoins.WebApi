@@ -23,6 +23,12 @@ public class ExceptionHandlerMidleware
         {
             // Chame o próximo middleware na pipeline
             await _next(context);
+
+            if (context.Response.StatusCode == StatusCodes.Status401Unauthorized ||
+            context.Response.StatusCode == StatusCodes.Status403Forbidden)
+            {
+                await NotAuthorized(context);
+            }
         }
         catch (ModelNotFoundException ex)
         {
@@ -50,20 +56,34 @@ public class ExceptionHandlerMidleware
         var body = CreateErrorResponse(ex);
         await SetupResponse(context, statusCode, body);
     }
-    private static ErrorResponse CreateErrorResponse(Exception ex)
-    {
-        return new ErrorResponse
-        (
-            true,
-            ex.Message
-        );
-    }
-    private async Task SetupResponse(HttpContext context, int statusCode, ErrorResponse body)
+    private async Task SetupResponse(HttpContext context, int statusCode, ErrorResponseModelOutput body)
     {
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = "application/json";
 
         // Escrever a resposta de erro na resposta HTTP
         await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+    }
+    private static ErrorResponseModelOutput CreateErrorResponse(Exception ex)
+    {
+        return new ErrorResponseModelOutput
+        (
+            true,
+            ex.Message
+        );
+    }
+    private static async Task NotAuthorized(HttpContext context)
+    {
+        context.Response.ContentType = "application/json";
+
+        var errorResponse = new ErrorResponseModelOutput
+        (
+            true,
+            "Usuario não autenticado"
+        );
+
+        var json = JsonSerializer.Serialize(errorResponse);
+
+        await context.Response.WriteAsync(json);
     }
 }

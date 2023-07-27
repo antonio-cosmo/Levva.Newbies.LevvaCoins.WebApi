@@ -1,7 +1,7 @@
 ﻿namespace LevvaCoins.Application.Exceptions;
 public class ModelNotFoundException : Exception
 {
-    public ModelNotFoundException() : base()
+    public ModelNotFoundException()
     {
     }
     public ModelNotFoundException(string? message) : base(message)

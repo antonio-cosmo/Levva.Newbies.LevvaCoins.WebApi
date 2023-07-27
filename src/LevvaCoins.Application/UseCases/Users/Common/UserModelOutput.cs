@@ -1,14 +1,14 @@
 ﻿using LevvaCoins.Domain.Entities;
 
 namespace LevvaCoins.Application.UseCases.Users.Common;
-public class UserOutput
+public class UserModelOutput
 {
     public Guid Id { get; }
     public string Name { get; }
     public string Email { get; }
     public string? Avatar { get; }
 
-    public UserOutput(Guid id, string name, string email, string? avatar = null)
+    public UserModelOutput(Guid id, string name, string email, string? avatar = null)
     {
         Id = id;
         Name = name;
@@ -16,7 +16,7 @@ public class UserOutput
         Avatar = avatar;
     }
 
-    public static UserOutput FromDomain(User user)
+    public static UserModelOutput FromDomain(User user)
     {
         return new(
                 user.Id,
@@ -26,7 +26,7 @@ public class UserOutput
             );
     }
 
-    public static IEnumerable<UserOutput> FromDomain(IEnumerable<User> users)
+    public static IEnumerable<UserModelOutput> FromDomain(IEnumerable<User> users)
     {
         return users.Select(FromDomain);
     }

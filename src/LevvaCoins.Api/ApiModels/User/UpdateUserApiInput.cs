@@ -1,4 +1,4 @@
-﻿namespace LevvaCoins.Api.ApiModel.User;
+﻿namespace LevvaCoins.Api.ApiModels.User;
 
 public class UpdateUserApiInput
 {

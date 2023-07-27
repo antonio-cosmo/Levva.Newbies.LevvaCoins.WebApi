@@ -1,22 +1,22 @@
 ﻿using LevvaCoins.Application.Exceptions;
 using LevvaCoins.Application.UseCases.Transactions.Common;
-using LevvaCoins.Domain.Repositories;
+using LevvaCoins.Domain.SeedWork;
 
 namespace LevvaCoins.Application.UseCases.Transactions.GetTransaction;
 
 public class GetTransaction : IGetTransaction
 {
-    readonly ITransactionRepository _transactionRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetTransaction(ITransactionRepository transactionRepository)
+    public GetTransaction(IUnitOfWork unitOfWork)
     {
-        _transactionRepository = transactionRepository;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<TransactionOutput> Handle(GetTransactionInput request, CancellationToken cancellationToken)
+    public async Task<TransactionModelOutput> Handle(GetTransactionInput request, CancellationToken cancellationToken)
     {
-        var transaction =  await _transactionRepository.GetAsync(request.Id, cancellationToken)
+        var transaction =  await _unitOfWork.TransactionRepository.GetAsync(request.Id, cancellationToken)
             ?? throw new ModelNotFoundException("Essa transação não existe.");
-        return TransactionOutput.FromModel(transaction);
+        return TransactionModelOutput.FromDomain(transaction);
     }
 }

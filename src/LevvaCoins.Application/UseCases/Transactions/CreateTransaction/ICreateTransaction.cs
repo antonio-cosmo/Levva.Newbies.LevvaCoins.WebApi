@@ -3,6 +3,6 @@ using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Transactions.CreateTransaction;
 
-public interface ICreateTransaction : IRequestHandler<CreateTransactionInput, TransactionDetailsOutput>
+public interface ICreateTransaction : IRequestHandler<CreateTransactionInput, TransactionDetailsModelOutput>
 {
 }

@@ -4,16 +4,16 @@ using LevvaCoins.Domain.Enums;
 
 namespace LevvaCoins.Application.UseCases.Transactions.Common;
 
-public class TransactionDetailsOutput
+public class TransactionDetailsModelOutput
 {
     public Guid Id { get; set; }
     public string? Description { get; set; }
     public decimal Amount { get; set; }
-    public ETransactionType Type { get; set; }
+    public TransactionType Type { get; set; }
     public DateTime CreatedAt { get; set; }
-    public CategoryOutput? Category { get; set; }
+    public CategoryModelOutput? Category { get; set; }
 
-    public TransactionDetailsOutput(Guid id, string? description, decimal amount, ETransactionType type, DateTime createdAt, CategoryOutput? category)
+    public TransactionDetailsModelOutput(Guid id, string? description, decimal amount, TransactionType type, DateTime createdAt, CategoryModelOutput? category)
     {
         Id = id;
         Description = description;
@@ -23,7 +23,7 @@ public class TransactionDetailsOutput
         Category = category;
     }
 
-    public static TransactionDetailsOutput FromModel(Transaction transaction)
+    public static TransactionDetailsModelOutput FromDomain(Transaction transaction)
     {
         return new(
                 transaction.Id,
@@ -31,9 +31,9 @@ public class TransactionDetailsOutput
                 transaction.Amount,
                 transaction.Type,
                 transaction.CreatedAt,
-                CategoryOutput.FromDomain(transaction.Category!)
+                CategoryModelOutput.FromDomain(transaction.Category!)
             );
     }
-    public static IEnumerable<TransactionDetailsOutput> FromModel(IEnumerable<Transaction> transactions) =>
-        transactions.Select(FromModel);
+    public static IEnumerable<TransactionDetailsModelOutput> FromDomain(IEnumerable<Transaction> transactions) =>
+        transactions.Select(FromDomain);
 }

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LevvaCoins.Application.Exceptions;
+﻿namespace LevvaCoins.Application.Exceptions;
 public class ModelAlreadyExistsException : Exception
 {
-    public ModelAlreadyExistsException() : base()
+    public ModelAlreadyExistsException()
     {
     }
     public ModelAlreadyExistsException(string? message) : base(message)
