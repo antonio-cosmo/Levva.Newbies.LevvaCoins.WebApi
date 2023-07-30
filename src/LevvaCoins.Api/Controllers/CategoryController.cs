@@ -1,6 +1,6 @@
 ﻿using LevvaCoins.Api.ApiModels.Category;
 using LevvaCoins.Api.Common;
-using LevvaCoins.Application.UseCases.Categories.Common;
+using LevvaCoins.Application.Services.Dtos.Category;
 using LevvaCoins.Application.UseCases.Categories.CreateCategory;
 using LevvaCoins.Application.UseCases.Categories.GetAllCategory;
 using LevvaCoins.Application.UseCases.Categories.GetCategory;
@@ -26,21 +26,21 @@ namespace LevvaCoins.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<CategoryModelOutput>>> GetAllAsync(CancellationToken cancellationToken) =>
-            Ok(await _mediator.Send(new GetAllCategoryInput(), cancellationToken));
+        public async Task<ActionResult<IEnumerable<CategoryModelResponse>>> GetAllAsync(CancellationToken cancellationToken) =>
+            Ok(await _mediator.Send(new GetAllCategory(), cancellationToken));
 
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModelOutput), 400)]
         [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CategoryModelOutput>> GetByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken) =>
-            Ok(await _mediator.Send(new GetCategoryInput(id), cancellationToken));
+        public async Task<ActionResult<CategoryModelResponse>> GetByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken) =>
+            Ok(await _mediator.Send(new GetCategory(id), cancellationToken));
 
         [HttpPost]
-        [ProducesResponseType(typeof(CategoryModelOutput) ,StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CategoryModelResponse) ,StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> PostAsync([FromBody] CreateCategoryInput body, CancellationToken cancellationToken) =>
+        public async Task<ActionResult> PostAsync([FromBody] CreateCategory body, CancellationToken cancellationToken) =>
             Created("", await _mediator.Send(body, cancellationToken));
 
         [HttpPut("{id:Guid}")]
@@ -49,7 +49,7 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PutAsync([FromRoute] Guid id, [FromBody] UpdateCategoryApiInput updateCategoryInput,CancellationToken cancellationToken)
         {
-            await _mediator.Send(new UpdateCategoryInput(
+            await _mediator.Send(new UpdateCategory(
                     id,
                     updateCategoryInput.Description
                 ), cancellationToken);
@@ -62,7 +62,7 @@ namespace LevvaCoins.Api.Controllers
         [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> DeleteAsync([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new RemoveCategoryInput(id), cancellationToken);
+            await _mediator.Send(new RemoveCategory(id), cancellationToken);
             return NoContent();
         }
     }

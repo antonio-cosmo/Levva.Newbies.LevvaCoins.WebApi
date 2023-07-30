@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
 using System.Text;
 using LevvaCoins.Application.MapperProfiles;
+using LevvaCoins.Application.Services;
+using LevvaCoins.Application.Services.Interfaces;
+using LevvaCoins.Domain.Repositories;
 using LevvaCoins.Domain.SeedWork;
 using LevvaCoins.Infra.Data;
 using LevvaCoins.Infra.Data.Interface;
@@ -26,6 +29,9 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ICategoryServices, CategoryServices>();
+        services.AddScoped<IUserServices, UserServices>();
+        services.AddScoped<IUserAuthenticatorService, UserAuthenticatorService>();
 
         services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.Load("LevvaCoins.Application")));
         services.AddAutoMapper(typeof(DefaultMapper));

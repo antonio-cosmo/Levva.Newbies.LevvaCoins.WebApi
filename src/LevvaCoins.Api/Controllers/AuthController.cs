@@ -1,4 +1,5 @@
 ﻿using LevvaCoins.Api.Common;
+using LevvaCoins.Application.Services.Dtos.User;
 using LevvaCoins.Application.UseCases.Users.UserAuthenticate;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace LevvaCoins.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModelOutput), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<UserAuthenticateModelOutput>> PostAuthAsync([FromBody] UserAuthenticateInput authenticateUser, CancellationToken cancellationToken)
+        public async Task<ActionResult<UserAuthenticateModelResponse>> PostAuthAsync([FromBody] UserAuthenticate authenticateUser, CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(authenticateUser, cancellationToken));
         }

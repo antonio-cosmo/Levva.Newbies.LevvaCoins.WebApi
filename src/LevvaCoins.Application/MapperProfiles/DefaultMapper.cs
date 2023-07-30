@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using LevvaCoins.Application.UseCases.Categories.Common;
+using LevvaCoins.Application.Services.Dtos.Category;
+using LevvaCoins.Application.Services.Dtos.User;
 using LevvaCoins.Application.UseCases.Categories.CreateCategory;
 using LevvaCoins.Application.UseCases.Transactions.Common;
 using LevvaCoins.Application.UseCases.Transactions.CreateTransaction;
-using LevvaCoins.Application.UseCases.Users.Common;
 using LevvaCoins.Application.UseCases.Users.CreateUser;
-using LevvaCoins.Application.UseCases.Users.UserAuthenticate;
 using LevvaCoins.Domain.Entities;
 
 namespace LevvaCoins.Application.MapperProfiles
@@ -15,18 +14,18 @@ namespace LevvaCoins.Application.MapperProfiles
         public DefaultMapper()
         {
             //Category
-            CreateMap<CreateCategoryInput, Category>();
-            CreateMap<Category, CategoryModelOutput>();
+            CreateMap<CreateCategory, Category>();
+            CreateMap<Category, CategoryModelResponse>();
 
             //User
-            CreateMap<CreateUserInput, User>();
-            CreateMap<User, UserModelOutput>();
-            CreateMap<User, UserAuthenticateModelOutput>().ReverseMap();
+            CreateMap<CreateUser, User>();
+            CreateMap<User, UserModelResponse>();
+            CreateMap<User, UserAuthenticateModelResponse>().ReverseMap();
 
             //Transaction
-            CreateMap<CreateTransactionInput, Transaction>();
-            CreateMap<Transaction, TransactionModelOutput>();
-            CreateMap<Transaction, TransactionDetailsModelOutput>();
+            CreateMap<CreateTransaction, Transaction>();
+            CreateMap<Transaction, TransactionModelResponse>();
+            CreateMap<Transaction, TransactionDetailsModelResponse>();
         }
     }
 }

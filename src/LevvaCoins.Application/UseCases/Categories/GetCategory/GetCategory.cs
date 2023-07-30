@@ -1,22 +1,15 @@
-﻿using LevvaCoins.Application.Exceptions;
-using LevvaCoins.Application.UseCases.Categories.Common;
-using LevvaCoins.Domain.SeedWork;
+﻿using LevvaCoins.Application.Services.Dtos.Category;
+using MediatR;
 
-namespace LevvaCoins.Application.UseCases.Categories.GetCategory;
-public class GetCategory : IGetCategory
+namespace LevvaCoins.Application.UseCases.Categories.GetCategory
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public GetCategory(IUnitOfWork unitOfWork)
+    public class GetCategory : IRequest<CategoryModelResponse>
     {
-        _unitOfWork = unitOfWork;
-    }
+        public Guid Id { get; set; }
 
-    public async Task<CategoryModelOutput> Handle(GetCategoryInput request, CancellationToken cancellationToken)
-    {
-        var category = await _unitOfWork.CategoryRepository.GetAsync(request.Id, cancellationToken)
-            ?? throw new ModelNotFoundException("Categoria não existe.");
-
-        return CategoryModelOutput.FromDomain(category);
+        public GetCategory(Guid id)
+        {
+            Id = id;
+        }
     }
 }

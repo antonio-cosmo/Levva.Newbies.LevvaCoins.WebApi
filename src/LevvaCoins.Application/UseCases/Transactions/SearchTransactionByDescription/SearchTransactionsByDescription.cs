@@ -1,20 +1,16 @@
 ﻿using LevvaCoins.Application.UseCases.Transactions.Common;
-using LevvaCoins.Domain.SeedWork;
+using MediatR;
 
-namespace LevvaCoins.Application.UseCases.Transactions.SearchTransactionByDescription;
-
-public class SearchTransactionsByDescription : ISearchTransactionsByDescription
+namespace LevvaCoins.Application.UseCases.Transactions.SearchTransactionByDescription
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public SearchTransactionsByDescription(IUnitOfWork unitOfWork)
+    public class SearchTransactionsByDescription : IRequest<IEnumerable<TransactionDetailsModelResponse>>
     {
-        _unitOfWork = unitOfWork;
-    }
-
-    public async Task<IEnumerable<TransactionDetailsModelOutput>> Handle(SearchTransactionsByDescriptionInput request, CancellationToken cancellationToken)
-    {
-        var transactions = await _unitOfWork.TransactionRepository.SearchByDescriptionAsync(request.UserId, request.Text, cancellationToken);
-        return TransactionDetailsModelOutput.FromDomain(transactions);
+        public Guid UserId { get; set; }
+        public string Text { get; set; }
+        public SearchTransactionsByDescription(Guid userId, string text)
+        {
+            UserId = userId;
+            Text = text;
+        }
     }
 }
