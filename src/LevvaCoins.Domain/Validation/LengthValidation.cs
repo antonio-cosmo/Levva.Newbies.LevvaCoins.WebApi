@@ -1,42 +1,52 @@
 ﻿using LevvaCoins.Domain.Exceptions;
 
 namespace LevvaCoins.Domain.Validation;
-public static partial class DomainValidation
+public partial class DomainValidation
 {
-    public static void HasLessThan(int target, double minLength, string fieldName)
+    public DomainValidation HasLessThan(int target, double minLength, string fieldName)
     {
         if (target < minLength)
             throw new EntityValidationException($"{fieldName} should be greater than {minLength}");
+        return this;
+
     }
-    public static void HasLessThan(decimal target, decimal minLength, string fieldName)
+    public DomainValidation HasLessThan(decimal target, decimal minLength, string fieldName)
     {
         if (target < minLength)
             throw new EntityValidationException($"{fieldName} should be greater than {minLength}");
+        return this;
+
     }
-    public static void HasLessThan(string? target, double minLength, string fieldName)
+    public DomainValidation HasLessThan(string? target, double minLength, string fieldName)
     {
-        if (target is null) return;
+        if (target is null) return this;
 
         if (target.Length < minLength)
             throw new EntityValidationException($"{fieldName} should be greater than {minLength}");
+        return this;
+
     }
 
-    public static void HasGreaterThan(int target, double maxLength, string fieldName)
+    public DomainValidation HasGreaterThan(int target, double maxLength, string fieldName)
     {
         if (target > maxLength)
             throw new EntityValidationException($"{fieldName} should be less than {maxLength}");
+        return this;
+
     }
-    public static void HasGreaterThan(decimal target, decimal maxLength,  string fieldName)
+    public DomainValidation HasGreaterThan(decimal target, decimal maxLength,  string fieldName)
     {
         if (target > maxLength)
             throw new EntityValidationException($"{fieldName} should be less than {maxLength}");
+        return this;
     }
 
-    public static void HasGreaterThan(string? target, decimal maxLength, string fieldName)
+    public DomainValidation HasGreaterThan(string? target, decimal maxLength, string fieldName)
     {
-        if (target is null) return;
+        if (target is null) return this;
 
         if (target.Length > maxLength)
             throw new EntityValidationException($"{fieldName} should be less than {maxLength}");
+        return this;
     }
 }

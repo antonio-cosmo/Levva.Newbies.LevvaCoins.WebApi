@@ -13,7 +13,7 @@ namespace LevvaCoins.Application.UseCases.Categories.RemoveCategory
 
         public async Task Handle(RemoveCategory request, CancellationToken cancellationToken)
         {
-            await _categoryServices.Removeasync(request.Id, cancellationToken);
+            await _categoryServices.RemoveAsync(request.Id, cancellationToken);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using LevvaCoins.Application.Services.Dtos.Category;
+﻿using LevvaCoins.Application.Commands.Responses;
 using MediatR;
 
 namespace LevvaCoins.Application.UseCases.Categories.CreateCategory;

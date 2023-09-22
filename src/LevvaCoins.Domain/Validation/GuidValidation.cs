@@ -1,11 +1,13 @@
 ﻿using LevvaCoins.Domain.Exceptions;
+using LevvaCoins.Domain.SeedWork.Notification;
 
 namespace LevvaCoins.Domain.Validation;
-public static partial class DomainValidation
+public partial class DomainValidation
 {
-    public static void GuidIsNotEmpty(Guid target, string fieldName)
+    public DomainValidation GuidIsNotEmpty(Guid target, string fieldName)
     {
         if (target == Guid.Empty)
-            throw new EntityValidationException($"{fieldName} should  not be empty");
+            AddNotification(fieldName, "should  not be empty");
+        return this;
     }
 }

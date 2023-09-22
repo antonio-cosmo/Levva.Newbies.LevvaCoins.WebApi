@@ -11,6 +11,7 @@ namespace LevvaCoins.Domain.Entities
         public string Password { get; }
         public string? Avatar { get; private set; }
         public IList<Transaction> Transactions { get; set; }
+
         public User(string name, string email, string password, string? avatar = null)
         {
             Name = name;
@@ -20,23 +21,29 @@ namespace LevvaCoins.Domain.Entities
             Transactions = new List<Transaction>();
             Validate();
         }
+
         public void ChangeName(string name)
         {
             Name = name;
             Validate();
         }
+
         public void ChangeAvatar(string avatar)
         {
             Avatar = avatar;
             Validate();
         }
 
-        private void Validate()
+        protected override void Validate()
         {
-            DomainValidation.IsNull(Name, nameof(Name));
-            DomainValidation.IsNull(Email, nameof(Email));
-            DomainValidation.IsNull(Password, nameof(Password));
-            DomainValidation.HasGreaterThan(Avatar, MAX_AVATAR_LENGTH, nameof(Avatar));
+            if (string.IsNullOrWhiteSpace(Name))
+                AddNotification(nameof(Name), $"should not be null");
+            if (string.IsNullOrWhiteSpace(Email))
+                AddNotification(nameof(Email), $"should not be null");
+            if (string.IsNullOrWhiteSpace(Password))
+                AddNotification(nameof(Password), $"should not be null");
+            if (Avatar is { Length: > MAX_AVATAR_LENGTH })
+                AddNotification(nameof(Avatar), $"hould be less than {MAX_AVATAR_LENGTH}");
         }
     }
 }

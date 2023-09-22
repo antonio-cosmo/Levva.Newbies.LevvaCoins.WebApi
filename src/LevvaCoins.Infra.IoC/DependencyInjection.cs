@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using System.Text;
+﻿using System.Text;
+using LevvaCoins.Application.Commands.Requests.Category;
+using LevvaCoins.Application.Common;
 using LevvaCoins.Application.MapperProfiles;
 using LevvaCoins.Application.Services;
 using LevvaCoins.Application.Services.Interfaces;
-using LevvaCoins.Domain.Repositories;
 using LevvaCoins.Domain.SeedWork;
 using LevvaCoins.Infra.Data;
 using LevvaCoins.Infra.Data.Interface;
@@ -17,7 +17,8 @@ namespace LevvaCoins.Infra.IoC;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddLevvaCoinsService(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddLevvaCoinsService(this IServiceCollection services,
+        IConfiguration configuration)
     {
         var secretKey = Encoding.ASCII.GetBytes(configuration.GetValue<string>("SecretKey")!);
         services.AddDbContext<IContext, LevvaCoinsDbContext>(opt =>
@@ -30,10 +31,11 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ICategoryServices, CategoryServices>();
+        services.AddScoped<ITransactionService, TransactionService>();
         services.AddScoped<IUserServices, UserServices>();
         services.AddScoped<IUserAuthenticatorService, UserAuthenticatorService>();
-
-        services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.Load("LevvaCoins.Application")));
+        services.AddScoped<NotificationContext>();
+        services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(CreateCategoryRequest).Assembly));
         services.AddAutoMapper(typeof(DefaultMapper));
 
         services.AddAuthentication(opt =>

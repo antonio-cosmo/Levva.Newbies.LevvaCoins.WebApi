@@ -1,16 +1,19 @@
 ﻿using LevvaCoins.Domain.Exceptions;
+using LevvaCoins.Domain.SeedWork.Notification;
 
 namespace LevvaCoins.Domain.Validation;
-public static partial class DomainValidation
+public partial class DomainValidation
 {
-    public static void IsNull(string targate, string fieldName)
+    public DomainValidation IsNull(string targate, string fieldName)
     {
         if (string.IsNullOrWhiteSpace(targate))
-            throw new EntityValidationException($"{fieldName} should not be null");
+            AddNotification(new Notification(fieldName, $"{fieldName} should not be null"));
+        return this;
     }
-    public static void IsNull(object targate, string fieldName)
+    public DomainValidation IsNull(object targate, string fieldName)
     {
         if (targate is null)
             throw new EntityValidationException($"{fieldName} should not be null");
+        return this;
     }
 }

@@ -1,6 +1,8 @@
-﻿using LevvaCoins.Application.Services.Dtos.User;
+﻿using LevvaCoins.Application.Commands.Requests.User;
+using LevvaCoins.Application.Responses;
 
 namespace LevvaCoins.Application.Services.Interfaces;
+
 public interface IUserServices
 {
     Task<UserModelResponse> InsertAsync(CreateUserRequest request, CancellationToken cancellationToken);

@@ -14,7 +14,7 @@ namespace LevvaCoins.Application.UseCases.Categories.UpdateCategory
         public async Task Handle(UpdateCategory request, CancellationToken cancellationToken)
         {
             var updateRequest = new UpdateCategoryRequest(request.Id, request.Description);
-            await _categoryServices.Updateasync(updateRequest, cancellationToken);
+            await _categoryServices.UpdateAsync(updateRequest, cancellationToken);
         }
     }
 }

@@ -1,25 +1,111 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="UseCases\Users\Services\**" />
-    <EmbeddedResource Remove="UseCases\Users\Services\**" />
-    <None Remove="UseCases\Users\Services\**" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="UseCases\Users\Services\**"/>
+        <EmbeddedResource Remove="UseCases\Users\Services\**"/>
+        <None Remove="UseCases\Users\Services\**"/>
+        <Compile Remove="Services\Dtos\Category\CategoryModelResponse.cs"/>
+        <Compile Remove="UseCases\Categories\CreateCategory\**"/>
+        <EmbeddedResource Remove="UseCases\Categories\CreateCategory\**"/>
+        <None Remove="UseCases\Categories\CreateCategory\**"/>
+        <Compile Remove="UseCases\Categories\UpdateCategory\**"/>
+        <EmbeddedResource Remove="UseCases\Categories\UpdateCategory\**"/>
+        <None Remove="UseCases\Categories\UpdateCategory\**"/>
+        <Compile Remove="UseCases\Categories\RemoveCategory\RemoveCategory.cs"/>
+        <Compile Remove="UseCases\Categories\RemoveCategory\**"/>
+        <EmbeddedResource Remove="UseCases\Categories\RemoveCategory\**"/>
+        <None Remove="UseCases\Categories\RemoveCategory\**"/>
+        <Compile Remove="UseCases\Categories\GetCategory\GetCategory.cs"/>
+        <Compile Remove="UseCases\Categories\GetCategory\**"/>
+        <EmbeddedResource Remove="UseCases\Categories\GetCategory\**"/>
+        <None Remove="UseCases\Categories\GetCategory\**"/>
+        <Compile Remove="UseCases\Categories\GetAllCategory\**"/>
+        <EmbeddedResource Remove="UseCases\Categories\GetAllCategory\**"/>
+        <None Remove="UseCases\Categories\GetAllCategory\**"/>
+        <Compile Remove="UseCases\Categories\**"/>
+        <EmbeddedResource Remove="UseCases\Categories\**"/>
+        <None Remove="UseCases\Categories\**"/>
+        <Compile Remove="Commands\Responses\**"/>
+        <EmbeddedResource Remove="Commands\Responses\**"/>
+        <None Remove="Commands\Responses\**"/>
+        <Compile Remove="Queries\Responses\**"/>
+        <EmbeddedResource Remove="Queries\Responses\**"/>
+        <None Remove="Queries\Responses\**"/>
+        <Compile Remove="Services\Dtos\User\**"/>
+        <EmbeddedResource Remove="Services\Dtos\User\**"/>
+        <None Remove="Services\Dtos\User\**"/>
+        <Compile Remove="Services\Dtos\**"/>
+        <EmbeddedResource Remove="Services\Dtos\**"/>
+        <None Remove="Services\Dtos\**"/>
+        <Compile Remove="UseCases\Users\CreateUser\**"/>
+        <EmbeddedResource Remove="UseCases\Users\CreateUser\**"/>
+        <None Remove="UseCases\Users\CreateUser\**"/>
+        <Compile Remove="UseCases\Users\UpdateUser\**"/>
+        <EmbeddedResource Remove="UseCases\Users\UpdateUser\**"/>
+        <None Remove="UseCases\Users\UpdateUser\**"/>
+        <Compile Remove="UseCases\Users\RemoveUser\**"/>
+        <EmbeddedResource Remove="UseCases\Users\RemoveUser\**"/>
+        <None Remove="UseCases\Users\RemoveUser\**"/>
+        <Compile Remove="UseCases\Users\UserAuthenticate\UserAuthenticate.cs"/>
+        <Compile Remove="UseCases\Users\UserAuthenticate\**"/>
+        <EmbeddedResource Remove="UseCases\Users\UserAuthenticate\**"/>
+        <None Remove="UseCases\Users\UserAuthenticate\**"/>
+        <Compile Remove="UseCases\Users\GetAllUser\**"/>
+        <EmbeddedResource Remove="UseCases\Users\GetAllUser\**"/>
+        <None Remove="UseCases\Users\GetAllUser\**"/>
+        <Compile Remove="UseCases\Users\GetUser\**"/>
+        <EmbeddedResource Remove="UseCases\Users\GetUser\**"/>
+        <None Remove="UseCases\Users\GetUser\**"/>
+        <Compile Remove="UseCases\Users\**"/>
+        <EmbeddedResource Remove="UseCases\Users\**"/>
+        <None Remove="UseCases\Users\**"/>
+        <Compile Remove="UseCases\Transactions\Common\**"/>
+        <EmbeddedResource Remove="UseCases\Transactions\Common\**"/>
+        <None Remove="UseCases\Transactions\Common\**"/>
+        <Compile Remove="UseCases\Transactions\CreateTransaction\**"/>
+        <EmbeddedResource Remove="UseCases\Transactions\CreateTransaction\**"/>
+        <None Remove="UseCases\Transactions\CreateTransaction\**"/>
+        <Compile Remove="UseCases\Transactions\UpdateTransaction\**"/>
+        <EmbeddedResource Remove="UseCases\Transactions\UpdateTransaction\**"/>
+        <None Remove="UseCases\Transactions\UpdateTransaction\**"/>
+        <Compile Remove="UseCases\Transactions\RemoveTransaction\**"/>
+        <EmbeddedResource Remove="UseCases\Transactions\RemoveTransaction\**"/>
+        <None Remove="UseCases\Transactions\RemoveTransaction\**"/>
+        <Compile Remove="UseCases\Transactions\GetAllTransactions\**"/>
+        <EmbeddedResource Remove="UseCases\Transactions\GetAllTransactions\**"/>
+        <None Remove="UseCases\Transactions\GetAllTransactions\**"/>
+        <Compile Remove="UseCases\Transactions\GetTransaction\**"/>
+        <EmbeddedResource Remove="UseCases\Transactions\GetTransaction\**"/>
+        <None Remove="UseCases\Transactions\GetTransaction\**"/>
+        <Compile Remove="UseCases\Transactions\SearchTransactionByDescription\**"/>
+        <EmbeddedResource Remove="UseCases\Transactions\SearchTransactionByDescription\**"/>
+        <None Remove="UseCases\Transactions\SearchTransactionByDescription\**"/>
+        <Compile Remove="UseCases\Transactions\**"/>
+        <EmbeddedResource Remove="UseCases\Transactions\**"/>
+        <None Remove="UseCases\Transactions\**"/>
+        <Compile Remove="UseCases\**"/>
+        <EmbeddedResource Remove="UseCases\**"/>
+        <None Remove="UseCases\**"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\LevvaCoins.Domain\LevvaCoins.Domain.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LevvaCoins.Domain\LevvaCoins.Domain.csproj"/>
+        <ProjectReference Include="..\LevvaCoins.Infra.Data\LevvaCoins.Infra.Data.csproj"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="MediatR" Version="12.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.7" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="12.0.1"/>
+        <PackageReference Include="FluentValidation" Version="11.7.1"/>
+        <PackageReference Include="MediatR" Version="12.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.7"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7"/>
+    </ItemGroup>
+
 
 </Project>

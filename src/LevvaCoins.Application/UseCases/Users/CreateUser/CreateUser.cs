@@ -1,4 +1,4 @@
-﻿using LevvaCoins.Application.Services.Dtos.User;
+﻿using LevvaCoins.Application.Responses;
 using LevvaCoins.Application.UseCases.Users.Helpers;
 using MediatR;
 

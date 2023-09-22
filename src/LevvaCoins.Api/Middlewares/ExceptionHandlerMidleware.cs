@@ -2,6 +2,7 @@
 using LevvaCoins.Api.Common;
 using LevvaCoins.Application.Exceptions;
 using LevvaCoins.Domain.Exceptions;
+using LevvaCoins.Domain.SeedWork.Notification;
 
 namespace LevvaCoins.Api.Middlewares;
 
@@ -56,7 +57,7 @@ public class ExceptionHandlerMidleware
         var body = CreateErrorResponse(ex);
         await SetupResponse(context, statusCode, body);
     }
-    private async Task SetupResponse(HttpContext context, int statusCode, ErrorResponseModelOutput body)
+    private async Task SetupResponse(HttpContext context, int statusCode, ApiResponse body)
     {
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = "application/json";
@@ -64,19 +65,18 @@ public class ExceptionHandlerMidleware
         // Escrever a resposta de erro na resposta HTTP
         await context.Response.WriteAsync(JsonSerializer.Serialize(body, _jsonSerializerOptions));
     }
-    private static ErrorResponseModelOutput CreateErrorResponse(Exception ex)
+    private static ApiResponse CreateErrorResponse(Exception ex)
     {
-        return new ErrorResponseModelOutput
-        (
-            true,
-            ex.Message
-        );
+        var error = new { Key = "Exception", Message = ex.Message } as object;
+        return new ApiResponse(
+                false, null, new List<object>(){error}
+            );
     }
     private static async Task NotAuthorized(HttpContext context)
     {
         context.Response.ContentType = "application/json";
 
-        var errorResponse = new ErrorResponseModelOutput
+        var errorResponse = new ErrorResponse
         (
             true,
             "Usuario não autenticado"

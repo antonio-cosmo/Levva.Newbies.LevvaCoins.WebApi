@@ -13,6 +13,6 @@ internal class GetAllCategoryHandler : IGetAllCategoryHandler
 
     public async Task<IEnumerable<CategoryModelResponse>> Handle(GetAllCategory request, CancellationToken cancellationToken)
     {
-        return await _categoryServices.GetallAsync(cancellationToken);
+        return await _categoryServices.GetAllAsync(cancellationToken);
     }
 }
